@@ -2,7 +2,9 @@
   "expo": {
     "name": "gaming-swipe",
     "slug": "gaming-swipe",
+    "scheme": "gamingswipe",
     "version": "1.0.0",
+    "originalFullName": "@rinndp/gaming-swipe",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -14,14 +16,20 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rinndp.gamingswipe"
+      "bundleIdentifier": "com.rinndp.gamingswipe",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.rinndp.gamingswipe"
+      "package": "com.rinndp.gamingswipe",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

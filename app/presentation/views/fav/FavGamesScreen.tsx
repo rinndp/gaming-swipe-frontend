@@ -23,6 +23,7 @@ import styleAccount from "../account/StyleAccount";
 import {PropsStackNavigation} from "../../interfaces/StackNav";
 import Animated, {FadeInDown, FadeInLeft, FadeInUp} from 'react-native-reanimated';
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
+import {FlashList} from "@shopify/flash-list";
 
 
 export function FavGamesScreen({navigation = useNavigation()}: PropsStackNavigation) {
@@ -51,7 +52,7 @@ export function FavGamesScreen({navigation = useNavigation()}: PropsStackNavigat
                 <TouchableOpacity onPress={() => navigation.navigate("GameDetails", {gameId : item.id_api, likeButton: true})}>
                     <Image
                         contentFit="contain"
-                        transition={500}
+                        transition={100}
                         source={{ uri: item.image_url }} style={stylesFavGameItem.image} />
                 </TouchableOpacity>
                 <Text style={{ ...stylesHome.gameNameText, width: "43%"}}>{item.name}</Text>
@@ -156,11 +157,11 @@ export function FavGamesScreen({navigation = useNavigation()}: PropsStackNavigat
                         <Animated.View
                             entering={FadeInLeft.duration(800)}
                             style={{height:"100%"}}>
-                            <FlatList data={favListGames}
+                            <FlashList data={favListGames}
                                       removeClippedSubviews={true}
                                       renderItem={favGameRenderItem}
                                       extraData={favListGames}
-                                      fadingEdgeLength={80}
+                                      fadingEdgeLength={10}
                                       ListFooterComponent={<Text style={{...styleFav.footerFavGames, display: showLoading ? "none" : "flex"}}>Add more games!</Text>}
                             />
                         </Animated.View>

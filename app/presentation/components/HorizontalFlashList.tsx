@@ -16,18 +16,15 @@ interface FlashListProps {
 export const HorizontalFlashList = ({data, renderItem, style}: FlashListProps) => {
     return (
         <FlashList
+            keyExtractor={(item, index) => index.toString()}
             data={data}
             style={style}
             renderItem={renderItem}
             horizontal={true}
+            fadingEdgeLength={5}
+            alwaysBounceHorizontal={true}
             scrollEnabled={true}
             showsHorizontalScrollIndicator={false}
             nestedScrollEnabled={true}/>
     )
 }
-
-const stylesContainer = StyleSheet.create({
-    container: {
-        overflow: "hidden",
-    },
-});

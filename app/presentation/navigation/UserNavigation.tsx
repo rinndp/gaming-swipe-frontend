@@ -1,5 +1,5 @@
 import {Home} from "../views/home/Home";
-import {Image, StyleSheet} from "react-native";
+import {Image, Platform, StyleSheet} from "react-native";
 import TabViewFavScreen from "../views/fav/TabViewFavScreen";
 import {Search} from "../views/search/Search";
 import {Account} from "../views/account/Account";
@@ -23,7 +23,7 @@ export function UserNavigation ({navigation = useNavigation()}: PropsStackNaviga
             activeIndicatorStyle={{backgroundColor: AppColors.secondaryColor}}
             activeColor={AppColors.white}
             inactiveColor={AppColors.buttonBackground}
-            barStyle={{ backgroundColor: AppColors.buttonBackground, height: hp("10%"), zIndex: 8 }}
+            barStyle={{ backgroundColor: AppColors.buttonBackground, height: Platform.OS === "ios" ? hp("10%") : hp("12%"), zIndex: 8 }}
         >
             <Tab.Screen name="Home" options={{title:"Swipes",
                 tabBarIcon: ({color})=>(
@@ -59,9 +59,8 @@ export function UserNavigation ({navigation = useNavigation()}: PropsStackNaviga
 
 export const stylesTabBarItems = StyleSheet.create({
     item: {
-        width:wp("8.5%"),
+        width:wp("4.8%"),
         height:hp("3%"),
-        paddingHorizontal: wp("2%"),
         resizeMode:"contain",
         tintColor:AppColors.white,
     }

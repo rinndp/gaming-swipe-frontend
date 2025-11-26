@@ -107,8 +107,8 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                             ? transformSmallCoverUrl(item.cover.url)
                             : "https://www.igdb.com/assets/no_cover_show-ef1e36c00e101c2fb23d15bb80edd9667bbf604a12fc0267a66033afea320c65.png"
                     }}
-                    contentFit="contain"
-                    transition={250}
+                    contentFit="cover"
+                    placeholder={NO_IMAGE_URL}
                     cachePolicy={"memory-disk"}
                     style={styleSimilarGame.image}
                 />
@@ -137,7 +137,7 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                 backgroundColor: showLoading ? AppColors.backgroundColor : AppColors.buttonBackground}}>
                 {!showLoading ? (
                     <>
-                    <ScrollView showsVerticalScrollIndicator={false}>
+                    <ScrollView nestedScrollEnabled={true} showsVerticalScrollIndicator={false}>
                         <View style={{...styleSearch.logoContainer, position:"absolute", zIndex:99}}>
                             <Image transition={100} priority={"high"}
                                    cachePolicy={"memory-disk"}
@@ -261,8 +261,9 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                                         data={gameDetails?.screenshots}
                                         pagingEnabled={true}
                                         snapToAlignment={"center"}
-                                        style={{ width: wp("100%"), marginStart:wp("-4%"), marginHorizontal:wp("4%"), paddingEnd:wp("4%")}} // ancho del ScrollView, normalmente toda la pantalla
+                                        style={{ width: wp("100%"), marginStart:wp("-4%"), marginHorizontal:wp("4%"), paddingEnd:wp("4%")}}
                                         showsHorizontalScrollIndicator={false}
+                                        nestedScrollEnabled={true}
                                         renderItem={({ item }) => (
                                                 <Image
                                                     style={{ width: wp("92%"), height: hp("25%"), marginHorizontal:wp("4%"), borderRadius:5}}
@@ -272,7 +273,9 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                                                     source={{ uri: transformCoverUrl(item.url) }}
                                                 />
                                         )}
-                                        scrollEventThrottle={16} // para que la animación sea más fluida
+                                        scrollEventThrottle={16}
+                                        bounces={false}
+                                        removeClippedSubviews={true}
                                         onScroll={Ani.event(
                                             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                                             {

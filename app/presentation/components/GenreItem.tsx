@@ -17,9 +17,11 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: AppColors.secondaryColor,
         borderRadius: 15,
-        padding: 7,
+        paddingHorizontal: wp("2.5%"),
+        height: hp("3.3%"),
         alignSelf:'baseline',
         alignItems: "center",
+        justifyContent: 'center',
         marginEnd: wp("1%"),
     },
 

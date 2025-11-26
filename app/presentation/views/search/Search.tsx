@@ -33,6 +33,7 @@ import Animated, {FadeInDown, FadeInLeft} from 'react-native-reanimated';
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {useUserGamesContext} from "../../provider/GameProvider";
 import {useAnticipatedGames} from "../../hooks/UseAnticipatedGames";
+import {HorizontalFlashList} from "../../components/HorizontalFlashList";
 
 
 export function Search({navigation = useNavigation()}: PropsStackNavigation) {
@@ -119,14 +120,10 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                     <Text style={styleSearchGameItem.gameName}>{item.name}</Text>
                 </View>
                 <View style={styleSearchGameItem.plaformsFlatlistContainer}>
-                    <FlashList data={item.platforms}
-                               style={{minWidth:wp("50%")}}
-                              renderItem={PlatformItem}
-                              horizontal={true}
-                              fadingEdgeLength={80}
-                              showsHorizontalScrollIndicator={false}
-                              scrollEnabled={true}
-                              nestedScrollEnabled={true}
+                    <HorizontalFlashList
+                        data={item.platforms ? item.platforms : []}
+                        style={{minWidth:wp("50%")}}
+                        renderItem={PlatformItem}
                     />
                 </View>
             </View>
@@ -250,7 +247,7 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                                     <FlashList
                                         data={gamesDisplayed}
                                         keyExtractor={(item, index) => String(index)}
-                                        fadingEdgeLength={80}
+                                        fadingEdgeLength={10}
                                         renderItem={searchGameItem}
                                         ListFooterComponent={
                                             <Text style={{...styleFav.footerFavGames, display: gamesDisplayed.length > 0 ? "flex" : "none"}}>No more games</Text>
@@ -293,6 +290,7 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                                     data={searchedUsers}
                                     removeClippedSubviews={true}
                                     renderItem={searchUserItem}
+                                    fadingEdgeLength={10}
                                     ListEmptyComponent={
                                         <View style={{ alignItems: "center", width: "100%", marginTop: 20 }}>
                                             <Text style={{ ...styleSearch.emptyFlatListText, display: loading ? "none" : "flex" }}>

@@ -18,6 +18,7 @@ import {Asset} from "expo-asset";
 import {queryClient} from "./app/data/sources/local/QueyClient";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {GameProvider} from "./app/presentation/provider/GameProvider";
+import {Platform} from "react-native";
 
 
 export type RootStackParamsList = {
@@ -65,9 +66,9 @@ export default function App() {
           <Stack.Navigator
               initialRouteName={user && user.slug ? "UserNavigation" : "TabViewLoginRegister"}
               screenOptions={{
-              headerShown: false,
-              gestureEnabled: true,
-              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS, }}>
+                  headerShown: false,
+                  gestureEnabled: Platform.OS !== 'android',
+                  cardStyleInterpolator: Platform.OS === "android" ? CardStyleInterpolators.forRevealFromBottomAndroid : CardStyleInterpolators.forHorizontalIOS}}>
               <Stack.Screen name="TabViewLoginRegister" component={TabViewLoginRegister}/>
               <Stack.Screen name="UserNavigation" component={UserNavigation}/>
               <Stack.Screen name="GameDetails" component={GameDetails}/>

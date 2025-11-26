@@ -23,6 +23,7 @@ import styleAccount from "../account/StyleAccount";
 import {PropsStackNavigation} from "../../interfaces/StackNav";
 import {stylesFavGameItem} from "./FavGamesScreen";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
+import {FlashList} from "@shopify/flash-list";
 
 
 export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavigation) {
@@ -108,11 +109,11 @@ export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavi
             ):(
                 <>
                     <View style={{height:"100%"}}>
-                        <FlatList data={playedListGames}
+                        <FlashList data={playedListGames}
                                   removeClippedSubviews={true}
                                   renderItem={favGameRenderItem}
                                   extraData={playedListGames}
-                                  fadingEdgeLength={80}
+                                  fadingEdgeLength={10}
                                   ListFooterComponent={<Text style={{...styleFav.footerFavGames, display: showLoading ? "none" : "flex"}}>Play more games!</Text>}
                         />
                     </View>

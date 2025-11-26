@@ -87,7 +87,7 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                                 : (item.name === NO_GAMES_FOUND_LABEL ? NO_GAMES_IMAGE_URL : NO_IMAGE_URL),
                         }}
                         priority={"high"}
-                        contentFit={item.name === NO_GAMES_FOUND_LABEL ? "cover" : "contain"}
+                        contentFit={"cover"}
                         transition={500}
                         style={styleHome.image}
                     />
@@ -170,7 +170,7 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                             cardStyle={styleHome.cardStyle}
                             overlayLabelContainerStyle={styleHome.overlayLabelContainer}
                             swipeVelocityThreshold={1000}
-                            prerenderItems={5}
+                            prerenderItems={3}
                             renderCard={renderCard}
                             disableTopSwipe={true}
                             disableBottomSwipe={true}

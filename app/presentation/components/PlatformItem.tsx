@@ -17,14 +17,17 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: AppColors.thirdColor,
         borderRadius: 15,
-        padding: wp("2"),
+        paddingHorizontal: wp("2.5%"),
+        height: hp("3.3%"),
+        alignSelf:'center',
         alignItems: "center",
+        justifyContent: 'center',
         marginEnd: wp("1%"),
     },
 
     abbreviation: {
         fontSize: wp("3%"),
-        width: "100%",
+        verticalAlign: "middle",
         fontFamily: "zen_kaku_regular",
         color: AppColors.white,
     }
