@@ -1,7 +1,6 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {registerUseCase} from "../../../domain/usesCases/auth/RegisterAuth";
-import {LoggedUserInterface, LoginUserInterface, UserInterface} from "../../../domain/entities/User";
-import TabViewLoginRegister from "./TabViewLoginRegister";
+import {LoginUserInterface, UserInterface} from "../../../domain/entities/User";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
 import {loginAuthUseCase} from "../../../domain/usesCases/auth/LoginAuth";
 import {saveUserUseCase} from "../../../domain/usesCases/userLocal/SaveUser";
@@ -9,7 +8,7 @@ import Toast from "react-native-toast-message";
 import {saveTokens} from "../../../data/sources/local/secure/TokenStorage";
 import {validateEmail} from "../../utils/ValidateEmail";
 
-const loginViewModel= () => {
+export const loginViewModel= () => {
 
     const [errorMessage, setErrorMessage] = useState<string>("")
 
@@ -48,13 +47,41 @@ const loginViewModel= () => {
         }
     }
 
+    const fetchUserInfo = async (accessToken: string) => {
+        try {
+            const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+            });
+
+            const userInfo = await response.json();
+            const user: UserInterface = {
+                email: userInfo.email,
+                username: userInfo.name,
+            }
+            return Promise.resolve(user);
+
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+            return Promise.reject(error);
+        }
+    };
+
+
     return{
-        loginValues, onChangeLogin, login, user, errorMessage, setErrorMessage
+        loginValues,
+        onChangeLogin,
+        login,
+        user,
+        errorMessage,
+        setErrorMessage,
+        fetchUserInfo
     }
 }
 
 
-const registerViewModel= () => {
+export const registerViewModel= () => {
 
     const [errorMessage, setErrorMessage] = useState<string>("")
 

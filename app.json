@@ -2,7 +2,7 @@
   "expo": {
     "name": "gaming-swipe",
     "slug": "gaming-swipe",
-    "scheme": "gamingswipe",
+    "scheme": "com.rinndp.gamingswipe",
     "version": "1.0.0",
     "originalFullName": "@rinndp/gaming-swipe",
     "orientation": "portrait",
@@ -19,6 +19,9 @@
       "bundleIdentifier": "com.rinndp.gamingswipe",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
+      },
+      "config": {
+        "usesNonExemptEncryption": false
       }
     },
     "android": {
@@ -29,7 +32,13 @@
       "package": "com.rinndp.gamingswipe",
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AIzaSyDt-t_WG37GjOrJpALjGjpIIBhECpgPHqs",
+          "certificateHash": "FC:74:47:23:3A:76:88:57:9C:DF:31:4D:AB:2F:BF:3A:69:EB:BB:02"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -27,6 +27,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="gamingswipe"/>
         <data android:scheme="exp+gaming-swipe"/>
+        <data android:scheme="com.rinndp.gamingswipe"/>
       </intent-filter>
     </activity>
   </application>
