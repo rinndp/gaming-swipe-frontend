@@ -9,6 +9,7 @@ export interface UserInterface {
     username: string
     email: string
     password?: string
+    google_id?: string
 }
 
 
@@ -23,7 +24,8 @@ export type UpdateUserDTO = Partial<Pick<GetUserInterface, "username">>
 
 export interface LoginUserInterface {
     email: string;
-    password: string;
+    password?: string;
+    google_id?: string;
 }
 
 export interface LoggedUserInterface {

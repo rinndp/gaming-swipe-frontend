@@ -7,11 +7,12 @@ import {saveUserUseCase} from "../../../domain/usesCases/userLocal/SaveUser";
 import Toast from "react-native-toast-message";
 import {saveTokens} from "../../../data/sources/local/secure/TokenStorage";
 import {validateEmail} from "../../utils/ValidateEmail";
+import {AxiosError} from "axios";
 
 export const loginViewModel= () => {
 
     const [errorMessage, setErrorMessage] = useState<string>("")
-
+    const [showLoading, setShowLoading] = useState<boolean>(false)
     const {user, getUserSession} = UseUserLocalStorage()
 
     const[loginValues, setLoginvalue] = useState({
@@ -37,9 +38,9 @@ export const loginViewModel= () => {
         return true;
     }
 
-    const login= async  () => {
+    const login= async  (user: LoginUserInterface) => {
         if (validateForm()){
-            const response = await loginAuthUseCase(loginValues as LoginUserInterface);
+            const response = await loginAuthUseCase(user);
             await saveUserUseCase({slug: response.slug})
             await saveTokens(response.access_token, response.refresh_token)
             await getUserSession()
@@ -59,6 +60,7 @@ export const loginViewModel= () => {
             const user: UserInterface = {
                 email: userInfo.email,
                 username: userInfo.name,
+                google_id: userInfo.id,
             }
             return Promise.resolve(user);
 
@@ -68,6 +70,37 @@ export const loginViewModel= () => {
         }
     };
 
+    const handleUserAuth = async (userData: any) => {
+        try {
+            return await loginAuthUseCase(userData);;
+        } catch (loginError) {
+            console.log('User not found, registering...');
+            await registerUseCase(userData);
+            return await loginAuthUseCase(userData);;
+        }
+    };
+
+    const handleGoogleLogin = async (googleAccessToken: string, navigation: any)  => {
+        try {
+            setShowLoading(true);
+            const userFetched = await fetchUserInfo(googleAccessToken);
+            const response = await handleUserAuth(userFetched);
+
+            await saveUserUseCase({ slug: response.slug });
+            await saveTokens(response.access_token, response.refresh_token);
+            await getUserSession();
+
+            navigation.navigate('UserNavigation');
+        } catch (error) {
+            console.log('Google login failed:', error);
+            Toast.show({
+                type: 'error',
+                text1: 'Error en el login con Google',
+            });
+        }
+        setShowLoading(false);
+    }
+
 
     return{
         loginValues,
@@ -76,7 +109,10 @@ export const loginViewModel= () => {
         user,
         errorMessage,
         setErrorMessage,
-        fetchUserInfo
+        getUserSession,
+        fetchUserInfo,
+        handleGoogleLogin,
+        showLoading,
     }
 }
 
