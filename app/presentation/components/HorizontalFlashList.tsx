@@ -21,7 +21,7 @@ export const HorizontalFlashList = ({data, renderItem, style}: FlashListProps) =
             style={style}
             renderItem={renderItem}
             horizontal={true}
-            fadingEdgeLength={5}
+            fadingEdgeLength={2}
             alwaysBounceHorizontal={true}
             scrollEnabled={true}
             showsHorizontalScrollIndicator={false}

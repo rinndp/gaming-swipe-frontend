@@ -217,7 +217,7 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                        style={styleAccount.logOutIcon}
                                 />
                                 <Text style={styleAccount.LogOut} onPress={() => {
-                                    deleteSession().then(r => navigation.replace("TabViewLoginRegister"))}
+                                    deleteSession().then(r => navigation.replace("AuthView"))}
                                 }> Log out</Text>
                             </View>
                         </Animated.View>

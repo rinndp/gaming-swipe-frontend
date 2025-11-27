@@ -7,6 +7,7 @@ const stylesAuthViews = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
+        backgroundColor: AppColors.backgroundColor,
     },
 
     titleLogin: {
@@ -58,7 +59,9 @@ const stylesAuthViews = StyleSheet.create({
     },
 
     formButtonContainer: {
-        marginTop: hp("3%"),
+        marginTop: hp("25%"),
+        alignItems: "center",
+        gap: hp("0.5%"),
     },
 
     formInlineInputsContainer: {

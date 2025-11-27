@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Image, KeyboardType, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {stylesCustomTextInput} from "./CustomTextInput";
 
 interface Props {
     label: string,
@@ -22,7 +23,7 @@ export const CustomTextInputPassword = ({label, keyboardType,onChangeText}:Props
 
     return (
         <View>
-            <Text style={styles.formInputLabel}>{label}</Text>
+            <Text style={stylesCustomTextInput.formInputLabel}>{label}</Text>
             <View style={styles.formInputContainerPassword}>
                 <TextInput style={styles.formInput}
                            keyboardType={keyboardType}
@@ -41,16 +42,6 @@ export const CustomTextInputPassword = ({label, keyboardType,onChangeText}:Props
 
 }
 const styles = StyleSheet.create({
-    formInputLabel: {
-        fontSize:15,
-        color:'white',
-        marginStart: 5,
-        alignSelf:"flex-start",
-        marginBottom:10,
-        fontFamily: "zen_kaku_regular",
-        height: 20,
-    },
-
     iconPasswordToggle: {
         width:30,
         height:30,

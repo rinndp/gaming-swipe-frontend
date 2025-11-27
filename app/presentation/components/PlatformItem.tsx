@@ -7,17 +7,17 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-nativ
 
 export const PlatformItem = ({item}: {item: Platform}) => {
     return (
-        <View style={styles.container}>
-                <Text style={styles.abbreviation}>{item.abbreviation ? item.abbreviation : item.name}</Text>
+        <View style={stylesPlatformItem.container}>
+                <Text style={stylesPlatformItem.abbreviation}>{item.abbreviation ? item.abbreviation : item.name}</Text>
         </View>
     )
 }
 
-const styles = StyleSheet.create({
+export const stylesPlatformItem = StyleSheet.create({
     container: {
         backgroundColor: AppColors.thirdColor,
         borderRadius: 15,
-        paddingHorizontal: wp("2.5%"),
+        paddingHorizontal: wp("2%"),
         height: hp("3.3%"),
         alignSelf:'center',
         alignItems: "center",

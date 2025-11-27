@@ -1,5 +1,6 @@
 import React from "react";
 import {Image, KeyboardType, StyleSheet, Text, TextInput, View} from "react-native";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
 
 interface Props {
     label: string,
@@ -12,8 +13,8 @@ interface Props {
 export const CustomTextInput = ({label, value, maxLenght, keyboardType,secureTextEntry,onChangeText}:Props) => {
     return (
         <View>
-            <Text style={styles.formInputLabel}>{label}</Text>
-            <TextInput style={styles.formInput}
+            <Text style={stylesCustomTextInput.formInputLabel}>{label}</Text>
+            <TextInput style={stylesCustomTextInput.formInput}
                        keyboardType={keyboardType}
                        secureTextEntry={secureTextEntry}
                        maxLength={maxLenght}
@@ -24,25 +25,24 @@ export const CustomTextInput = ({label, value, maxLenght, keyboardType,secureTex
     )
 
 }
-const styles = StyleSheet.create({
+export const stylesCustomTextInput = StyleSheet.create({
     formInputLabel: {
-        fontSize:15,
+        fontSize:wp("3.4%"),
         color:'white',
         marginStart: 5,
         alignSelf:"flex-start",
-        marginBottom:10,
+        marginBottom:5,
         fontFamily: "zen_kaku_regular"
     },
 
     formInput: {
-        width:300,
-        height:38,
-        fontSize: 15,
-        borderColor: 'black',
+        width:wp("78%"),
+        height:hp("4.5%"),
+        fontSize: wp("3.6%"),
         backgroundColor: 'white',
-        borderWidth: 1,
-        paddingVertical: 5,
-        paddingHorizontal: 10,
+        color:"black",
+        paddingVertical: wp("1%"),
+        paddingHorizontal: wp("2%"),
         borderRadius:10,
         fontFamily: "zen_kaku_regular"
 

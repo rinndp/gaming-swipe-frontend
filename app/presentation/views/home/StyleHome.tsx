@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {Platform, StyleSheet} from "react-native";
 import { AppColors } from "../../theme/AppTheme";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import {shadow} from "react-native-paper";
@@ -25,7 +25,7 @@ const stylesHome = StyleSheet.create({
     },
     cardStyle: {
         width: wp("83%"),
-        height: hp("68%"),
+        height: hp("67%"),
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: AppColors.buttonBackground,
@@ -108,7 +108,7 @@ const stylesHome = StyleSheet.create({
         flexDirection: "row",
         zIndex: 99,
         gap: wp("16%"),
-        bottom: hp("2%"),
+        bottom: Platform.OS === "ios" ? hp("2%") : hp("1%"),
     },
 });
 

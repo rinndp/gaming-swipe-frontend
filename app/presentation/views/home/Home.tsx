@@ -3,7 +3,7 @@ import {
     View,
     ActivityIndicator,
     StyleSheet,
-    TouchableOpacity, FlatList, InteractionManager,
+    TouchableOpacity, FlatList, InteractionManager, ScrollView,
 } from "react-native";
 import stylesHome from "./StyleHome";
 import {Text} from "react-native"
@@ -29,8 +29,6 @@ import {NopeButton, stylesNopeButton} from "../../components/NopeButton";
 import {LikeButton, stylesLikeButton} from "../../components/LikeButton";
 import FilterButton from "../../components/FilterButton";
 import {RewindButton} from "../../components/RewindButton";
-import {Shadow} from "react-native-shadow-2";
-import {FlashList} from "@shopify/flash-list";
 import {NO_GAMES_IMAGE_URL, NO_IMAGE_URL, transformCoverUrl} from "../../utils/TransformCoverUrls";
 import {generateNoGamesFoundCard, NO_GAMES_FOUND_LABEL} from "../../utils/NoGameFoundWithThisFilters";
 import {Image} from "expo-image"
@@ -48,8 +46,6 @@ function FiltroComponent(props: {
 
 export function Home({navigation = useNavigation()}: PropsStackNavigation) {
 
-    const tinderCardsRef = useRef<Array<CardItemHandle | null>>([]);
-
     const {
         listGames,
         setListGames,
@@ -57,8 +53,6 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
         showLoading,
         addGameToFav,
         selectedGenres,
-        swipesCounter,
-        setSwipesCounter,
         selectedPlatforms,
         refillSwipeGamesWithFilters,
         transformGameIntoFavGameInterface,
@@ -88,7 +82,7 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                         }}
                         priority={"high"}
                         contentFit={"cover"}
-                        transition={500}
+                        transition={250}
                         style={styleHome.image}
                     />
                 </TouchableOpacity>

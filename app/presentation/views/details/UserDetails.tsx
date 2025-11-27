@@ -29,6 +29,8 @@ import {API_BASE_URL, ApiDelivery} from "../../../data/sources/remote/api/ApiDel
 import {FlashList} from "@shopify/flash-list";
 import Animated, {FadeInDown, FadeInLeft} from "react-native-reanimated";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
+import {homeViewModel} from "../home/ViewModel";
+import {HorizontalFlashList} from "../../components/HorizontalFlashList";
 
 type GameDetailsRouteProp = RouteProp<RootStackParamsList, "UserDetails">;
 
@@ -71,11 +73,13 @@ export function UserDetails ({navigation = useNavigation()}: PropsStackNavigatio
         <View style={{width: '100%', height: '100%', backgroundColor: AppColors.backgroundColor}}>
             {!showLoading ? (
                 <>
-                    <ScrollView style={{paddingBottom: hp("60%")}} showsVerticalScrollIndicator={false}>
-                        <View style={{...styleGameDetails.header, flexDirection: "column", paddingBottom: 0, alignItems:"center"}}>
-                            <TouchableOpacity onPress={navigation.goBack}>
+                    <ScrollView style={{}} showsVerticalScrollIndicator={false}>
+                        <View style={{alignItems:"center", paddingTop:hp("10%"), backgroundColor: AppColors.buttonBackground}}>
+                            <TouchableOpacity
+                                style={{...styleGameDetails.goBackIcon, bottom: hp("4%"), end: wp("43%")}}
+                                onPress={navigation.goBack}>
                                 <Image source={require("../../../../assets/go-back-icon.png")}
-                                       style={{...styleGameDetails.goBackIcon, bottom: hp("5%"), end: wp("43%")}} />
+                                       style={{...styleGameDetails.goBackIcon}} />
                             </TouchableOpacity>
                             <View style={{width: wp("100%"), alignItems: "center"}}>
                                 <Image source={userSearch.image ? {uri: `${API_BASE_URL.slice(0, -4)}${userSearch.image}`} : require("../../../../assets/account-image.jpg")}
@@ -94,27 +98,13 @@ export function UserDetails ({navigation = useNavigation()}: PropsStackNavigatio
                             {favGames.length > 0 && (
                                 <View>
                                     <Text style={{...styleGameDetails.infoTitles, textAlign: "center"}}>Favorites games</Text>
-                                    <FlashList
-                                        data={favGames}
-                                        renderItem={favGameItem}
-                                        fadingEdgeLength={50}
-                                        keyExtractor={(item) => item.id_api.toString()}
-                                        showsHorizontalScrollIndicator={false}
-                                        horizontal={true}
-                                    />
+                                    <HorizontalFlashList data={favGames} renderItem={favGameItem} />
                                 </View>
                             )}
                             {playedGames.length > 0 && (
                                 <View>
                                     <Text style={{...styleGameDetails.infoTitles, textAlign: "center", marginTop: wp("0%")}}>Played games</Text>
-                                    <FlashList
-                                        data={playedGames}
-                                        renderItem={favGameItem}
-                                        fadingEdgeLength={50}
-                                        keyExtractor={(item) => item.id_api.toString()}
-                                        showsHorizontalScrollIndicator={false}
-                                        horizontal={true}
-                                    />
+                                    <HorizontalFlashList data={playedGames} renderItem={favGameItem}/>
                                 </View>
                             )}
 

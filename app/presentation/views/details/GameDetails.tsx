@@ -1,9 +1,8 @@
 import {
-    ActivityIndicator, Animated as Ani,
-    ImageBackground,
-    SafeAreaView,
+    Animated as Ani,
     ScrollView,
     Text,
+    Platform as Plat,
     TouchableOpacity, useWindowDimensions,
     View
 } from "react-native";
@@ -35,8 +34,6 @@ import {
     transformSmallCoverUrl
 } from "../../utils/TransformCoverUrls";
 import {HorizontalFlashList} from "../../components/HorizontalFlashList";
-import PagerView from "react-native-pager-view";
-import stylesAuthViews from "../auth/StylesAuthViews";
 import {useGameDetails} from "../../hooks/UseGameDetails";
 import {ExpandingDot} from "react-native-animated-pagination-dots";
 import Animated, {FadeInDown, FadeInLeft, FadeInRight, FadeInUp, SlideInDown} from 'react-native-reanimated';
@@ -312,7 +309,7 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                             )}
 
                             {gameDetails?.similar_games && (
-                                <View style={{marginTop: hp("4%"), backgroundColor: AppColors.buttonBackground, marginHorizontal: wp("-4%"), paddingHorizontal: wp("4%")}}>
+                                <View style={{marginTop: hp("4%"), paddingBottom: Plat.OS === "android" ? hp("2%") : hp("0%"), backgroundColor: AppColors.buttonBackground, marginHorizontal: wp("-4%"), paddingHorizontal: wp("4%")}}>
                                     <Text style={{...styleGameDetails.infoTitles, textAlign:"center"}}>Similar games</Text>
                                     <HorizontalFlashList data={gameDetails?.similar_games}
                                                          renderItem={similarGameItem}/>

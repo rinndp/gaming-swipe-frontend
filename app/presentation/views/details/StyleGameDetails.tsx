@@ -35,7 +35,7 @@ const styleGameDetails = StyleSheet.create({
     goBackIcon: {
         width: wp("7%"),
         height: hp("3%"),
-        tintColor: "white"
+        tintColor: "white",
     },
 
     name: {
@@ -102,7 +102,7 @@ const styleSimilarGame = StyleSheet.create({
         marginTop: hp("2%"),
         borderRadius: 10,
         backgroundColor: AppColors.backgroundColor,
-        elevation: 10,
+        elevation: 5,
     },
 
     image: {

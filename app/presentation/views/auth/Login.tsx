@@ -13,6 +13,15 @@ import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser';
 import {LoginUserInterface} from "../../../domain/entities/User";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
+import {AppColors} from "../../theme/AppTheme";
+import {GoogleSigninButton} from "@react-native-google-signin/google-signin";
+import {Image} from "expo-image";
+import {styleGameDetails} from "../details/StyleGameDetails";
+import {styleSearch} from "../search/StyleSearch";
+
+export const googleLogo = require("../../../../assets/google-logo.png")
+
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -60,14 +69,18 @@ export function LoginScreen({navigation = useNavigation(), route}: PropsStackNav
 
     return (
         <View style={stylesAuthViews.container}>
-            <ImageBackground source={require("../../../../assets/background.png")}
-                             style={{width: '100%', height: '100%'}}>
                 {showLoading ? (
                     <>
                         <ActivtyIndicatorCustom showLoading={showLoading}/>
                     </>
                 ):(
                     <>
+                        <Image
+                            style={{width: wp("9%"), height: hp("4%"), position: "absolute", alignSelf:"center", marginTop:hp("5%")}}
+                            source={require('../../../../assets/logo.png')} />
+                        <Image
+                            style={{width: wp("12%"), height: hp("5%"), tintColor: AppColors.white, position: "absolute", alignSelf:"center", marginTop:hp("9%")}}
+                            source={require('../../../../assets/igdb-logo.webp')} />
                         <View style={styles.formContainer}>
                             <Text style={styles.titleLogin}>Welcome Back</Text>
 
@@ -84,20 +97,21 @@ export function LoginScreen({navigation = useNavigation(), route}: PropsStackNav
 
                         </View>
                         <View style={styles.formButtonContainer}>
-                            <RoundedButton text="Sign in" onPressFromInterface={async () =>{
-                                const user = await login(loginValues as LoginUserInterface)
-                                if(user){
-                                    navigation.replace("UserNavigation")
-                                }
-                            }}/>
-                            <RoundedButton text="Sign in with Google" onPressFromInterface={async () =>{
+                            <RoundedButton
+                                width={wp("98%")}
+                                logo={googleLogo}
+                                backgroundColor={AppColors.backgroundColor}
+                                text="Sign in with Google" onPressFromInterface={async () =>{
                                 promptAsync().catch((e) => console.error("Error al iniciar sesion: ", e));
                             }}/>
+                            <RoundedButton
+                                width={wp("98%")}
+                                backgroundColor={AppColors.secondaryColor}
+                                text="Create an account" onPressFromInterface={() => {}}/>
                         </View>
                         <Toast/>
                     </>
                 )}
-            </ImageBackground>
         </View >
     );
 }

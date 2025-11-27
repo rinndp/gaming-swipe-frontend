@@ -9,7 +9,7 @@ interface Props {
 
 export const RewindButton=({onPress}: Props)=>{
     return (
-            <Shadow startColor={"rgba(255,138,4,0.05)"}>
+        <Shadow startColor={"rgba(255,138,4,0.05)"}>
             <TouchableOpacity style={styles.container} onPress={onPress}>
                 <Image source={require("../../../assets/rewind-arrow.png")} style={styles.button}></Image>
             </TouchableOpacity>

@@ -32,6 +32,5 @@ export const stylesNopeButton = StyleSheet.create({
         alignItems:"center",
         justifyContent:"center",
         elevation: 20,
-        shadowColor: AppColors.blue
     }
 });
