@@ -63,6 +63,7 @@ export const accountViewModel =()=> {
         updatePasswordDTO,
         setUpdatePasswordDTO,
         errorMessage,
+        setShowLoading,
         setErrorMessage,
     };
 }

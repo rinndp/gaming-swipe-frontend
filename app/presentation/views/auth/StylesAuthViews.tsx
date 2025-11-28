@@ -10,13 +10,15 @@ const stylesAuthViews = StyleSheet.create({
         backgroundColor: AppColors.backgroundColor,
     },
 
-    titleLogin: {
-        fontSize: 40,
+    welcomeText: {
+        fontSize: wp("10%"),
         color: 'white',
-        marginTop: hp("20%"),
-        alignSelf: 'flex-start',
-        marginStart: wp("15%"),
-        marginBottom: hp("5%"),
+        fontFamily: "zen_kaku_light",
+    },
+
+    h2: {
+        fontSize: wp("5.8%"),
+        color: 'white',
         fontFamily: "zen_kaku_light",
     },
 
@@ -35,39 +37,15 @@ const stylesAuthViews = StyleSheet.create({
         margin: wp("2%")
     },
 
-    formContainer: {
-        width: '100%',
+    welcomeTextContainer: {
         alignItems: 'center',
-    },
-
-    formInputContainer: {
-        gap:hp("2%")
-    },
-
-    formInputContainerPassword: {
-        marginBottom: hp("2.5%"),
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: 'center',
-    },
-
-    iconPasswordToggle: {
-        width: wp("5%"),
-        height: wp("5%"),
-        resizeMode: 'stretch',
-        backgroundColor: 'white',
+        marginTop: hp("30%"),
     },
 
     formButtonContainer: {
         marginTop: hp("25%"),
         alignItems: "center",
         gap: hp("0.5%"),
-    },
-
-    formInlineInputsContainer: {
-        flexDirection: "row",
-        marginBottom: hp("2.5%"),
-        gap: wp("2.5%"),
     },
 });
 

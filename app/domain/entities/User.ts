@@ -5,6 +5,13 @@ export interface GetUserInterface {
     image: string
 }
 
+export interface RegisterUserInterface {
+    email?: string
+    username?: string
+    password?: string
+    confirmPassword?: string
+}
+
 export interface UserInterface {
     username: string
     email: string
@@ -23,7 +30,7 @@ export interface GetSearchUserInterface {
 export type UpdateUserDTO = Partial<Pick<GetUserInterface, "username">>
 
 export interface LoginUserInterface {
-    email: string;
+    email?: string;
     password?: string;
     google_id?: string;
 }

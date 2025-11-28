@@ -18,15 +18,20 @@ import {queryClient} from "./app/data/sources/local/QueyClient";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {GameProvider} from "./app/presentation/provider/GameProvider";
 import {Platform} from "react-native";
-import {LoginScreen} from "./app/presentation/views/auth/Login";
+import {WelcomeScreen} from "./app/presentation/views/auth/WelcomeScreen";
+import {EmailScreen} from "./app/presentation/views/auth/EmailScreen";
+import {PasswordScreen} from "./app/presentation/views/auth/PasswordScreen";
+import {UserInfoAuthProvider} from "./app/presentation/provider/UserInfoAuthProvider";
 
 
 export type RootStackParamsList = {
     UserNavigation: undefined;
-    AuthView: undefined;
+    WelcomeScreen: undefined;
     GameDetails: {gameId: number, likeButton: boolean};
     CompanyDetails: {companyId: number}
     UserDetails: {userSearch: GetSearchUserInterface};
+    EmailScreen: {login: boolean};
+    PasswordScreen: {login: boolean};
 }
 
 const Stack = createStackNavigator<RootStackParamsList>();
@@ -62,20 +67,24 @@ export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
         <GameProvider>
+        <UserInfoAuthProvider>
         <NavigationContainer>
           <Stack.Navigator
-              initialRouteName={user && user.slug ? "UserNavigation" : "AuthView"}
+              initialRouteName={user && user.slug ? "UserNavigation" : "WelcomeScreen"}
               screenOptions={{
                   headerShown: false,
                   gestureEnabled: Platform.OS !== 'android',
                   cardStyleInterpolator: Platform.OS === "android" ? CardStyleInterpolators.forRevealFromBottomAndroid : CardStyleInterpolators.forHorizontalIOS}}>
-              <Stack.Screen name="AuthView" component={LoginScreen}/>
+              <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}/>
+              <Stack.Screen name="EmailScreen" component={EmailScreen}/>
+              <Stack.Screen name="PasswordScreen" component={PasswordScreen}/>
               <Stack.Screen name="UserNavigation" component={UserNavigation}/>
               <Stack.Screen name="GameDetails" component={GameDetails}/>
               <Stack.Screen name="CompanyDetails" component={CompanyDetails}/>
               <Stack.Screen name="UserDetails" component={UserDetails}/>
           </Stack.Navigator>
         </NavigationContainer>
+        </UserInfoAuthProvider>
         </GameProvider>
         </QueryClientProvider>
   );

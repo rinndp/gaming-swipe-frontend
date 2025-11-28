@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import {Image} from "expo-image";
 import styleAccount from "./StyleAccount";
-import viewModel from "./ViewModel";
+import viewModel, {accountViewModel} from "./ViewModel";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {PropsStackNavigation} from "../../interfaces/StackNav";
 import React, {useCallback, useEffect, useState} from "react";
@@ -43,10 +43,11 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
         userDB,
         getUserDB,
         showLoading,
+        setShowLoading,
         updateUserDetails,
         errorMessage,
         setErrorMessage,
-    } =viewModel.AccountViewModel();
+    } =accountViewModel();
 
     const [updatedFirstName, setUpdateFirstName] = useState("");
 
@@ -57,6 +58,7 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                 if (userDB != undefined){
                     setUpdateFirstName(userDB.username)
                 }
+                setShowLoading(false);
             }
         }, [user?.slug, JSON.stringify(userDB)])
     )

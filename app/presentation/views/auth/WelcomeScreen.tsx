@@ -25,21 +25,16 @@ export const googleLogo = require("../../../../assets/google-logo.png")
 
 WebBrowser.maybeCompleteAuthSession()
 
-export function LoginScreen({navigation = useNavigation(), route}: PropsStackNavigation){
+export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackNavigation){
 
     const {onChangeLogin,
-        login,
-        user,
-        errorMessage,
-        setErrorMessage,
-        loginValues,
         handleGoogleLogin,
         showLoading,
     } = loginViewModel();
 
     const [request, response, promptAsync] = Google.useAuthRequest({
         androidClientId: '1072681319890-o9s9j4eg4kh7i70nttl802tme55rtdra.apps.googleusercontent.com',
-
+        iosClientId: '1072681319890-05jhf95bfa96b5vr3fiu2iveia415r1t.apps.googleusercontent.com',
     })
 
     useEffect(() => {
@@ -57,16 +52,6 @@ export function LoginScreen({navigation = useNavigation(), route}: PropsStackNav
         }
     }, [response]);
 
-    useEffect(() => {
-        if(errorMessage !== "") {
-            Toast.show({
-                type: 'error',
-                text1: errorMessage,
-            });
-            setErrorMessage("")
-        }
-    }, [errorMessage]);
-
     return (
         <View style={stylesAuthViews.container}>
                 {showLoading ? (
@@ -75,26 +60,19 @@ export function LoginScreen({navigation = useNavigation(), route}: PropsStackNav
                     </>
                 ):(
                     <>
-                        <Image
-                            style={{width: wp("9%"), height: hp("4%"), position: "absolute", alignSelf:"center", marginTop:hp("5%")}}
-                            source={require('../../../../assets/logo.png')} />
-                        <Image
-                            style={{width: wp("12%"), height: hp("5%"), tintColor: AppColors.white, position: "absolute", alignSelf:"center", marginTop:hp("9%")}}
-                            source={require('../../../../assets/igdb-logo.webp')} />
-                        <View style={styles.formContainer}>
-                            <Text style={styles.titleLogin}>Welcome Back</Text>
 
-                            <View style={styles.formInputContainer}>
-                                <CustomTextInput label={"Email"}
-                                                 keyboardType={"default"}
-                                                 secureTextEntry={false}
-                                                 onChangeText={(text) => onChangeLogin('email', text)}></CustomTextInput>
-
-                                <CustomTextInputPassword label={"Password"}
-                                                         keyboardType={"default"}
-                                                         onChangeText={(text) => onChangeLogin('password', text)}></CustomTextInputPassword>
+                        <View style={styles.welcomeTextContainer}>
+                            <Text style={{...styles.welcomeText, fontSize:wp("7%")}}>Welcome to</Text>
+                            <Text style={styles.welcomeText}>GamingSwipe</Text>
+                            <View style={{flexDirection:"row", gap:wp("2%"), marginTop:hp("2%"), alignItems:"center"}}>
+                                <Image
+                                    style={{width: wp("9%"), height: hp("5%")}}
+                                    source={require('../../../../assets/logo.png')} />
+                                <Text style={{color:AppColors.white}}>+</Text>
+                                <Image
+                                    style={{width: wp("12%"), height: hp("5%"), tintColor: AppColors.white}}
+                                    source={require('../../../../assets/igdb-logo.webp')} />
                             </View>
-
                         </View>
                         <View style={styles.formButtonContainer}>
                             <RoundedButton
@@ -106,8 +84,12 @@ export function LoginScreen({navigation = useNavigation(), route}: PropsStackNav
                             }}/>
                             <RoundedButton
                                 width={wp("98%")}
+                                backgroundColor={AppColors.buttonBackground}
+                                text="Sign In" onPressFromInterface={() => navigation.navigate("EmailScreen", {login: true})}/>
+                            <RoundedButton
+                                width={wp("98%")}
                                 backgroundColor={AppColors.secondaryColor}
-                                text="Create an account" onPressFromInterface={() => {}}/>
+                                text="Create an account" onPressFromInterface={() => navigation.navigate("EmailScreen", {login: false})}/>
                         </View>
                         <Toast/>
                     </>

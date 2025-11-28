@@ -37,4 +37,20 @@ export class AuthRepository implements AuthRepositoryInterface {
         }
     }
 
+    async checkIfEmailRegistered(email: LoginUserInterface): Promise<ApiDeliveryResponse> {
+        try {
+            const response = await ApiDelivery.post("users/check-if-registered/", email);
+            return Promise.resolve(response.data);
+        } catch (error) {
+            let e = (error as AxiosError <{error: string}>)
+            Toast.show({
+                position: "bottom",
+                type: 'error',
+                autoHide: true,
+                visibilityTime: 1400,
+                text1: e.response?.data.error,
+            })
+            return Promise.reject(e.response?.data);
+        }
+    }
 }

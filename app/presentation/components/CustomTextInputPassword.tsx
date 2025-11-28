@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Image, KeyboardType, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {stylesCustomTextInput} from "./CustomTextInput";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
 
 interface Props {
     label: string,
@@ -47,28 +48,26 @@ const styles = StyleSheet.create({
         height:30,
         alignSelf: "flex-end",
         resizeMode:'stretch',
-        marginStart:240,
 
     },
 
     formInput: {
-        width:"100%",
-        position:"absolute",
+        width:"90%",
+        fontFamily: "zen_kaku_regular"
     },
 
     formInputContainerPassword: {
-        width:300,
-        height:40,
-        fontSize: 15,
-        borderColor: 'black',
+        width:wp("78%"),
+        height:hp("4.5%"),
+        fontSize: wp("3.6%"),
         backgroundColor: 'white',
         borderWidth: 1,
         flexDirection:'row',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
+        color:"black",
+        paddingVertical: wp("1%"),
+        paddingHorizontal: wp("2%"),
         borderRadius:10,
         alignItems:'center',
-        justifyContent:'center',
         fontFamily: "zen_kaku_regular"
 
     }

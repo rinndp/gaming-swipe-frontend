@@ -11,7 +11,7 @@ import {AxiosError} from "axios";
 
 export const loginViewModel= () => {
 
-    const [errorMessage, setErrorMessage] = useState<string>("")
+    const [errorMessageLogin, setErrorMessageLogin] = useState<string>("")
     const [showLoading, setShowLoading] = useState<boolean>(false)
     const {user, getUserSession} = UseUserLocalStorage()
 
@@ -22,24 +22,24 @@ export const loginViewModel= () => {
 
 
     const onChangeLogin=(property:string, value:any)=>{
-        setErrorMessage("")
+        setErrorMessageLogin("")
         setLoginvalue({
             ...loginValues,[property]:value})
     }
 
-    const validateForm = () =>{
+    const validateFormLogin = () =>{
         if (loginValues.email === ""){
-            setErrorMessage("Email is required");
+            setErrorMessageLogin("Email is required");
             return false;
         } if (loginValues.password === ""){
-            setErrorMessage("Password is required");
+            setErrorMessageLogin("Password is required");
             return false;
         }
         return true;
     }
 
     const login= async  (user: LoginUserInterface) => {
-        if (validateForm()){
+        if (validateFormLogin()){
             const response = await loginAuthUseCase(user);
             await saveUserUseCase({slug: response.slug})
             await saveTokens(response.access_token, response.refresh_token)
@@ -106,9 +106,10 @@ export const loginViewModel= () => {
         loginValues,
         onChangeLogin,
         login,
+        validateFormLogin,
         user,
-        errorMessage,
-        setErrorMessage,
+        errorMessageLogin,
+        setErrorMessageLogin,
         getUserSession,
         fetchUserInfo,
         handleGoogleLogin,
@@ -119,7 +120,7 @@ export const loginViewModel= () => {
 
 export const registerViewModel= () => {
 
-    const [errorMessage, setErrorMessage] = useState<string>("")
+    const [errorMessageRegister, setErrorMessageRegister] = useState<string>("")
 
     const [registerValues, setRegisterValue] = useState({
         username: "",
@@ -129,7 +130,7 @@ export const registerViewModel= () => {
     })
 
     const register = async  () => {
-        if(validateForm()){
+        if(validateFormRegister()){
             const user: UserInterface = {
                 email: registerValues.email,
                 username: registerValues.username,
@@ -149,31 +150,36 @@ export const registerViewModel= () => {
         })
     }
 
-    const validateForm = () => {
-        if (registerValues.username === "") {
-            setErrorMessage("First name is required");
-            return false
-        } if (registerValues.email === "") {
-            setErrorMessage("Email is required")
+    const validateFormRegister = () => {
+       if (registerValues.email === "") {
+            setErrorMessageRegister("Email is required")
             return false
         } if (!validateEmail(registerValues.email)) {
-            setErrorMessage("Email is not valid")
+            setErrorMessageRegister("Email is not valid")
             return false
         } if (registerValues.password === "") {
-            setErrorMessage("Password is required")
+            setErrorMessageRegister("Password is required")
             return false
         } if (registerValues.password.length < 8) {
-            setErrorMessage("Password must have at least 8 characters")
+            setErrorMessageRegister("Password must have at least 8 characters")
             return false
         } if (registerValues.password !== registerValues.confirmPassword) {
-            setErrorMessage("The passwords do not match")
+            setErrorMessageRegister("The passwords do not match")
+            return false
+        }  if (registerValues.username === "") {
+            setErrorMessageRegister("Username is required");
             return false
         }
         return true
     }
 
     return {
-        registerValues, onChangeRegister, register, errorMessage, setErrorMessage
+        registerValues,
+        onChangeRegister,
+        register,
+        errorMessageRegister,
+        setErrorMessageRegister,
+        validateFormRegister,
     }
 }
 

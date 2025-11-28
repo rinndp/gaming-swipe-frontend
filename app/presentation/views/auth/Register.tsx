@@ -1,17 +1,15 @@
 import React, {useEffect} from "react";
 import styles from "./StylesAuthViews";
 import {View, Text, ImageBackground, SafeAreaView} from "react-native";
-import {CustomTextInputInline} from "../../components/CustomTextInputInline";
 import {CustomTextInput} from "../../components/CustomTextInput";
 import {RoundedButton} from "../../components/RoundedButton";
-import viewModel from "./ViewModel";
-import {Alert, AlertContainer} from "rn-custom-alert-prompt";
+import viewModel, {registerViewModel} from "./ViewModel";
 import Toast from "react-native-toast-message";
 import {CustomTextInputPassword} from "../../components/CustomTextInputPassword";
 
 export function RegisterScreen() {
 
-    const {onChangeRegister, register, errorMessage, setErrorMessage} =viewModel.registerViewModel()
+    const {onChangeRegister, register, errorMessage, setErrorMessage} = registerViewModel()
 
     useEffect(() => {
         if(errorMessage !== "") {
