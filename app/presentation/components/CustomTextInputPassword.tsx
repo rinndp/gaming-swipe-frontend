@@ -2,13 +2,15 @@ import React, {useState} from "react";
 import {Image, KeyboardType, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {stylesCustomTextInput} from "./CustomTextInput";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
+import {validateEmail} from "../utils/ValidateEmail";
 
 interface Props {
     label: string,
     keyboardType:KeyboardType;
     onChangeText:(text:string)=>void;
+    value?: string;
 }
-export const CustomTextInputPassword = ({label, keyboardType,onChangeText}:Props) => {
+export const CustomTextInputPassword = ({label, value, keyboardType,onChangeText}:Props) => {
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [iconPassword, setIconPassword] = useState("closed-eye");
 
@@ -28,6 +30,7 @@ export const CustomTextInputPassword = ({label, keyboardType,onChangeText}:Props
             <View style={styles.formInputContainerPassword}>
                 <TextInput style={styles.formInput}
                            keyboardType={keyboardType}
+                           defaultValue={value}
                            secureTextEntry={secureTextEntry}
                            onChangeText={(text) => onChangeText(text)}
                 ></TextInput>

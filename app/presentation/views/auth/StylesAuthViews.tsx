@@ -34,7 +34,7 @@ const stylesAuthViews = StyleSheet.create({
         fontFamily: "zen_kaku_regular",
         color: AppColors.white,
         fontSize: wp("2.6%"),
-        margin: wp("2%")
+        margin: wp("1%")
     },
 
     welcomeTextContainer: {

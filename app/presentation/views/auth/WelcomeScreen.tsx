@@ -19,6 +19,7 @@ import {GoogleSigninButton} from "@react-native-google-signin/google-signin";
 import {Image} from "expo-image";
 import {styleGameDetails} from "../details/StyleGameDetails";
 import {styleSearch} from "../search/StyleSearch";
+import {useUserInfoAuthContext} from "../../provider/UserInfoAuthProvider";
 
 export const googleLogo = require("../../../../assets/google-logo.png")
 
@@ -31,6 +32,8 @@ export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackN
         handleGoogleLogin,
         showLoading,
     } = loginViewModel();
+
+    const {setLogin} = useUserInfoAuthContext()
 
     const [request, response, promptAsync] = Google.useAuthRequest({
         androidClientId: '1072681319890-o9s9j4eg4kh7i70nttl802tme55rtdra.apps.googleusercontent.com',
@@ -85,11 +88,17 @@ export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackN
                             <RoundedButton
                                 width={wp("98%")}
                                 backgroundColor={AppColors.buttonBackground}
-                                text="Sign In" onPressFromInterface={() => navigation.navigate("EmailScreen", {login: true})}/>
+                                text="Sign In" onPressFromInterface={() => {
+                                    navigation.navigate("EmailScreen")
+                                    setLogin(true)
+                                }}/>
                             <RoundedButton
                                 width={wp("98%")}
                                 backgroundColor={AppColors.secondaryColor}
-                                text="Create an account" onPressFromInterface={() => navigation.navigate("EmailScreen", {login: false})}/>
+                                text="Create an account" onPressFromInterface={() => {
+                                    navigation.navigate("EmailScreen")
+                                    setLogin(false)
+                                }}/>
                         </View>
                         <Toast/>
                     </>

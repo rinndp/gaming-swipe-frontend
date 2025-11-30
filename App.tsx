@@ -22,6 +22,7 @@ import {WelcomeScreen} from "./app/presentation/views/auth/WelcomeScreen";
 import {EmailScreen} from "./app/presentation/views/auth/EmailScreen";
 import {PasswordScreen} from "./app/presentation/views/auth/PasswordScreen";
 import {UserInfoAuthProvider} from "./app/presentation/provider/UserInfoAuthProvider";
+import {UsernameScreen} from "./app/presentation/views/auth/UsernameScreen";
 
 
 export type RootStackParamsList = {
@@ -30,8 +31,9 @@ export type RootStackParamsList = {
     GameDetails: {gameId: number, likeButton: boolean};
     CompanyDetails: {companyId: number}
     UserDetails: {userSearch: GetSearchUserInterface};
-    EmailScreen: {login: boolean};
-    PasswordScreen: {login: boolean};
+    EmailScreen: undefined
+    PasswordScreen: undefined
+    UsernameScreen: undefined
 }
 
 const Stack = createStackNavigator<RootStackParamsList>();
@@ -78,6 +80,7 @@ export default function App() {
               <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}/>
               <Stack.Screen name="EmailScreen" component={EmailScreen}/>
               <Stack.Screen name="PasswordScreen" component={PasswordScreen}/>
+              <Stack.Screen name="UsernameScreen" component={UsernameScreen}/>
               <Stack.Screen name="UserNavigation" component={UserNavigation}/>
               <Stack.Screen name="GameDetails" component={GameDetails}/>
               <Stack.Screen name="CompanyDetails" component={CompanyDetails}/>

@@ -1,59 +1,37 @@
 import React, {useEffect, useState} from "react";
-import {ImageBackground, Text, TouchableOpacity, View} from "react-native";
-import styles from "./StylesAuthViews";
+import {Text, TouchableOpacity, View} from "react-native";
 import {CustomTextInput} from "../../components/CustomTextInput";
 import {RoundedButton} from "../../components/RoundedButton";
-import {loginViewModel, registerViewModel} from "./ViewModel";
 import {PropsStackNavigation} from "../../interfaces/StackNav";
 import Toast from "react-native-toast-message";
-import {CustomTextInputPassword} from "../../components/CustomTextInputPassword";
 import stylesAuthViews from "./StylesAuthViews";
-import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
-import * as Google from 'expo-auth-session/providers/google'
-import * as WebBrowser from 'expo-web-browser';
-import {LoginUserInterface} from "../../../domain/entities/User";
+import {RouteProp, useNavigation} from "@react-navigation/native";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {AppColors} from "../../theme/AppTheme";
-import {GoogleSigninButton} from "@react-native-google-signin/google-signin";
 import {Image} from "expo-image";
 import {styleGameDetails} from "../details/StyleGameDetails";
-import {styleSearch} from "../search/StyleSearch";
-import stylesHome from "../home/StyleHome";
-import {RootStackParamsList} from "../../../../App";
-import {validateEmail} from "../../utils/ValidateEmail";
-import {checkIfEmailRegisteredUseCase} from "../../../domain/usesCases/auth/RegisterAuth";
-import {useUserGamesContext} from "../../provider/GameProvider";
 import {useUserInfoAuthContext} from "../../provider/UserInfoAuthProvider";
-import {underDampedSpringCalculations} from "react-native-reanimated/lib/typescript/animation/spring";
 
 
-export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation){
+
+export function UsernameScreen({navigation = useNavigation()}: PropsStackNavigation){
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [showLoading, setShowLoading] = useState(false);
 
-    const {loginValues, registerValues, onChangeLogin, onChangeRegister, onChangeDynamic, login} = useUserInfoAuthContext()
+    const {registerValues, onChangeRegister} = useUserInfoAuthContext()
 
     const validateInput = async (value: string) => {
         if (value === "") {
-            setErrorMessage("Email is required")
-            return false
-        } if (!validateEmail(value)) {
-            setErrorMessage("Email is not valid")
+            setErrorMessage("Username is required")
             return false
         }
-        if (!login) {
-            const response = await checkIfEmailRegisteredUseCase({email: value});
-            if (response.error) {
-                return false
-            }
-        }
-        return true;
+        return true
     }
 
     const handleContinue = async (value: string | undefined) => {
         if (await validateInput(value || "")) {
-            navigation.navigate("PasswordScreen");
+            navigation.goBack();
         }
     }
 
@@ -89,24 +67,16 @@ export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation
                             style={{width: wp("9%"), height: hp("5%")}}
                             source={require('../../../../assets/logo.png')} />
                         <View style={{marginTop: hp("2%"), gap: hp("2%")}}>
-                            <Text style={stylesAuthViews.h2}>{login ? "Introduce your email" : "Create your account"}</Text>
-                            <CustomTextInput label={"Email"}
-                                             keyboardType={"email-address"}
+                            <Text style={stylesAuthViews.h2}>{"Choose an username"}</Text>
+                            <CustomTextInput label={"Username"}
+                                             keyboardType={"default"}
                                              secureTextEntry={false}
-                                             value={login ?
-                                                 loginValues?.email ? loginValues.email : ""
-                                                 :
-                                                 registerValues?.email ? registerValues.email : ""}
-                                             onChangeText={(text) => onChangeDynamic(login, "email", text)}/>
+                                             value={registerValues?.username}
+                                             onChangeText={(text) => onChangeRegister("username", text)}/>
                             <RoundedButton
                                 backgroundColor={AppColors.buttonBackground}
                                 text={"Continue"}
-                               onPressFromInterface={() => handleContinue(
-                                   login ?
-                                       (loginValues ? loginValues.email : "")
-                                   :
-                                       (registerValues ? registerValues.email : "")
-                               )}/>
+                                onPressFromInterface={() => handleContinue(registerValues?.username)}/>
                         </View>
                     </View>
                     <Toast/>
