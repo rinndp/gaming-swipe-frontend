@@ -1,31 +1,20 @@
 import React, {useEffect, useState} from "react";
 import {ImageBackground, Text, TouchableOpacity, View} from "react-native";
-import styles from "./StylesAuthViews";
 import {CustomTextInput} from "../../components/CustomTextInput";
 import {RoundedButton} from "../../components/RoundedButton";
-import {loginViewModel, registerViewModel} from "./ViewModel";
 import {PropsStackNavigation} from "../../interfaces/StackNav";
 import Toast from "react-native-toast-message";
-import {CustomTextInputPassword} from "../../components/CustomTextInputPassword";
 import stylesAuthViews from "./StylesAuthViews";
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
-import * as Google from 'expo-auth-session/providers/google'
-import * as WebBrowser from 'expo-web-browser';
-import {LoginUserInterface} from "../../../domain/entities/User";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {AppColors} from "../../theme/AppTheme";
-import {GoogleSigninButton} from "@react-native-google-signin/google-signin";
 import {Image} from "expo-image";
 import {styleGameDetails} from "../details/StyleGameDetails";
-import {styleSearch} from "../search/StyleSearch";
-import stylesHome from "../home/StyleHome";
-import {RootStackParamsList} from "../../../../App";
 import {validateEmail} from "../../utils/ValidateEmail";
 import {checkIfEmailRegisteredUseCase} from "../../../domain/usesCases/auth/RegisterAuth";
-import {useUserGamesContext} from "../../provider/GameProvider";
 import {useUserInfoAuthContext} from "../../provider/UserInfoAuthProvider";
-import {underDampedSpringCalculations} from "react-native-reanimated/lib/typescript/animation/spring";
+import {showCustomToast} from "../../utils/ShowCustomToast";
 
 
 export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation){
@@ -59,13 +48,7 @@ export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation
 
     useEffect(() => {
         if(errorMessage !== "") {
-            Toast.show({
-                position: "bottom",
-                type: 'error',
-                autoHide: true,
-                visibilityTime: 1400,
-                text1: errorMessage,
-            });
+            showCustomToast(errorMessage)
             setErrorMessage("")
         }
     }, [errorMessage]);
@@ -92,6 +75,8 @@ export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation
                             <Text style={stylesAuthViews.h2}>{login ? "Introduce your email" : "Create your account"}</Text>
                             <CustomTextInput label={"Email"}
                                              keyboardType={"email-address"}
+                                             width={"large"}
+                                             autoFocus={true}
                                              secureTextEntry={false}
                                              value={login ?
                                                  loginValues?.email ? loginValues.email : ""

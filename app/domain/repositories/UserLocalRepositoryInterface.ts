@@ -1,4 +1,4 @@
-import {LoggedUserInterface, UserInterface} from "../entities/User";
+import {LoggedUserInterface, RegisterUserInteface} from "../entities/User";
 import {ApiDeliveryResponse} from "../../data/sources/remote/models/ApiDeliveryResponse";
 
 export interface UserLocalRepositoryInterface {

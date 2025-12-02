@@ -1,5 +1,5 @@
 import React from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {AppColors} from "../theme/AppTheme";
 import {
     widthPercentageToDP as wp,
@@ -7,6 +7,8 @@ import {
     widthPercentageToDP
 } from "react-native-responsive-screen";
 import {Image, ImageSource} from "expo-image"
+import {ActivtyIndicatorCustom} from "./ActivtyIndicatorCustom";
+import styleHome from "../views/home/StyleHome";
 
 interface Props {
     text: string,
@@ -14,9 +16,10 @@ interface Props {
     width?: number
     backgroundColor?: string,
     logo?: ImageSource
+    loading?: boolean
 }
 
-export const RoundedButton = ({text, onPressFromInterface, width, backgroundColor, logo}: Props) => {
+export const RoundedButton = ({text, loading, onPressFromInterface, width, backgroundColor, logo}: Props) => {
     return(
 
         <TouchableOpacity
@@ -24,12 +27,20 @@ export const RoundedButton = ({text, onPressFromInterface, width, backgroundColo
             onPress={() => onPressFromInterface()}
         >
             <View style={{flexDirection: "row", justifyContent:"center", gap:7}}>
-                {logo && (
+                {loading ? (
                     <>
-                        <Image source={logo} style={stylesRoundedButton.logo}/>
+                        <ActivityIndicator style={styleHome.loading} size="small" color={AppColors.white} animating={loading} />
+                    </>
+                ):(
+                    <>
+                        {logo && (
+                            <>
+                                <Image source={logo} style={stylesRoundedButton.logo}/>
+                            </>
+                        )}
+                        <Text style={stylesRoundedButton.formButtonText}>{text}</Text>
                     </>
                 )}
-                <Text style={stylesRoundedButton.formButtonText}>{text}</Text>
             </View>
         </TouchableOpacity>
 
@@ -41,6 +52,7 @@ export const stylesRoundedButton = StyleSheet.create({
         borderRadius: 6,
         justifyContent: 'center',
         padding: wp("3%"),
+        height: hp("5.5%"),
         backgroundColor: AppColors.buttonBackground,
     },
     formButtonText:{

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {removeUserUseCase} from "../../../../domain/usesCases/userLocal/RemoveUser";
+import {removeUserUseCase} from "../../../../domain/usesCases/user-local/RemoveUser";
 import {clearTokens, loadTokens, saveTokens} from "../../local/secure/TokenStorage";
 import {useEffect} from "react";
 

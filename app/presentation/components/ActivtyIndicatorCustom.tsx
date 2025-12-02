@@ -11,7 +11,7 @@ interface Props {
 export const ActivtyIndicatorCustom = ({showLoading}: Props) => {
     return (
         <View style={stylesHome.loadingIconContainer}>
-            <ActivityIndicator style={styleHome.loading} size="small" color={AppColors.green} animating={showLoading} />
+            <ActivityIndicator style={styleHome.loading} size="small" color={AppColors.white} animating={showLoading} />
         </View>
     )
 }

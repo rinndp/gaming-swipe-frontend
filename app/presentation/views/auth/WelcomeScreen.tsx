@@ -1,25 +1,21 @@
 import React, {useEffect} from "react";
 import {ImageBackground, Text, View} from "react-native";
 import styles from "./StylesAuthViews";
-import {CustomTextInput} from "../../components/CustomTextInput";
 import {RoundedButton} from "../../components/RoundedButton";
-import {loginViewModel} from "./ViewModel";
+import {welcomeViewModel} from "./ViewModel";
 import {PropsStackNavigation} from "../../interfaces/StackNav";
 import Toast from "react-native-toast-message";
-import {CustomTextInputPassword} from "../../components/CustomTextInputPassword";
 import stylesAuthViews from "./StylesAuthViews";
 import {useNavigation} from "@react-navigation/native";
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser';
-import {LoginUserInterface} from "../../../domain/entities/User";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {AppColors} from "../../theme/AppTheme";
-import {GoogleSigninButton} from "@react-native-google-signin/google-signin";
 import {Image} from "expo-image";
-import {styleGameDetails} from "../details/StyleGameDetails";
-import {styleSearch} from "../search/StyleSearch";
 import {useUserInfoAuthContext} from "../../provider/UserInfoAuthProvider";
+import Constants from 'expo-constants';
+
 
 export const googleLogo = require("../../../../assets/google-logo.png")
 
@@ -28,16 +24,16 @@ WebBrowser.maybeCompleteAuthSession()
 
 export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackNavigation){
 
-    const {onChangeLogin,
+    const {
         handleGoogleLogin,
         showLoading,
-    } = loginViewModel();
+    } = welcomeViewModel();
 
     const {setLogin} = useUserInfoAuthContext()
 
     const [request, response, promptAsync] = Google.useAuthRequest({
-        androidClientId: '1072681319890-o9s9j4eg4kh7i70nttl802tme55rtdra.apps.googleusercontent.com',
-        iosClientId: '1072681319890-05jhf95bfa96b5vr3fiu2iveia415r1t.apps.googleusercontent.com',
+        androidClientId: Constants.expoConfig?.extra?.androidClientId,
+        iosClientId: Constants.expoConfig?.extra?.iosClientId,
     })
 
     useEffect(() => {

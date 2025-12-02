@@ -1,7 +1,5 @@
 import {
-    ActivityIndicator,
     Alert,
-    ImageBackground,
     Modal, Platform,
     SafeAreaView, StyleSheet,
     Text,
@@ -15,27 +13,21 @@ import viewModel, {accountViewModel} from "./ViewModel";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {PropsStackNavigation} from "../../interfaces/StackNav";
 import React, {useCallback, useEffect, useState} from "react";
-import {CustomTextInputPassword} from "../../components/CustomTextInputPassword";
 import {CustomTextInput} from "../../components/CustomTextInput";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
-import stylesHome from "../home/StyleHome";
-import styleHome from "../home/StyleHome";
-import {UpdateUserDTO, UserInterface} from "../../../domain/entities/User";
+import {UpdateUserDTO} from "../../../domain/entities/User";
 import Toast from "react-native-toast-message";
-import {PasswordsDTO} from "../../../domain/entities/UpdatePasswordDTO";
 import * as ImagePickerExpo from "expo-image-picker";
 import {AppColors} from "../../theme/AppTheme";
-import styles from "../auth/StylesAuthViews";
-import {removeUserUseCase} from "../../../domain/usesCases/userLocal/RemoveUser";
 import {API_BASE_URL} from "../../../data/sources/remote/api/ApiDelivery";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
 import Animated, {FadeInDown, FadeInLeft} from "react-native-reanimated";
-import stylesAuthViews from "../auth/StylesAuthViews";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
+import {showCustomToast} from "../../utils/ShowCustomToast";
 
 export function Account({navigation = useNavigation(), route}: PropsStackNavigation){
 
-    const [modalVisibleFirst, setModalVisibleFirst] = useState(false);
+    const [modalUpdateUsernameVisible, setModalUpdateUsernameVisible] = useState(false);
 
     const {user} = UseUserLocalStorage()
     const {
@@ -49,14 +41,14 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
         setErrorMessage,
     } =accountViewModel();
 
-    const [updatedFirstName, setUpdateFirstName] = useState("");
+    const [updatedUsername, setUpdateUsername] = useState("");
 
     useFocusEffect(
         useCallback(() => {
             if(user?.slug != undefined){
                 getUserDB(user?.slug)
                 if (userDB != undefined){
-                    setUpdateFirstName(userDB.username)
+                    setUpdateUsername(userDB.username)
                 }
                 setShowLoading(false);
             }
@@ -65,10 +57,7 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
 
     useEffect(() => {
         if (errorMessage != "") {
-            Toast.show({
-                type: "error",
-                text1: errorMessage,
-            })
+            showCustomToast(errorMessage);
             setErrorMessage("")
         }
     }, [errorMessage]);
@@ -155,26 +144,26 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                     <Modal
                                         animationType="fade"
                                         transparent={true}
-                                        visible={modalVisibleFirst}
+                                        visible={modalUpdateUsernameVisible}
                                         onRequestClose={() => {
-                                            Alert.alert("Modal has been closed.");
-                                            setModalVisibleFirst(!modalVisibleFirst);
+                                            setModalUpdateUsernameVisible(!modalUpdateUsernameVisible);
                                         }}
                                     >
                                         <View style={styleAccount.centeredView}>
                                             <View style={styleAccount.modalView}>
                                                 <CustomTextInput
-                                                    label={"Username (Max. 20 characters)"}
+                                                    label={"Username (Max. 30 characters)"}
                                                     keyboardType={"default"}
-                                                    maxLenght={20}
+                                                    maxLenght={30}
+                                                    autoFocus={true}
                                                     value={userDB?.username}
                                                     secureTextEntry={false}
-                                                    onChangeText={(text) => setUpdateFirstName(text)}
+                                                    onChangeText={(text) => setUpdateUsername(text)}
                                                 />
                                                 <View style={styleAccount.containerButton}>
                                                     <TouchableOpacity
                                                         style={styleAccount.modalCancelButton}
-                                                        onPress={() => setModalVisibleFirst(!modalVisibleFirst)}
+                                                        onPress={() => setModalUpdateUsernameVisible(!modalUpdateUsernameVisible)}
                                                     >
                                                         <Text style={styleAccount.modalButtonTextStyle}>Cancel</Text>
                                                     </TouchableOpacity>
@@ -182,21 +171,21 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                                         style={styleAccount.modalAcceptButton}
                                                         onPress={() => {
                                                             if(userDB != undefined) {
-                                                                if (updatedFirstName === "") {
+                                                                if (updatedUsername === "") {
                                                                     setErrorMessage("Empty fields are not allowed")
-                                                                    setModalVisibleFirst(!modalVisibleFirst)
-                                                                } else if (userDB.username === updatedFirstName) {
-                                                                    setModalVisibleFirst(!modalVisibleFirst)
+                                                                } else if (userDB.username === updatedUsername) {
+                                                                    setModalUpdateUsernameVisible(!modalUpdateUsernameVisible)
                                                                 } else {
                                                                     const data: UpdateUserDTO = {
-                                                                        username: updatedFirstName
+                                                                        username: updatedUsername
                                                                     }
-                                                                    if (user?.slug != undefined)
-                                                                        updateUserDetails(user?.slug, data)
-
-                                                                    userDB.username = updatedFirstName
-                                                                    setModalVisibleFirst(!modalVisibleFirst)
-                                                                    setUpdateFirstName(updatedFirstName)
+                                                                    if (user?.slug !== undefined) {
+                                                                        updateUserDetails(user?.slug, data).then(() => {
+                                                                                setModalUpdateUsernameVisible(!modalUpdateUsernameVisible)
+                                                                                userDB.username = updatedUsername
+                                                                                setUpdateUsername(updatedUsername)
+                                                                        })
+                                                                    }
                                                                 }
                                                             }}
                                                         }
@@ -206,9 +195,10 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                                 </View>
                                             </View>
                                         </View>
+                                        <Toast/>
                                     </Modal>
                                     <TouchableOpacity
-                                        onPress={() => setModalVisibleFirst(true)}>
+                                        onPress={() => setModalUpdateUsernameVisible(true)}>
                                         <Image source={require('../../../../assets/edit.png')} style={styleAccount.editButton}/>
                                     </TouchableOpacity>
 
@@ -223,7 +213,6 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                 }> Log out</Text>
                             </View>
                         </Animated.View>
-                        <Toast/>
                         </View>
                     </>
                 ) : (

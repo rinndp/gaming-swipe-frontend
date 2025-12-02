@@ -5,17 +5,12 @@ export interface GetUserInterface {
     image: string
 }
 
+
 export interface RegisterUserInterface {
-    email?: string
     username?: string
+    email?: string
     password?: string
     confirmPassword?: string
-}
-
-export interface UserInterface {
-    username: string
-    email: string
-    password?: string
     google_id?: string
 }
 

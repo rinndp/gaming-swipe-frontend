@@ -61,18 +61,19 @@ const styleAccount = StyleSheet.create({
     },
     containerEditName: {
         flexDirection: "row",
+        alignItems: "center",
     },
     containerInfo: {
         marginTop: hp("30%"),
         width: "100%",
     },
     labelName: {
-        fontSize: wp("4.9%"),
+        fontSize: wp("4.1%"),
         color: AppColors.white,
         fontFamily: "zen_kaku_medium",
     },
     Name: {
-        fontSize: wp("7.3%"),
+        fontSize: wp("4.9%"),
         marginTop: hp("1%"),
         width: "90%",
         lineHeight: 40,
@@ -80,10 +81,9 @@ const styleAccount = StyleSheet.create({
         fontFamily: "zen_kaku_light",
     },
     editButton: {
-        width: wp("8%"),
-        height: wp("8%"),
+        width: wp("7%"),
+        height: wp("7%"),
         alignSelf: "flex-end",
-        marginTop: wp("1%"),
         tintColor: AppColors.white,
     },
     containerLastName: {
@@ -126,6 +126,7 @@ const styleAccount = StyleSheet.create({
         borderRadius: 15,
         padding: wp("5%"),
         gap: hp("2%"),
+        marginBottom: hp("20%"),
         width: wp("80%"),
         alignItems: "center",
         shadowColor: "#000",

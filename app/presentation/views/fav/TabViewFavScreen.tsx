@@ -1,29 +1,22 @@
 import * as React from 'react';
 import {widthPercentageToDP as wp} from "react-native-responsive-screen";
 import {
-    LayoutChangeEvent, PressableAndroidRippleConfig, StyleProp,
     View,
-    ViewStyle,
-    useWindowDimensions, Text, ImageBackground, Image, SafeAreaView, KeyboardAvoidingView
+    useWindowDimensions, Text,
 } from 'react-native';
 import {
     TabView,
     SceneMap,
     TabBar,
-    NavigationState,
-    Route,
-    SceneRendererProps,
-    TabBarIndicatorProps,
-    TabDescriptor
 } from 'react-native-tab-view';
 import {AppColors} from "../../theme/AppTheme";
 import {FavGamesScreen} from "./FavGamesScreen";
 import {PlayedGamesScreen} from "./PlayedGamesScreen";
 import styleFav from "./StyleFav";
-import stylesTabBar from "../auth/StylesTabBar";
+import stylesTabBar from "./StylesTabBar";
 import {useEffect, useState} from "react";
 import {useUserGamesContext} from "../../provider/GameProvider";
-import Animated, {FadeInDown, FadeInLeft, FadeInUp} from 'react-native-reanimated';
+import Animated, {FadeInUp} from 'react-native-reanimated';
 import AnimatedNumber from "react-native-animated-numbers";
 
 

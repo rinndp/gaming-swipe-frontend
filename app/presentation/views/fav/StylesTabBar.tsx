@@ -3,29 +3,6 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import {AppColors} from "../../theme/AppTheme"; // Para usar % de la pantalla
 
 const stylesTabBar = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        paddingTop: 200,
-        width: "100%",
-    },
-
-    logoImage: {
-        width: wp("9%"),
-        height: wp("9%"),
-        marginTop: 5,
-    },
-
-    logoText: {
-        color: "white",
-        fontSize: wp("4%"),
-        marginTop: hp("1%"),
-        marginRight: wp("5%"),
-        marginLeft: wp("2%"),
-        fontFamily: 'zen_kaku_regular',
-    },
-
     tabLabels: {
         backgroundColor: "rgba(215, 20, 20, 0)",
         width: wp("40%"),

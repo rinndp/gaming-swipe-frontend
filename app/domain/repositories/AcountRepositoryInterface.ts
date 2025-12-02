@@ -1,5 +1,5 @@
 import {ApiDeliveryResponse} from "../../data/sources/remote/models/ApiDeliveryResponse";
-import {GetUserInterface, UpdateUserDTO, UserInterface} from "../entities/User";
+import {GetUserInterface, UpdateUserDTO, RegisterUserInteface} from "../entities/User";
 import {PasswordsDTO} from "../entities/UpdatePasswordDTO";
 
 

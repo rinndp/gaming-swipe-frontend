@@ -5,7 +5,7 @@ import {ApiDelivery} from "../sources/remote/api/ApiDelivery";
 import {ApiDeliveryResponse} from "../sources/remote/models/ApiDeliveryResponse";
 import {PasswordsDTO} from "../../domain/entities/UpdatePasswordDTO";
 import Toast from "react-native-toast-message";
-import {UseUserLocalStorage} from "../../presentation/hooks/UseUserLocalStorage";
+import {showCustomToast} from "../../presentation/utils/ShowCustomToast";
 
 
 export class AccountRepository implements AccountRepositoryInterface {
@@ -28,14 +28,13 @@ export class AccountRepository implements AccountRepositoryInterface {
             const response = await ApiDelivery.post(`users/update/${slug}`, data,
                 {
                     headers: {
-                        ...(isFormData ? {"Content-Type": " multipart/form-data"} : { 'Content-Type': 'application/json' }),
-
-                    },
+                        ...(isFormData ? {"Content-Type": " multipart/form-data"} : { 'Content-Type': 'application/json' })
+                    }
                 });
             return Promise.resolve(response.data);
         } catch (error) {
             let e = (error as AxiosError<{error: string}>);
-            console.log(e.response);
+            showCustomToast(e.response?.data.error)
             return Promise.reject(e.response);
         }
     }

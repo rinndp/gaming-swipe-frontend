@@ -8,9 +8,10 @@ interface Props {
     label: string,
     keyboardType:KeyboardType;
     onChangeText:(text:string)=>void;
+    autoFocus?:boolean;
     value?: string;
 }
-export const CustomTextInputPassword = ({label, value, keyboardType,onChangeText}:Props) => {
+export const CustomTextInputPassword = ({label, autoFocus, value, keyboardType,onChangeText}:Props) => {
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [iconPassword, setIconPassword] = useState("closed-eye");
 
@@ -31,6 +32,7 @@ export const CustomTextInputPassword = ({label, value, keyboardType,onChangeText
                 <TextInput style={styles.formInput}
                            keyboardType={keyboardType}
                            defaultValue={value}
+                           autoFocus={autoFocus}
                            secureTextEntry={secureTextEntry}
                            onChangeText={(text) => onChangeText(text)}
                 ></TextInput>

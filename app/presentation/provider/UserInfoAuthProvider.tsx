@@ -1,7 +1,7 @@
 // GameProvider.tsx
 import React, { createContext, useContext, useState } from "react";
 import { FavGame } from "../../domain/entities/FavGame";
-import {LoginUserInterface, RegisterUserInterface, UserInterface} from "../../domain/entities/User";
+import {LoginUserInterface, RegisterUserInterface} from "../../domain/entities/User";
 
 interface UserInfoAuthProps {
     registerValues: RegisterUserInterface | undefined;

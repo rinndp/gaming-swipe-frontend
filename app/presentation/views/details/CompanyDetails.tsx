@@ -122,7 +122,7 @@ export function CompanyDetails ({navigation = useNavigation()}: PropsStackNaviga
                             : "https://www.igdb.com/assets/no_cover_show-ef1e36c00e101c2fb23d15bb80edd9667bbf604a12fc0267a66033afea320c65.png"
                     }}
                     priority={"high"}
-                    contentFit="contain"
+                    contentFit="cover"
                     transition={250}
                     style={styleSimilarGame.image}
                 />
