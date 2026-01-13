@@ -9,8 +9,6 @@ export default {
         icon: "./assets/icon.png",
         userInterfaceStyle: "dark",
         newArchEnabled: true,
-        
-        // ⬇️ AGREGAR ESTO - Configuración de EAS Updates
         updates: {
             url: "https://u.expo.dev/3b0a8157-2bce-441b-ad97-aef53cefb0e9"
         },
@@ -22,10 +20,8 @@ export default {
         },
         ios: {
             supportsTablet: true,
+            runtimeVersion: "1.0.0",
             bundleIdentifier: "com.rinndp.gamingswipe",
-            runtimeVersion: {
-                policy: "appVersion" 
-            },
             infoPlist: {
                 ITSAppUsesNonExemptEncryption: false
             },
@@ -34,9 +30,8 @@ export default {
             }
         },
         android: {
-            runtimeVersion: {
-                policy: "appVersion"  
-            },            
+            runtimeVersion: "1.0.0",
+            jsEngine: "hermes",
             adaptiveIcon: {
                 foregroundImage: "./assets/adaptive-icon.png",
                 backgroundColor: "#ffffff"
