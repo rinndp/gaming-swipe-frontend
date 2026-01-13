@@ -34,6 +34,7 @@ import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {useUserGamesContext} from "../../provider/GameProvider";
 import {useAnticipatedGames} from "../../hooks/UseAnticipatedGames";
 import {HorizontalFlashList} from "../../components/HorizontalFlashList";
+import { HandleLikeButton } from "../../components/HandleLikeButton";
 
 
 export function Search({navigation = useNavigation()}: PropsStackNavigation) {
@@ -46,11 +47,10 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
         searchUserText,
         onSearchUserTextChange,
         setGamesDisplayed,
-        searchMostAnticipatedGames,
         searchedUsers,
         setLoading,
     } = searchViewModel()
-    const [selectedTab, setSelectedTab] = useState<"games" | "developers" | "users">("games");
+    const [selectedTab, setSelectedTab] = useState<"games" | "users">("games");
 
     const {user} = UseUserLocalStorage()
     const {data, isLoading, error} = useAnticipatedGames();
@@ -70,29 +70,17 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
     }, [data, user?.slug]);
 
     const {
-        addGameToFav,
         transformGameIntoFavGameInterface,
     } = homeViewModel()
 
     const {
-        deleteGameFromFav,
         loadFavGames,
         loadPlayedGames,
     } = favScreenViewModel()
 
-    const {favListGames, playedListGames} = useUserGamesContext()
-
-    const checkIfGameFromApiIsLiked = (gameId: number) => {
-        return favListGames.some(game => game.id_api === gameId);
-    }
-
-    const checkIfGameFromApiIsPlayed = (gameId: number) => {
-        return playedListGames.some(game => game.id_api === gameId);
-    }
-
     const searchUserItem = useCallback(({item} : {item:GetSearchUserInterface}) => (
         <TouchableOpacity style={styleSearchUserItem.container} onPress={() => navigation.push("UserDetails", {userSearch : item})}>
-            <Image source={item.image ? {uri: `${API_BASE_URL.slice(0, -4)}${item.image}`} : require("../../../../assets/account-image.jpg")}
+            <Image source={item.image ? {uri: `${item.image}`} : require("../../../../assets/account-image.jpg")}
                     style={styleSearchUserItem.image}
                    contentFit="cover"
                    transition={250}
@@ -143,47 +131,11 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                     </>
 
                 )}
-                <TouchableOpacity onPress={async () => {
-                    if (!checkIfGameFromApiIsLiked(item.id)) {
-                        try {
-                            if (!checkIfGameFromApiIsPlayed(item.id)) {
-                                await addGameToFav(transformGameIntoFavGameInterface(item), user?.slug ? user?.slug : "");
-                                await loadFavGames(user?.slug ? user?.slug : "");
-                            }
-                        } catch (error) {
-                            Toast.show({
-                                "type": "error",
-                                "text1": "Error while trying to like the game",
-                            })
-                        }
-                    } if (checkIfGameFromApiIsLiked(item.id)) {
-                        try {
-                            await deleteGameFromFav(
-                                item.id,
-                                user?.slug ? user?.slug : "",
-                            );
-                            await loadFavGames(user?.slug ? user?.slug : "")
-
-                        } catch (error) {
-                            Toast.show({
-                                "type": "error",
-                                "text1": "Error while trying to delete game",
-                            })
-                        }
-                    }
-                }}>
-                    <Image
-                        contentFit="contain"
-                        transition={100}
-                        style={styleSearchGameItem.fav} source={
-                        checkIfGameFromApiIsLiked(item.id)
-                            ? require("../../../../assets/filled-heart.png")
-                            : checkIfGameFromApiIsPlayed(item.id) ? require("../../../../assets/check-icon.png") : require("../../../../assets/heart.png")}/>
-                </TouchableOpacity>
+                <HandleLikeButton game={transformGameIntoFavGameInterface(item)} loadFavGames={() => loadFavGames(user?.slug || "")}/>
                 <Text style={styleSearchGameItem.gameReleaseYear}>{item.release_dates?.[0]?.y ?? "TBD"}</Text>
             </View>
         </View>
-    ), [addGameToFav, checkIfGameFromApiIsLiked, loadFavGames, deleteGameFromFav, transformCoverUrl, navigation])
+    ), [transformSmallCoverUrl, navigation])
 
     return (
         <View style={styleSearch.container}>

@@ -19,11 +19,14 @@ export const accountViewModel =()=> {
     const getUserDB = async (slug: string) => {
         const response = await getUserDBUseCase(slug)
         setUserDB(response)
-        setShowLoading(false)
     }
 
     const updateUserDetails = async (slug: string, data: UpdateUserDTO | FormData | undefined) => {
-        const response = await updateUserUseCase(slug, data)
+        setShowLoading(true)
+        await updateUserUseCase(slug, data)
+        setTimeout(() => {
+            setShowLoading(false)
+        }, data instanceof FormData ? 700 : 0)
     }
 
     return {

@@ -172,22 +172,26 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                                 console.log('Current Active index', index, listGames.length);
                             }}
                             onSwipeRight={async (cardIndex) => {
-                                if (user?.slug !== undefined)
-                                    if (listGames[cardIndex].name !== NO_GAMES_FOUND_LABEL) {
-                                        await addGameToFav(transformGameIntoFavGameInterface(listGames[cardIndex]), user.slug)
-                                        if (selectedGenres.length === 0 && selectedPlatforms.length === 0) {
-                                            InteractionManager.runAfterInteractions(async () => {
+                                if (user?.slug !== undefined && listGames[cardIndex].name !== NO_GAMES_FOUND_LABEL) {
+                                    addGameToFav(transformGameIntoFavGameInterface(listGames[cardIndex]), user.slug)
+                                    
+                                    if (selectedGenres.length === 0 && selectedPlatforms.length === 0) {
+                                        setTimeout(async () => {
+                                            try {
                                                 const similarGames = await getSimilarGamesFromGame(listGames[cardIndex].id);
                                                 const existingGameIds = new Set(listGames.map(game => game.id));
                                                 const newSimilarGames = similarGames[0].similar_games.filter(
                                                     game => !existingGameIds.has(game.id)
                                                 );
                                                 if (newSimilarGames.length > 0) {
-                                                            setListGames((prevGames) => [...prevGames, ...newSimilarGames]);
+                                                    setListGames((prevGames) => [...prevGames, ...newSimilarGames]);
                                                 }
-                                            })
-                                        }
+                                            } catch (error) {
+                                                console.log('Error loading similar games:', error);
+                                            }
+                                        }, 500); 
                                     }
+                                }
                             }}
                             onSwipeLeft={(cardIndex) => {
                             }}

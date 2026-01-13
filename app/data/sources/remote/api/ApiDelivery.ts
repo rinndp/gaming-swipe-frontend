@@ -3,7 +3,7 @@ import {removeUserUseCase} from "../../../../domain/usesCases/user-local/RemoveU
 import {clearTokens, loadTokens, saveTokens} from "../../local/secure/TokenStorage";
 import {useEffect} from "react";
 
-export const API_BASE_URL = "http://192.168.1.91:8000/api";
+export const API_BASE_URL = "https://gaming-swipe-backend.onrender.com/api/";
 
 const ApiDelivery = axios.create({
     baseURL: API_BASE_URL,

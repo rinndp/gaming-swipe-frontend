@@ -141,8 +141,8 @@ const styleSearch = StyleSheet.create({
 
 const styleSearchGameItem = StyleSheet.create({
     thirdColumnContainer:{
-        gap: hp("2.7%"),
-        marginStart: wp("3%"),
+        alignItems: "center",
+        gap: hp("2.4%"),
     },
     fav:{
         width:wp("6%"),

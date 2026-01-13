@@ -21,9 +21,8 @@ import {Cover, Game, GameDetailsInterface, Genre, Platform, SimilarGame} from ".
 import {GenreItem} from "../../components/GenreItem";
 import YoutubePlayer from "react-native-youtube-iframe";
 import {styleGameDetails, styleSimilarGame} from "./StyleGameDetails";
-import Toast from "react-native-toast-message";
 import viewModelFav from "../fav/ViewModel";
-import {styleSearch, styleSearchGameItem} from "../search/StyleSearch";
+import {styleSearch} from "../search/StyleSearch";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
 import {AppColors} from "../../theme/AppTheme";
 import {FlashList} from "@shopify/flash-list";
@@ -38,54 +37,26 @@ import {useGameDetails} from "../../hooks/UseGameDetails";
 import {ExpandingDot} from "react-native-animated-pagination-dots";
 import Animated, {FadeInDown, FadeInLeft, FadeInRight, FadeInUp, SlideInDown} from 'react-native-reanimated';
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
-import {useUserGamesContext} from "../../provider/GameProvider";
+import { HandleLikeButton } from "../../components/HandleLikeButton";
 
 type GameDetailsRouteProp = RouteProp<RootStackParamsList, "GameDetails">;
-
-export const filledHeartSource = require("../../../../assets/filled-heart.png")
-export const checkIconSource = require("../../../../assets/check-icon.png")
-export const heartSource = require("../../../../assets/heart.png")
-
 
 export function GameDetails({navigation = useNavigation()}: PropsStackNavigation) {
     const {user} = UseUserLocalStorage()
     const [showLoading, setShowLoading] = useState(true);
-    let [likeButtonImageSource, setLikeButtonImageSource] = useState<ImageSource>()
 
     const {
-        addGameToFav,
         transformGameIntoFavGameInterface,
     } = viewModelHome.homeViewModel()
 
     const {
-        deleteGameFromFav,
         loadFavGames,
-        loadPlayedGames,
     } = viewModelFav.favScreenViewModel()
-
-    const {favListGames, playedListGames} = useUserGamesContext()
-
-    const checkIfGameFromApiIsLiked = (gameId: number) => {
-        return favListGames.some(game => game.id_api === gameId);
-    }
-
-    const checkIfGameFromApiIsPlayed = (gameId: number) => {
-        return playedListGames.some(game => game.id_api === gameId);
-    }
 
     //Getting params from route
     const route = useRoute<GameDetailsRouteProp>()
     const {gameId} = route.params
     const {likeButton} = route.params
-
-    useEffect(() => {
-        if (checkIfGameFromApiIsLiked(gameId))
-            setLikeButtonImageSource(filledHeartSource)
-        else if (checkIfGameFromApiIsPlayed(gameId))
-            setLikeButtonImageSource(checkIconSource)
-        else
-            setLikeButtonImageSource(heartSource)
-    }, [favListGames, playedListGames, gameId]);
 
     //Using React Query to load game details and saving it in the cache
     const {data, isLoading, error} = useGameDetails(gameId);
@@ -175,43 +146,12 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                             <View style={{flexDirection: "row", gap:wp("36%")}}>
                                 <Text style={styleGameDetails.infoTitles}>Involved companies</Text>
                                 {likeButton && (
-                                <TouchableOpacity onPress={async () => {
-                                    if (!checkIfGameFromApiIsLiked(gameDetails?.id || 0)) {
-                                        try {
-                                            if (!checkIfGameFromApiIsPlayed(gameDetails?.id || 0)) {
-                                                await addGameToFav(transformGameIntoFavGameInterface(gameDetails), user?.slug || "");
-                                                setLikeButtonImageSource(filledHeartSource)
-                                                await loadFavGames(user?.slug || "")
-                                            }
-                                        } catch (error) {
-                                            Toast.show({
-                                                "type": "error",
-                                                "text1": "Error while trying to save the game",
-                                            })
-                                        }
-                                    } else {
-                                        try {
-                                            await deleteGameFromFav(
-                                                gameDetails ? gameDetails?.id : 0,
-                                                user?.slug ? user?.slug : "",
-                                            );
-                                            setLikeButtonImageSource(heartSource)
-                                            await loadFavGames(user?.slug ? user?.slug : "")
-
-                                        } catch (error) {
-                                            Toast.show({
-                                                "type": "error",
-                                                "text1": "Error while trying to delete game",
-                                            })
-                                        }
-                                    }
-                                }}>
-                                    <Image
-                                        contentFit={"contain"}
-                                        cachePolicy={"memory-disk"}
-                                        priority={"high"}
-                                        style={styleGameDetails.fav} source={likeButtonImageSource}/>
-                                </TouchableOpacity>
+                                    <View style={{justifyContent: "center"}}>
+                                    <HandleLikeButton 
+                                            game={transformGameIntoFavGameInterface(gameDetails)}
+                                            loadFavGames={() => loadFavGames(user?.slug || "")}
+                                        />
+                                    </View>
                             )}
                             </View>
                             <FlashList

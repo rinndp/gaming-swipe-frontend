@@ -89,7 +89,6 @@ const styleGameDetails = StyleSheet.create({
         width:wp("6.4%"),
         height:hp("3.3%"),
         tintColor:"#4dc51f",
-        marginTop: hp("2.9%"),
     },
 })
 

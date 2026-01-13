@@ -24,6 +24,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-nativ
 import Animated, {FadeInDown, FadeInLeft} from "react-native-reanimated";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {showCustomToast} from "../../utils/ShowCustomToast";
+import Constants from "expo-constants";
 
 export function Account({navigation = useNavigation(), route}: PropsStackNavigation){
 
@@ -50,7 +51,9 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                 if (userDB != undefined){
                     setUpdateUsername(userDB.username)
                 }
-                setShowLoading(false);
+                setTimeout(() => {
+                    setShowLoading(false)
+                }, 700)
             }
         }, [user?.slug, JSON.stringify(userDB)])
     )
@@ -126,7 +129,8 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                         priority={"high"}
                                         contentFit="cover"
                                         transition={500}
-                                        style={stylesProfilePicture.photo}  source={userDB?.image ? {uri: `${API_BASE_URL.slice(0, -4)}${userDB?.image}`} : require("../../../../assets/account-image.jpg")}
+                                        style={stylesProfilePicture.photo}  
+                                        source={userDB?.image ? {uri: `${userDB?.image}`} : require("../../../../assets/account-image.jpg")}
                                     />
                                 </View>
                                 <TouchableOpacity style={stylesProfilePicture.changePhotoButton} onPress={selectImage}>
