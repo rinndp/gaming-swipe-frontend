@@ -23,6 +23,7 @@ import {EmailScreen} from "./app/presentation/views/auth/EmailScreen";
 import {PasswordScreen} from "./app/presentation/views/auth/PasswordScreen";
 import {UserInfoAuthProvider} from "./app/presentation/provider/UserInfoAuthProvider";
 import {UsernameScreen} from "./app/presentation/views/auth/UsernameScreen";
+import * as Updates from 'expo-updates';
 
 
 export type RootStackParamsList = {
@@ -50,10 +51,8 @@ export default function App() {
 
     const {
         user,
-        getUserSession
     } = UseUserLocalStorage()
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     SplashScreen.preventAutoHideAsync()
 
@@ -63,6 +62,27 @@ export default function App() {
         } catch (e) {
             console.log(e)
         }
+    }, []);
+
+    useEffect(() => {
+        async function checkForUpdates() {
+            if (__DEV__) return; // No ejecutar en desarrollo
+            
+            try {
+                const update = await Updates.checkForUpdateAsync();
+                
+                if (update.isAvailable) {
+                    console.log('📥 Update disponible, descargando...');
+                    await Updates.fetchUpdateAsync();
+                    console.log('✅ Update descargado, aplicando...');
+                    await Updates.reloadAsync();
+                }
+            } catch (error) {
+                console.error('Error al verificar updates:', error);
+            }
+        }
+        
+        checkForUpdates();
     }, []);
 
     if (user === undefined) return null;

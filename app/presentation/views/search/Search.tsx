@@ -198,7 +198,7 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                                 <>
                                     <FlashList
                                         data={gamesDisplayed}
-                                        keyExtractor={(item, index) => String(index)}
+                                        keyExtractor={(item) => item.id.toString()}
                                         fadingEdgeLength={10}
                                         renderItem={searchGameItem}
                                         ListFooterComponent={
