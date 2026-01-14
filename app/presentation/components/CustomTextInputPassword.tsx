@@ -51,9 +51,7 @@ const styles = StyleSheet.create({
     iconPasswordToggle: {
         width:30,
         height:30,
-        alignSelf: "flex-end",
-        resizeMode:'stretch',
-
+        alignSelf: "center",
     },
 
     formInput: {
@@ -63,13 +61,10 @@ const styles = StyleSheet.create({
 
     formInputContainerPassword: {
         width:wp("78%"),
-        height:hp("4.5%"),
         fontSize: wp("3.6%"),
         backgroundColor: 'white',
-        borderWidth: 1,
         flexDirection:'row',
         color:"black",
-        paddingVertical: wp("1%"),
         paddingHorizontal: wp("2%"),
         borderRadius:10,
         alignItems:'center',

@@ -75,8 +75,9 @@ export default function App() {
               initialRouteName={user && user.slug ? "UserNavigation" : "WelcomeScreen"}
               screenOptions={{
                   headerShown: false,
+                  detachPreviousScreen: false,
                   gestureEnabled: Platform.OS !== 'android',
-                  cardStyleInterpolator: Platform.OS === "android" ? CardStyleInterpolators.forRevealFromBottomAndroid : CardStyleInterpolators.forHorizontalIOS}}>
+                  cardStyleInterpolator: Platform.OS === "android" ? CardStyleInterpolators.forFadeFromBottomAndroid : CardStyleInterpolators.forHorizontalIOS}}>
               <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}/>
               <Stack.Screen name="EmailScreen" component={EmailScreen}/>
               <Stack.Screen name="PasswordScreen" component={PasswordScreen}/>

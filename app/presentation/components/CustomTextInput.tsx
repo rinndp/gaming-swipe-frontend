@@ -43,7 +43,6 @@ export const stylesCustomTextInput = StyleSheet.create({
     },
 
     formInput: {
-        width:wp("79%"),
         height:hp("4.5%"),
         fontSize: wp("3.6%"),
         backgroundColor: 'white',
