@@ -32,6 +32,7 @@ export default {
         android: {
             runtimeVersion: "1.0.0",
             jsEngine: "hermes",
+            privacyPolicyUrl: "https://www.termsfeed.com/live/7f86ce7f-7566-454f-a8da-94d5f0007ef5",
             adaptiveIcon: {
                 foregroundImage: "./assets/adaptive-icon.png",
                 backgroundColor: "#ffffff"
