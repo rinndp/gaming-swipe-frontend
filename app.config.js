@@ -65,10 +65,6 @@ export default {
             eas: {
                 projectId: "3b0a8157-2bce-441b-ad97-aef53cefb0e9"
             },
-            androidClientId: process.env.ANDROID_GOOGLE_ID,
-            iosClientId: process.env.IOS_GOOGLE_ID,
-            igdbClientId: process.env.IGDB_CLIENT_ID,
-            igdbAuth: process.env.IGDB_AUTH,
         }
     }
 };

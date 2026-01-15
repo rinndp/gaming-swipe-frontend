@@ -187,7 +187,7 @@ export function CompanyDetails ({navigation = useNavigation()}: PropsStackNaviga
                                         <FlashList
                                             data={developedGames}
                                             renderItem={developedGameItem}
-                                            fadingEdgeLength={50}
+                                            fadingEdgeLength={5}
                                             keyExtractor={(item) => item.id.toString()}
                                             onEndReached={loadMoreDevelopedGames}
                                             onEndReachedThreshold={1.5}
@@ -204,7 +204,7 @@ export function CompanyDetails ({navigation = useNavigation()}: PropsStackNaviga
                                         <FlashList
                                             data={publishedGames}
                                             renderItem={developedGameItem}
-                                            fadingEdgeLength={50}
+                                            fadingEdgeLength={5}
                                             keyExtractor={(item) => item.id.toString()}
                                             onEndReached={loadMorePublishedGames}
                                             onEndReachedThreshold={1.5}

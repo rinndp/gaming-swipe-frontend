@@ -145,7 +145,7 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                         <Image source={require("../../../../assets/igdb-logo.webp")} style={styleSearch.logo} />
                     </View>
                     <View>
-                        <Text style={styleSearch.headerTitle}>Search</Text>
+                        <Text style={styleSearch.headerTitle}>Search oo</Text>
                     </View>
                     <View style={styleSearch.tabsContainer}>
                         <TouchableOpacity

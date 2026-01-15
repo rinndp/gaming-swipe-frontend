@@ -14,7 +14,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-nativ
 import {AppColors} from "../../theme/AppTheme";
 import {Image} from "expo-image";
 import {useUserInfoAuthContext} from "../../provider/UserInfoAuthProvider";
-import Constants from 'expo-constants';
+import { ANDROID_GOOGLE_ID, IOS_GOOGLE_ID } from '@env';
 
 
 export const googleLogo = require("../../../../assets/google-logo.png")
@@ -32,8 +32,8 @@ export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackN
     const {setLogin} = useUserInfoAuthContext()
 
     const [request, response, promptAsync] = Google.useAuthRequest({
-        androidClientId: Constants.expoConfig?.extra?.androidClientId,
-        iosClientId: Constants.expoConfig?.extra?.iosClientId,
+        androidClientId: ANDROID_GOOGLE_ID,
+        iosClientId: IOS_GOOGLE_ID,
     })
 
     useEffect(() => {
