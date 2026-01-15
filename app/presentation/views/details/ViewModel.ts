@@ -32,7 +32,8 @@ export const userDetailsViewModel = () => {
         userDetails,
         favGames,
         playedGames,
-        loadUserGames
+        loadUserGames,
+        setShowLoading,
 
     }
 

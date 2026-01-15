@@ -11,6 +11,9 @@ export default {
         newArchEnabled: true,
         updates: {
             url: "https://u.expo.dev/3b0a8157-2bce-441b-ad97-aef53cefb0e9",
+            enabled: true,
+            checkAutomatically: "ON_LOAD",
+            fallbackToCacheTimeout: 0
         },
         
         splash: {

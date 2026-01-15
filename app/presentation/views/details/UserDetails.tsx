@@ -43,6 +43,7 @@ export function UserDetails ({navigation = useNavigation()}: PropsStackNavigatio
         loadUserGames,
         favGames,
         playedGames,
+        setShowLoading,
     } = userDetailsViewModel()
 
     useFocusEffect(
@@ -77,7 +78,9 @@ export function UserDetails ({navigation = useNavigation()}: PropsStackNavigatio
                         <View style={{alignItems:"center", paddingTop:hp("10%"), backgroundColor: AppColors.buttonBackground}}>
                             <TouchableOpacity
                                 style={{...styleGameDetails.goBackIcon, bottom: hp("4%"), end: wp("43%")}}
-                                onPress={navigation.goBack}>
+                                onPress={() => {
+                                    setShowLoading(true)
+                                    navigation.goBack()}}>
                                 <Image source={require("../../../../assets/go-back-icon.png")}
                                        style={{...styleGameDetails.goBackIcon}} />
                             </TouchableOpacity>

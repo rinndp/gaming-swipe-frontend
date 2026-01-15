@@ -138,7 +138,11 @@ export function CompanyDetails ({navigation = useNavigation()}: PropsStackNaviga
                         <ScrollView style={{paddingBottom: hp("60%")}} showsVerticalScrollIndicator={false}>
                             <View
                                 style={{...styleGameDetails.header, flexDirection: "column", paddingBottom: 0, alignItems:"center"}}>
-                                <TouchableOpacity onPress={navigation.goBack} style={{...styleGameDetails.goBackIconTouchable, bottom: hp("30%")}}>
+                                <TouchableOpacity onPress={() => {
+                                    setShowLoading(true)
+                                    navigation.goBack()
+                                    }} 
+                                    style={{...styleGameDetails.goBackIconTouchable, bottom: hp("30%")}}>
                                     <Image source={require("../../../../assets/go-back-icon.png")}
                                            style={styleGameDetails.goBackIcon} />
                                 </TouchableOpacity>

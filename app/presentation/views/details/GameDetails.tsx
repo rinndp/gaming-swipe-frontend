@@ -105,14 +105,21 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                 backgroundColor: showLoading ? AppColors.backgroundColor : AppColors.buttonBackground}}>
                 {!showLoading ? (
                     <>
-                    <ScrollView nestedScrollEnabled={true} showsVerticalScrollIndicator={false}>
+                    <ScrollView
+                        removeClippedSubviews={true} 
+                        nestedScrollEnabled={true} showsVerticalScrollIndicator={false}>
                         <View style={{...styleSearch.logoContainer, position:"absolute", zIndex:99}}>
                             <Image transition={100} priority={"high"}
                                    cachePolicy={"memory-disk"}
                                    source={require("../../../../assets/igdb-logo.webp")} style={styleSearch.logo} />
                         </View>
                         <View style={styleGameDetails.header}>
-                            <TouchableOpacity onPress={() => navigation.goBack()} style={styleGameDetails.goBackIconTouchable}>
+                            <TouchableOpacity 
+                                onPress={() => {
+                                    setShowLoading(true)
+                                    navigation.goBack()
+                                    }}
+                                style={styleGameDetails.goBackIconTouchable}>
                                 <Image source={require("../../../../assets/go-back-icon.png")}
                                        cachePolicy={"memory-disk"}
                                        contentFit={"contain"}

@@ -21,6 +21,8 @@ export const HandleLikeButton = ({game, loadFavGames}: Props) => {
 
    
     useEffect(() => {
+        setIsLiked(false)
+        setIsPlayed(false)
         if (checkIfGameFromApiIsLiked(game?.id_api || 0))
             setIsLiked(true)
         else if (checkIfGameFromApiIsPlayed(game?.id_api || 0)) 
