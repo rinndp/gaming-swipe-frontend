@@ -25,6 +25,7 @@ import Animated, {FadeInDown, FadeInLeft} from "react-native-reanimated";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {showCustomToast} from "../../utils/ShowCustomToast";
 import Constants from "expo-constants";
+import { checkIfUsernameRegisteredUseCase } from "../../../domain/usesCases/auth/RegisterAuth";
 
 export function Account({navigation = useNavigation(), route}: PropsStackNavigation){
 
@@ -173,12 +174,17 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                                     </TouchableOpacity>
                                                     <TouchableOpacity
                                                         style={styleAccount.modalAcceptButton}
-                                                        onPress={() => {
+                                                        onPress={async () => {
                                                             if(userDB != undefined) {
                                                                 if (updatedUsername === "") {
                                                                     setErrorMessage("Empty fields are not allowed")
                                                                 } else if (userDB.username === updatedUsername) {
                                                                     setModalUpdateUsernameVisible(!modalUpdateUsernameVisible)
+                                                                } 
+                                                                
+                                                                const checkUsername = await checkIfUsernameRegisteredUseCase({username: updatedUsername})
+                                                                if (checkUsername.error && userDB.username !== updatedUsername) {
+                                                                    setErrorMessage("Username already registered")
                                                                 } else {
                                                                     const data: UpdateUserDTO = {
                                                                         username: updatedUsername

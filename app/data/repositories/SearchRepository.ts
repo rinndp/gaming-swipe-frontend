@@ -1,9 +1,7 @@
 import {SearchRepositoryInterface} from "../../domain/repositories/SearchRepositoryInterface";
 import {Game} from "../../domain/entities/Game";
-import {CompanyDetailsInterface} from "../../domain/entities/Company";
 import {IgdbApiDelivery} from "../sources/remote/igdbAPI/IgdbApiDelivery";
 import axios, {AxiosError} from "axios";
-import {ApiDeliveryResponse} from "../sources/remote/models/ApiDeliveryResponse";
 import {GetSearchUserInterface, UpdateUserDTO} from "../../domain/entities/User";
 import {ApiDelivery} from "../sources/remote/api/ApiDelivery";
 

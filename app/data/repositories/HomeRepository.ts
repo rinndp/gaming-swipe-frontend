@@ -20,7 +20,6 @@ export class HomeRepository implements HomeRepositoryInterface {
                 "similar_games.platforms.name, similar_games.genres.name, similar_games.rating, "+
                 'similar_games.release_dates.y, similar_games.release_dates.date; where id = '+gameId+';',
             )
-            console.log(response.data);
             return Promise.resolve(response.data);
         } catch (error) {
             let e = error as AxiosError;
@@ -79,7 +78,6 @@ export class HomeRepository implements HomeRepositoryInterface {
 
                 const maxOffset = Math.max(0, maxGames.data?.count - 10);
                 const randomOffset = Math.round(((Math.random()*maxOffset)*100)/100).toFixed(0)
-                console.log(query)
                 response = await IgdbApiDelivery.post(
                     "/games",
                     "fields name, " +

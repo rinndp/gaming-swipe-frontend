@@ -1,11 +1,13 @@
 import {useState} from "react";
-import {registerUseCase} from "../../../domain/usesCases/auth/RegisterAuth";
+import {checkIfEmailRegisteredUseCase, registerUseCase} from "../../../domain/usesCases/auth/RegisterAuth";
 import {RegisterUserInterface} from "../../../domain/entities/User";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
 import {loginAuthUseCase} from "../../../domain/usesCases/auth/LoginAuth";
 import {saveUserUseCase} from "../../../domain/usesCases/user-local/SaveUser";
 import Toast from "react-native-toast-message";
 import {saveTokens} from "../../../data/sources/local/secure/TokenStorage";
+import { showCustomToast } from "../../utils/ShowCustomToast";
+
 
 export const welcomeViewModel= () => {
 
@@ -43,9 +45,19 @@ export const welcomeViewModel= () => {
         try {
             return await loginAuthUseCase(userData);;
         } catch (loginError) {
-            console.log('User not found, registering...');
-            await registerUseCase(userData);
-            return await loginAuthUseCase(userData);;
+            try {
+                await registerUseCase(userData);
+                return await loginAuthUseCase(userData);;
+            } catch (registerError) {
+                const response = await checkIfEmailRegisteredUseCase({email: userData.email});
+                if (response.error) {
+                    showCustomToast("Email already registered")
+                } else {
+                    showCustomToast("Error while registering user")
+                    throw registerError; // ✅ Lanzar error original
+
+                }
+            }
         }
     };
 
@@ -54,18 +66,15 @@ export const welcomeViewModel= () => {
             setShowLoading(true);
             const userFetched = await fetchUserInfo(googleAccessToken);
             const response = await handleUserAuth(userFetched);
-
-            await saveUserUseCase({ slug: response.slug });
-            await saveTokens(response.access_token, response.refresh_token);
-            await getUserSession();
-
-            navigation.navigate('UserNavigation');
+            if (response) {
+                await saveUserUseCase({ slug: response.slug });
+                await saveTokens(response.access_token, response.refresh_token);
+                await getUserSession();
+                navigation.navigate('UserNavigation');
+            }
         } catch (error) {
-            console.log('Google login failed:', error);
-            Toast.show({
-                type: 'error',
-                text1: 'Error en el login con Google',
-            });
+            showCustomToast("Error while signing in with Google")
+            throw error;
         }
         setShowLoading(false);
     }

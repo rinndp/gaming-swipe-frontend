@@ -15,6 +15,7 @@ import {AppColors} from "../../theme/AppTheme";
 import {Image} from "expo-image";
 import {useUserInfoAuthContext} from "../../provider/UserInfoAuthProvider";
 import { ANDROID_GOOGLE_ID, IOS_GOOGLE_ID } from '@env';
+import { showCustomToast } from "../../utils/ShowCustomToast";
 
 
 export const googleLogo = require("../../../../assets/google-logo.png")
@@ -39,15 +40,13 @@ export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackN
     useEffect(() => {
         if (response?.type === 'success') {
             const { authentication } = response;
-            console.log('Authentication object:', authentication);
             if (authentication?.accessToken) {
                 handleGoogleLogin(authentication.accessToken, navigation);
             } else {
                 console.log('No access token in response');
             }
         } else if (response?.type === 'error') {
-            console.log('Google Auth Error:', response.error);
-            console.log('Error details:', response);
+            showCustomToast("Error while signing in with Google")
         }
     }, [response]);
 

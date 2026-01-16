@@ -1,7 +1,7 @@
 import {PlatformItem} from "./PlatformItem";
 import {FlashList} from "@shopify/flash-list";
 import React from "react";
-import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
+import {ScrollView, StyleProp, StyleSheet, View, ViewStyle} from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
 import {LinearGradient} from "expo-linear-gradient";
 import {FadeWrapper} from "rn-fade-wrapper";
@@ -16,15 +16,15 @@ interface FlashListProps {
 export const HorizontalFlashList = ({data, renderItem, style}: FlashListProps) => {
     return (
         <FlashList
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => `${item.name || item.id || ''}-${index}`}
             data={data}
             style={style}
             renderItem={renderItem}
             horizontal={true}
-            fadingEdgeLength={2}
-            alwaysBounceHorizontal={true}
-            scrollEnabled={true}
             showsHorizontalScrollIndicator={false}
-            nestedScrollEnabled={true}/>
+            nestedScrollEnabled={true}
+            scrollEnabled={true}
+            fadingEdgeLength={3}
+        />
     )
 }

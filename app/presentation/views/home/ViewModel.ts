@@ -20,13 +20,24 @@ export const homeViewModel = () => {
     let [selectedGenres, setSelectedGenres] = useState<Platform[]>([]);
     let [selectedRating, setSelectedRating] = useState<number>(70);
     let [swipesCounter, setSwipesCounter] = useState(0);
+    let [userLikedSimilarGames, setUserLikedSimilarGames] = useState<Game[]>([]);
 
     const {favListGames} = viewModel.favScreenViewModel();
 
     const refillSwipeGames = async () => {
         setShowLoading(true);
         const response = await refillGamesFromSwiperUseCase()
-        setListGames(response)
+    
+        setUserLikedSimilarGames((prevSimilarGames) => {            
+            if (prevSimilarGames.length > 0) {
+                const gamesToAdd = prevSimilarGames.slice(0, 5);
+                setListGames([...gamesToAdd, ...response]);
+                return prevSimilarGames.slice(5);
+            } else {
+                setListGames(response);
+                return prevSimilarGames;
+            }
+        });
         setShowLoading(false);
     }
 
@@ -88,6 +99,8 @@ export const homeViewModel = () => {
         getSimilarGamesFromGame,
         selectedRating,
         setSelectedRating,
+        userLikedSimilarGames,
+        setUserLikedSimilarGames,
     }
 }
 

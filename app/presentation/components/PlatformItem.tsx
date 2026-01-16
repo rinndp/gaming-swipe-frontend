@@ -7,8 +7,10 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-nativ
 
 export const PlatformItem = ({item}: {item: Platform}) => {
     return (
-        <View style={stylesPlatformItem.container}>
-                <Text style={stylesPlatformItem.abbreviation}>{item.abbreviation ? item.abbreviation : item.name}</Text>
+        <View style={stylesPlatformItem.container} pointerEvents="box-none">
+                <Text style={stylesPlatformItem.abbreviation}>
+                    {item.abbreviation ? item.abbreviation : item.name}
+                </Text>
         </View>
     )
 }

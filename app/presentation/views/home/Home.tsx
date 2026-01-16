@@ -58,7 +58,9 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
         transformGameIntoFavGameInterface,
         getSimilarGamesFromGame,
         setSelectedRating,
-        selectedRating
+        selectedRating,
+        userLikedSimilarGames,
+        setUserLikedSimilarGames,
     } = viewModel.homeViewModel()
 
     const {user} = UseUserLocalStorage()
@@ -98,11 +100,11 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                         }</Text>
                         </View>
                     </View>
-                    <View style={{marginTop: hp("1%")}}>
+                    <View style={{marginTop: hp("1%")}} collapsable={false}>
                         <HorizontalFlashList data={item.platforms ? item.platforms : [nullPlatform]}
                                              renderItem={PlatformItem}/>
                     </View>
-                    <View style={styleHome.thirdRowCardContainer}>
+                    <View style={styleHome.thirdRowCardContainer} collapsable={false}>
                         <HorizontalFlashList data={item.genres ? item.genres : [nullGenre]}
                                              renderItem={GenreItem}
                                              style={{width: "83%"}}
@@ -165,6 +167,7 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                             overlayLabelContainerStyle={styleHome.overlayLabelContainer}
                             swipeVelocityThreshold={1000}
                             prerenderItems={3}
+                            
                             renderCard={renderCard}
                             disableTopSwipe={true}
                             disableBottomSwipe={true}
@@ -184,7 +187,7 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                                                     game => !existingGameIds.has(game.id)
                                                 );
                                                 if (newSimilarGames.length > 0) {
-                                                    setListGames((prevGames) => [...prevGames, ...newSimilarGames]);
+                                                    setUserLikedSimilarGames((prevGames) => [...prevGames, ...newSimilarGames]);
                                                 }
                                             } catch (error) {
                                                 console.log('Error loading similar games:', error);

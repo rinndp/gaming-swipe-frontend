@@ -7,8 +7,10 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-nativ
 
 export const GenreItem = ({item}: {item: Genre}) => {
     return (
-        <View style={styles.container}>
-            <Text style={styles.name}>{item.name}</Text>
+        <View style={styles.container} pointerEvents="box-none">
+            <Text style={styles.name}>
+                {item.name}
+            </Text>
         </View>
     )
 }
