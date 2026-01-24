@@ -12,6 +12,24 @@ import {generateNoGamesFoundCard} from "../../utils/NoGameFoundWithThisFilters";
 import {getSimilarGamesFromGameUseCase} from "../../../domain/usesCases/home/GetSimilarGamesFromGame";
 
 
+export const transformGameIntoFavGameInterface =(item: Game | GameDetailsInterface | undefined) => {
+    if (item !== undefined) {
+        const favGameDTO: FavGame = {
+            name: item.name,
+            rating_score: item.rating ? Number(item.rating.toFixed(1)) : 0,
+            release_date: item.release_dates ? item.release_dates[0].date : undefined,
+            summary: item.summary,
+            image_url: item.cover ? transformCoverUrl(item.cover.url) : NO_IMAGE_URL,
+            platforms: item.platforms ? item.platforms : [],
+            genres: item.genres ? item.genres : [],
+            id_api: item.id
+        }
+        console.log(item.release_dates ? item.release_dates[0].y : 0)
+        console.log(favGameDTO)
+        return favGameDTO;
+    }
+}
+
 export const homeViewModel = () => {
 
     let [listGames, setListGames] = useState<Game[]>([]);
@@ -65,23 +83,7 @@ export const homeViewModel = () => {
             await addGameToFavoriteUseCase(slug, game);
     }
 
-    const transformGameIntoFavGameInterface =(item: Game | GameDetailsInterface | undefined) => {
-        if (item !== undefined) {
-            const favGameDTO: FavGame = {
-                name: item.name,
-                rating_score: item.rating ? Number(item.rating.toFixed(1)) : 0,
-                release_date: item.release_dates ? item.release_dates[0].date : undefined,
-                summary: item.summary,
-                image_url: item.cover ? transformCoverUrl(item.cover.url) : NO_IMAGE_URL,
-                platforms: item.platforms ? item.platforms : [],
-                genres: item.genres ? item.genres : [],
-                id_api: item.id
-            }
-            console.log(item.release_dates ? item.release_dates[0].y : 0)
-            console.log(favGameDTO)
-            return favGameDTO;
-        }
-    }
+
 
     return {
         listGames,

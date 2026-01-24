@@ -95,9 +95,9 @@ export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackN
                                     setLogin(false)
                                 }}/>
                         </View>
-                        <Toast/>
                     </>
                 )}
+                <Toast/>
         </View >
     );
 }

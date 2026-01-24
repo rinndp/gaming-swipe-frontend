@@ -25,6 +25,11 @@ import {UserInfoAuthProvider} from "./app/presentation/provider/UserInfoAuthProv
 import {UsernameScreen} from "./app/presentation/views/auth/UsernameScreen";
 
 
+let mobileAds: any = null;
+try {
+    mobileAds = require('react-native-google-mobile-ads').default;
+} catch (error) {}
+
 export type RootStackParamsList = {
     UserNavigation: undefined;
     WelcomeScreen: undefined;
@@ -39,6 +44,21 @@ export type RootStackParamsList = {
 const Stack = createStackNavigator<RootStackParamsList>();
 
 export default function App() {
+
+    useEffect(() => {
+        if (!mobileAds) {
+            console.log('🚫 AdMob initialization skipped - not available');
+            return;
+        }
+        mobileAds()
+        .initialize()
+        .then((adapterStatuses: any) => {
+            console.log('AdMob initialized:', adapterStatuses);
+        })
+        .catch((error: any) => {
+            console.error('AdMob initialization failed:', error);
+        });
+}, []);
 
     const [fontsLoaded] = useFonts({
         "zen_kaku_light": require("./assets/fonts/zen_kaku_gothic_antique_light.ttf"),

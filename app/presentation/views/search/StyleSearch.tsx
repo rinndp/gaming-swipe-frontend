@@ -139,73 +139,7 @@ const styleSearch = StyleSheet.create({
 
 });
 
-const styleSearchGameItem = StyleSheet.create({
-    thirdColumnContainer:{
-        alignItems: "center",
-        gap: hp("2.4%"),
-    },
-    fav:{
-        width:wp("6%"),
-        height:hp("3%"),
-        tintColor:"#4dc51f",
-        alignSelf: "center",
-    },
-    rating: {
-        fontSize: wp("3%"),
-        backgroundColor: AppColors.thirdColor,
-        padding: wp("2%"),
-        flexDirection:"row",
-        gap:wp("1%"),
-        alignItems: "center",
-        width: wp("15%"),
-        borderRadius: 15,
-        textAlign: "center",
-        color: AppColors.white,
-    },
-    gameReleaseYear: {
-        fontSize: wp("3%"),
-        color: AppColors.white,
-        textAlign: "center",
-    },
-    gameCard: {
-        width: "100%",
-        flexDirection: "row",
-        padding: wp("2%"),
-        alignItems: "center",
-        zIndex:1,
-    },
-    gameCover: {
-        padding:wp("1%"),
-        width: wp("25%"),
-        height: hp("15%"),
-        borderRadius: 5,
-        marginRight: 10,
-    },
-    name_rating: {
-        flexDirection:"row",
-        alignSelf: "center",
-        alignItems: "center",
-        justifyContent:"space-between",
-    },
 
-    gameName: {
-        flex:3,
-        fontSize: wp("3.3%"),
-        height: hp("10%"),
-        marginTop: hp("1%"),
-        paddingEnd: wp("3%"),
-        fontFamily: "zen_kaku_regular",
-        color:AppColors.white,
-    },
-    plaformsFlatlistContainer:{
-        flex:1,
-        minWidth:wp("50%"),
-        width: wp("50%"),
-        flexDirection:"row",
-        alignSelf: "center",
-        alignItems: "center",
-    },
-});
 
 const styleSearchCompanyItem = StyleSheet.create({
     companyCard: {
@@ -271,4 +205,4 @@ const styleSearchUserItem = StyleSheet.create({
 })
 
 
-export {styleSearch, styleSearchGameItem, styleSearchCompanyItem, styleSearchUserItem};
+export {styleSearch, styleSearchCompanyItem, styleSearchUserItem};

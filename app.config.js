@@ -17,9 +17,9 @@ export default {
         },
         
         splash: {
-            image: "./assets/splash-icon.png",
+            image: "./assets/logo.png",
             resizeMode: "contain",
-            backgroundColor: "#ffffff"
+            backgroundColor: "#252544"
         },
         ios: {
             supportsTablet: true,
@@ -37,8 +37,8 @@ export default {
             jsEngine: "hermes",
             privacyPolicyUrl: "https://www.termsfeed.com/live/7f86ce7f-7566-454f-a8da-94d5f0007ef5",
             adaptiveIcon: {
-                foregroundImage: "./assets/adaptive-icon.png",
-                backgroundColor: "#ffffff"
+                foregroundImage: "./assets/logo.png",
+                backgroundColor: "#252544"
             },
             package: "com.rinndp.gamingswipe",
             permissions: [
@@ -59,7 +59,14 @@ export default {
             "expo-asset",
             "expo-secure-store",
             "expo-image-picker",
-            "expo-web-browser"
+            "expo-web-browser",
+            [
+                "react-native-google-mobile-ads",
+                {
+                  androidAppId: "ca-app-pub-3940256099942544~3347511713",
+                  iosAppId: "ca-app-pub-3940256099942544~1458002511", 
+                }
+            ]
         ],
         extra: {
             eas: {

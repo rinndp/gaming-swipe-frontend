@@ -44,7 +44,25 @@ function FiltroComponent(props: {
     return null;
 }
 
+let InterstitialAd: any = null;
+let AdEventType: any = null;
+let TestIds: any = null;
+
+try {
+    const adsModule = require('react-native-google-mobile-ads');
+    InterstitialAd = adsModule.InterstitialAd;
+    AdEventType = adsModule.AdEventType;
+    TestIds = adsModule.TestIds;
+} catch (error) {
+    console.log('📱 Running in Expo Go - Ads module not available');
+}
+
+
 export function Home({navigation = useNavigation()}: PropsStackNavigation) {
+
+
+    const ADS_AVAILABLE = InterstitialAd !== null;
+    const adUnitId = ADS_AVAILABLE ? TestIds?.INTERSTITIAL : '';
 
     const {
         listGames,
@@ -71,6 +89,58 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
     useEffect(() => {
         refillSwipeGames()
     }, [])
+
+    const [showAdCounter, setShowAdCounter] = useState(0);
+    const [adLoaded, setAdLoaded] = useState(false);
+    const [interstitial, setInterstitial] = useState<any | null>(null);
+
+    useEffect(() => {
+        if (!ADS_AVAILABLE) {
+            return;
+        }
+        const ad = InterstitialAd.createForAdRequest(adUnitId, {
+            requestNonPersonalizedAdsOnly: true,
+        });
+    
+        const unsubscribeLoaded = ad.addAdEventListener(AdEventType.LOADED, () => {
+            console.log('✅ Ad loaded successfully');
+            setAdLoaded(true);
+        });
+    
+        const unsubscribeError = ad.addAdEventListener(AdEventType.ERROR, (error: any) => {
+            console.log('❌ Ad failed to load:', error);
+            setAdLoaded(false);
+        });
+    
+        const unsubscribeClosed = ad.addAdEventListener(AdEventType.CLOSED, () => {
+            console.log('Ad closed, reloading...');
+            setAdLoaded(false);
+            ad.load();
+        });
+    
+        ad.load();
+        setInterstitial(ad);
+    
+        return () => {
+            unsubscribeLoaded();
+            unsubscribeError();
+            unsubscribeClosed();
+        };
+    }, []);
+
+    const showAd = () => {
+        if (!ADS_AVAILABLE) {
+            return;
+        }
+        
+        if (adLoaded && interstitial) {
+            console.log('Showing ad...');
+            interstitial.show();
+        } else {
+            console.log('⚠️ Ad not ready yet, skipping...');
+        }
+    };
+
 
     const renderCard = useCallback((item: Game) => {
         return (
@@ -167,7 +237,6 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                             overlayLabelContainerStyle={styleHome.overlayLabelContainer}
                             swipeVelocityThreshold={1000}
                             prerenderItems={3}
-                            
                             renderCard={renderCard}
                             disableTopSwipe={true}
                             disableBottomSwipe={true}
@@ -199,18 +268,29 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                             onSwipeLeft={(cardIndex) => {
                             }}
                             onSwipedAll={() => {
-                                setTimeout(async () => {
-                                    if (selectedGenres.length === 0 && selectedPlatforms.length === 0 && selectedRating === 70) {
-                                        await refillSwipeGames()
-                                    } else {
-                                        const filters = {
-                                            genres: selectedGenres,
-                                            platforms: selectedPlatforms,
-                                            rating: selectedRating,
+                                setShowAdCounter((prev) => {
+                                    const newCount = prev + 1;
+                                    
+                                    setTimeout(async () => {
+                                        if (newCount === 2) {
+                                            showAd();
+                                            setShowAdCounter(0);
                                         }
-                                        await refillSwipeGamesWithFilters(filters);
-                                    }
-                                }, 350)
+                                        
+                                        if (selectedGenres.length === 0 && selectedPlatforms.length === 0 && selectedRating === 70) {
+                                            await refillSwipeGames()
+                                        } else {
+                                            const filters = {
+                                                genres: selectedGenres,
+                                                platforms: selectedPlatforms,
+                                                rating: selectedRating,
+                                            }
+                                            await refillSwipeGamesWithFilters(filters);
+                                        }
+                                    }, 350);
+                                    
+                                    return newCount === 2 ? 0 : newCount;
+                                });
                             }}
                             OverlayLabelRight={OverlayRight}
                             OverlayLabelLeft={OverlayLeft}

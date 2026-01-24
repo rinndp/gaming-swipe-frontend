@@ -52,9 +52,10 @@ export const welcomeViewModel= () => {
                 const response = await checkIfEmailRegisteredUseCase({email: userData.email});
                 if (response.error) {
                     showCustomToast("Email already registered")
+                    throw registerError;
                 } else {
-                    showCustomToast("Error while registering user")
-                    throw registerError; // ✅ Lanzar error original
+                    showCustomToast("Error while registering user");
+                    throw registerError; 
 
                 }
             }
@@ -73,10 +74,10 @@ export const welcomeViewModel= () => {
                 navigation.navigate('UserNavigation');
             }
         } catch (error) {
-            showCustomToast("Error while signing in with Google")
             throw error;
+        } finally {
+            setShowLoading(false);
         }
-        setShowLoading(false);
     }
 
 

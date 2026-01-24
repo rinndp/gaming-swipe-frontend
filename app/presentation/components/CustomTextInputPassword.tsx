@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
 
     formInput: {
         width:"90%",
-        fontFamily: "zen_kaku_regular"
+        fontFamily: "zen_kaku_regular",
+        color:"black",
     },
 
     formInputContainerPassword: {

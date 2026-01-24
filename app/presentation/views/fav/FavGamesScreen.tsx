@@ -161,6 +161,7 @@ export function FavGamesScreen({navigation = useNavigation()}: PropsStackNavigat
                                       removeClippedSubviews={true}
                                       renderItem={favGameRenderItem}
                                       extraData={favListGames}
+                                      initialScrollIndex={0}
                                       fadingEdgeLength={10}
                                       ListFooterComponent={<Text style={{...styleFav.footerFavGames, display: showLoading ? "none" : "flex"}}>Add more games!</Text>}
                             />

@@ -14,7 +14,7 @@ const stylesTabBar = StyleSheet.create({
 
     textLabels: {
         color: AppColors.green,
-        fontSize: wp("3%"),
+        fontSize: wp("3.5%"),
         fontWeight: "bold",
     },
 

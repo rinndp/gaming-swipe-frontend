@@ -17,7 +17,7 @@ export const searchViewModel = () => {
     const [searchUserText, setSearchUserText] = useState("");
     const [gamesDisplayed, setGamesDisplayed] = useState<Game[]>([]);
     const [searchedUsers, setSearchedUsers] = useState<GetSearchUserInterface[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
@@ -32,7 +32,6 @@ export const searchViewModel = () => {
 
 
     const searchUsers = async (userParameters: UpdateUserDTO) => {
-        setLoading(true);
         if (userParameters.username !== "") {
             const response = await searchUsersUseCase(userParameters);
             setSearchedUsers(response)
@@ -43,7 +42,6 @@ export const searchViewModel = () => {
     }
 
     const searchMostAnticipatedGames = async () => {
-        setLoading(true);
         if (data !== undefined) {
             setGamesDisplayed(data);
         }
@@ -53,11 +51,17 @@ export const searchViewModel = () => {
     const searchGamesByUserInput = async (input: string, page: number = 1, showLoading: boolean) => {
         setLoading(showLoading);
         const response = await searchGamesByUserInputUseCase(input, page);
-        if (page === 1)
+        
+        if (page === 1) {
             setGamesDisplayed(response);
-        else if (page > 1)
-            setGamesDisplayed((prevGames) => [...prevGames, ...response]);
-        setLoading(false)
+        } else if (page > 1) {
+            setGamesDisplayed((prevGames) => {
+                const existingIds = new Set(prevGames.map(g => g.id));
+                const newGames = response.filter(g => !existingIds.has(g.id));
+                return [...prevGames, ...newGames];
+            });
+        }
+        setLoading(false);
     };
 
     const onSearchTextChange = (text: string) => {
@@ -87,15 +91,10 @@ export const searchViewModel = () => {
     }
 
     const loadMoreGames = async () => {
-        if (!loading && gamesDisplayed.length >= 13) {
-            setPage((prevPage) => {
-                const nextPage = prevPage + 1;
-                if (searchText !== "") {
-                    searchGamesByUserInput(searchText, nextPage, false);
-                }
-
-                return nextPage;
-            });
+        if (!loading && gamesDisplayed.length >= 13 && searchText !== "") {
+            const nextPage = page + 1;
+            setPage(nextPage);
+            await searchGamesByUserInput(searchText, nextPage, false);
         }
     };
 

@@ -7,7 +7,7 @@ import {
     from "react-native";
 import {Image} from "expo-image"
 import { CustomTextInputSearch } from "../../components/CustomTextInputSearch";
-import {styleSearch, styleSearchCompanyItem, styleSearchGameItem, styleSearchUserItem} from "./StyleSearch";
+import {styleSearch, styleSearchCompanyItem, styleSearchUserItem} from "./StyleSearch";
 import {Game} from "../../../domain/entities/Game";
 import viewModel, {searchViewModel} from "./ViewModel";
 import {AppColors} from "../../theme/AppTheme";
@@ -35,6 +35,7 @@ import {useUserGamesContext} from "../../provider/GameProvider";
 import {useAnticipatedGames} from "../../hooks/UseAnticipatedGames";
 import {HorizontalFlashList} from "../../components/HorizontalFlashList";
 import { HandleLikeButton } from "../../components/HandleLikeButton";
+import { SearchGameItem } from "../../components/SearchGameItem";
 
 
 export function Search({navigation = useNavigation()}: PropsStackNavigation) {
@@ -88,54 +89,6 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
             <Text style={styleSearchUserItem.name}>{item.username}</Text>
         </TouchableOpacity>
     ), [])
-
-    const searchGameItem = useCallback(({item} : {item:Game}) => (
-        <View style={styleSearchGameItem.gameCard}>
-            <TouchableOpacity onPress={() => navigation.navigate("GameDetails", {gameId : item.id, likeButton: true})}>
-                <Image
-                    source={{
-                        uri: item.cover
-                            ? transformSmallCoverUrl(item.cover.url)
-                            : "https://www.igdb.com/assets/no_cover_show-ef1e36c00e101c2fb23d15bb80edd9667bbf604a12fc0267a66033afea320c65.png"
-                    }}
-                    contentFit="contain"
-                    transition={250}
-                    style={styleSearchGameItem.gameCover}
-                />
-            </TouchableOpacity>
-            <View>
-                <View style={styleSearchGameItem.name_rating}>
-                    <Text style={styleSearchGameItem.gameName}>{item.name}</Text>
-                </View>
-                <View style={styleSearchGameItem.plaformsFlatlistContainer}>
-                    <HorizontalFlashList
-                        data={item.platforms ? item.platforms : []}
-                        style={{minWidth:wp("50%")}}
-                        renderItem={PlatformItem}
-                    />
-                </View>
-            </View>
-            <View style={styleSearchGameItem.thirdColumnContainer}>
-                {item.rating ? (
-                    <Text style={styleSearchGameItem.rating}>{item.rating.toFixed(1)}</Text>
-                ) : (
-                    <>
-                        <View style={styleSearchGameItem.rating}>
-                            <Text style={{width:item.hypes ? "auto" : "100%", fontSize:wp("3%"), textAlign:"center", color: item.hypes ? AppColors.green : AppColors.white}}>
-                                {item.hypes ? item.hypes : "No rate"}</Text>
-                            {item.hypes && (
-                            <Image style={{width:wp("3%"), height:hp("1%"), tintColor: AppColors.green}}
-                                source={require("../../../../assets/hypes-icon.png")}/>
-                            )}
-                        </View>
-                    </>
-
-                )}
-                <HandleLikeButton game={transformGameIntoFavGameInterface(item)} loadFavGames={() => loadFavGames(user?.slug || "")}/>
-                <Text style={styleSearchGameItem.gameReleaseYear}>{item.release_dates?.[0]?.y ?? "TBD"}</Text>
-            </View>
-        </View>
-    ), [transformSmallCoverUrl, navigation])
 
     return (
         <View style={styleSearch.container}>
@@ -200,12 +153,17 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                                         data={gamesDisplayed}
                                         keyExtractor={(item) => item.id.toString()}
                                         fadingEdgeLength={10}
-                                        renderItem={searchGameItem}
+                                        renderItem={({item}) => SearchGameItem({
+                                            item, 
+                                            navigation, 
+                                            loadFavGames: () => loadFavGames(user?.slug || "")
+                                        })}                                        
                                         ListFooterComponent={
                                             <Text style={{...styleFav.footerFavGames, display: gamesDisplayed.length > 0 ? "flex" : "none"}}>No more games</Text>
                                         }
                                         onEndReached={loadMoreGames}
-                                        onEndReachedThreshold={1.5}
+                                        onEndReachedThreshold={0.5}
+                                        getItemType={() => "game"} 
                                         ListEmptyComponent={
                                             <View style={{ alignItems: "center", width: "100%", marginTop: 20 }}>
                                                 <Text style={{ ...styleSearch.emptyFlatListText, display: loading ? "none" : "flex" }}>
