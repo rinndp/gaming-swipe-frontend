@@ -1,9 +1,9 @@
 import {AuthRepository} from "../../../data/repositories/AuthRepository";
-import {LoginUserInterface, RegisterUserInterface, RegisterUserInteface} from "../../entities/User";
+import {LoginUserInterface, RegisterUserInterface} from "../../entities/User";
 
 
 const  {register} = new AuthRepository();
-export const registerUseCase = async (user: RegisterUserInteface) => {
+export const registerUseCase = async (user: RegisterUserInterface) => {
     return await register(user);
 }
 

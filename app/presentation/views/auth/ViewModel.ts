@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {checkIfEmailRegisteredUseCase, registerUseCase} from "../../../domain/usesCases/auth/RegisterAuth";
+import {checkIfEmailRegisteredUseCase, checkIfUsernameRegisteredUseCase, registerUseCase} from "../../../domain/usesCases/auth/RegisterAuth";
 import {RegisterUserInterface} from "../../../domain/entities/User";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
 import {loginAuthUseCase} from "../../../domain/usesCases/auth/LoginAuth";
@@ -28,6 +28,10 @@ export const welcomeViewModel= () => {
             });
 
             const userInfo = await response.json();
+            const responseUsername = await checkIfUsernameRegisteredUseCase({username: userInfo.name});
+            if (responseUsername.error) {
+                userInfo.name = userInfo.name + Math.floor(Math.random() * 1000000);
+            }
             const user: RegisterUserInterface = {
                 email: userInfo.email,
                 username: userInfo.name,

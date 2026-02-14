@@ -37,7 +37,7 @@ export default {
             jsEngine: "hermes",
             privacyPolicyUrl: "https://www.termsfeed.com/live/7f86ce7f-7566-454f-a8da-94d5f0007ef5",
             adaptiveIcon: {
-                foregroundImage: "./assets/logo.png",
+                foregroundImage: "./assets/icon.png",
                 backgroundColor: "#252544"
             },
             package: "com.rinndp.gamingswipe",
