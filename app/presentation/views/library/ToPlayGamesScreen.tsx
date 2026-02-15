@@ -26,7 +26,7 @@ import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {FlashList} from "@shopify/flash-list";
 
 
-export function FavGamesScreen({navigation = useNavigation()}: PropsStackNavigation) {
+export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavigation) {
     const {favListGames,
         loadFavGames,
         showLoading,
@@ -45,7 +45,7 @@ export function FavGamesScreen({navigation = useNavigation()}: PropsStackNavigat
     const [selectedDeleteGameId, setSelectedDeleteGameId] = useState<number | null>(null);
     const [selectedPlayedGameId, setSelectedPlayedGameId] = useState<number | null>(null);
 
-    const favGameRenderItem = useCallback(({ item }: { item: FavGame }) => (
+    const playedGameRenderItem = useCallback(({ item }: { item: FavGame }) => (
         <View
             style={stylesFavGameItem.card}>
             <View style={stylesFavGameItem.container}>
@@ -159,7 +159,7 @@ export function FavGamesScreen({navigation = useNavigation()}: PropsStackNavigat
                             style={{height:"100%"}}>
                             <FlashList data={favListGames}
                                       removeClippedSubviews={true}
-                                      renderItem={favGameRenderItem}
+                                      renderItem={playedGameRenderItem}
                                       extraData={favListGames}
                                       initialScrollIndex={0}
                                       fadingEdgeLength={10}

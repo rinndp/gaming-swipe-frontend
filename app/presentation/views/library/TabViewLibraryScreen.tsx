@@ -10,7 +10,7 @@ import {
     TabBar,
 } from 'react-native-tab-view';
 import {AppColors} from "../../theme/AppTheme";
-import {FavGamesScreen} from "./FavGamesScreen";
+import {ToPlayGamesScreen} from "./ToPlayGamesScreen";
 import {PlayedGamesScreen} from "./PlayedGamesScreen";
 import styleFav from "./StyleFav";
 import stylesTabBar from "./StylesTabBar";
@@ -21,11 +21,11 @@ import AnimatedNumber from "react-native-animated-numbers";
 
 
 const renderScene = SceneMap({
-    favgames: FavGamesScreen,
+    toplaygames: ToPlayGamesScreen,
     playedgames: PlayedGamesScreen,
 });
 
-export default function TabViewFavScreen({}) {
+export default function TabViewLibraryScreen({}) {
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
     const {favListGames, playedListGames} = useUserGamesContext()
@@ -63,8 +63,8 @@ export default function TabViewFavScreen({}) {
     );
 
     const [routes] = React.useState([
-        { key: 'favgames', title: 'I want them' },
-        { key: 'playedgames', title: 'I played them' },
+        { key: 'toplaygames', title: 'To play' },
+        { key: 'playedgames', title: 'Played' },
     ]);
 
     return (

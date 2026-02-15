@@ -1,6 +1,6 @@
 import {Home} from "../views/home/Home";
 import {Image, Platform, StyleSheet} from "react-native";
-import TabViewFavScreen from "../views/fav/TabViewFavScreen";
+import TabViewLibraryScreen from "../views/library/TabViewLibraryScreen";
 import {Search} from "../views/search/Search";
 import {Account} from "../views/account/Account";
 import {AppColors} from "../theme/AppTheme";
@@ -32,13 +32,13 @@ export function UserNavigation ({navigation = useNavigation()}: PropsStackNaviga
                         style={stylesTabBarItems.item}/>
                 )}}
                         component={Home} />
-            <Tab.Screen name="Fav" options={{title:"Library",
+            <Tab.Screen name="Library" options={{title:"Library",
                 tabBarIcon: ({color})=>(
                     <Image
                         source={require("../../../assets/heart.png")}
                         style={stylesTabBarItems.item}/>
                 )}}
-                        component={TabViewFavScreen} />
+                        component={TabViewLibraryScreen} />
             <Tab.Screen name="Search" options={{title:"Search",
                 tabBarIcon: ({color})=>(
                     <Image

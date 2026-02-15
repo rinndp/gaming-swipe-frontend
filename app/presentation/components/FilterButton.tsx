@@ -35,24 +35,24 @@ function FilterModal({ onApply, selectedGenre, selectedPlatform, selectedRating}
 
     const {data, isLoading, error} = useGenres()
 
-    useFocusEffect(
-        useCallback(() => {
+    useEffect(() => {
         const fetchFilters = async () => {
             try {
-                setLoading(true);
-                setCategories(data ? data : []);
-                setPlatforms(popularPlatforms);
-                setSelectedPlatformsInModal(selectedPlatform);
-                setSelectedGenresInModal(selectedGenre);
-                setSelectedRatingInModal(selectedRating);
-                setLoading(false);
+                if (!isLoading && data) {
+                    setCategories(data);
+                    setPlatforms(popularPlatforms);
+                    setSelectedPlatformsInModal(selectedPlatform);
+                    setSelectedGenresInModal(selectedGenre);
+                    setSelectedRatingInModal(selectedRating);
+                }
             } catch (err) {
                 console.log('Error fetching filters:', err);
+            } finally {
                 setLoading(false);
             }
         };
         fetchFilters();
-    }, []));
+    }, [isLoading]);
 
     const renderOptions = (data: Platform[], selecteds: Platform [], setSelected: (val: Platform []) => void) => (
         <View style={styles.optionsContainer}>

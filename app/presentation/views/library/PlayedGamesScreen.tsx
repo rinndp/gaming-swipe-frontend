@@ -21,7 +21,7 @@ import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import styleAccount from "../account/StyleAccount";
 import {PropsStackNavigation} from "../../interfaces/StackNav";
-import {stylesFavGameItem} from "./FavGamesScreen";
+import {stylesFavGameItem} from "./ToPlayGamesScreen";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {FlashList} from "@shopify/flash-list";
 
@@ -43,7 +43,7 @@ export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavi
 
     const [selectedGameId, setSelectedGameId] = useState<number | null>(null);
 
-    const favGameRenderItem = useCallback(({ item }: { item: FavGame }) => (
+    const toPlayGameRenderItem = useCallback(({ item }: { item: FavGame }) => (
         <View style={stylesFavGameItem.card}>
             <View style={stylesFavGameItem.container}>
                 <TouchableOpacity onPress={() => navigation.navigate("GameDetails", {gameId : item.id_api, likeButton: false})}>
@@ -111,7 +111,7 @@ export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavi
                     <View style={{height:"100%"}}>
                         <FlashList data={playedListGames}
                                   removeClippedSubviews={true}
-                                  renderItem={favGameRenderItem}
+                                  renderItem={toPlayGameRenderItem}
                                   extraData={playedListGames}
                                   initialScrollIndex={0}
                                   fadingEdgeLength={10}

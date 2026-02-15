@@ -3,7 +3,7 @@ import {useState} from "react";
 import {Game, GameDetailsInterface, Genre, GenreDTO, Platform} from "../../../domain/entities/Game";
 import {ApiDelivery} from "../../../data/sources/remote/api/ApiDelivery";
 import {FavGame} from "../../../domain/entities/FavGame";
-import viewModel from "../fav/ViewModel";
+import viewModel from "../library/ViewModel";
 import {refillGamesFromSwiperUseCase} from "../../../domain/usesCases/home/RefillGamesFromSwiper";
 import {addGameToFavoriteUseCase} from "../../../domain/usesCases/home/AddGameToFavorite";
 import {refillGamesFromSwiperWithFiltersUseCase} from "../../../domain/usesCases/home/RefillGamesFromSwiperWithFilters";

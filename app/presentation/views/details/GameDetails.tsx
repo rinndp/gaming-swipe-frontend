@@ -21,7 +21,7 @@ import {Cover, Game, GameDetailsInterface, Genre, Platform, SimilarGame} from ".
 import {GenreItem} from "../../components/GenreItem";
 import YoutubePlayer from "react-native-youtube-iframe";
 import {styleGameDetails, styleSimilarGame} from "./StyleGameDetails";
-import viewModelFav from "../fav/ViewModel";
+import viewModelFav from "../library/ViewModel";
 import {styleSearch} from "../search/StyleSearch";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
 import {AppColors} from "../../theme/AppTheme";

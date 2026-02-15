@@ -11,15 +11,15 @@ import {styleSearch, styleSearchCompanyItem, styleSearchUserItem} from "./StyleS
 import {Game} from "../../../domain/entities/Game";
 import viewModel, {searchViewModel} from "./ViewModel";
 import {AppColors} from "../../theme/AppTheme";
-import styleFav from "../fav/StyleFav";
+import styleFav from "../library/StyleFav";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import {FavGamesScreen} from "../fav/FavGamesScreen";
+import {ToPlayGamesScreen} from "../library/ToPlayGamesScreen";
 import FiltroComponent from "../../components/FilterButton";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {PropsStackNavigation} from "../../interfaces/StackNav";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
 import viewModelHome, {homeViewModel} from "../home/ViewModel";
-import viewModelFav, {favScreenViewModel} from "../fav/ViewModel";
+import viewModelFav, {favScreenViewModel} from "../library/ViewModel";
 import {PlatformItem} from "../../components/PlatformItem";
 import Toast from "react-native-toast-message";
 import {CompanyDetailsInterface} from "../../../domain/entities/Company";
