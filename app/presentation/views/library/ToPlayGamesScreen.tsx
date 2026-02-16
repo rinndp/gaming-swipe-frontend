@@ -117,7 +117,7 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
                     >
                         <View style={styleAccount.centeredView}>
                             <View style={styleAccount.modalView}>
-                                <Text style={{...styleAccount.textPopUp, color: AppColors.green}}>Do you have this game?</Text>
+                                <Text style={{...styleAccount.textPopUp, color: AppColors.green}}>Have you played this game?</Text>
                                 <Text style={styleAccount.gameNamePopUp}>{item.name}</Text>
                                 <View style={styleAccount.containerButton}>
                                     <TouchableOpacity

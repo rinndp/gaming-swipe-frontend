@@ -42,14 +42,17 @@ export default {
             },
             package: "com.rinndp.gamingswipe",
             permissions: [
-                "android.permission.RECORD_AUDIO"
+                "android.permission.RECORD_AUDIO",
+                "com.google.android.gms.permission.AD_ID" 
             ],
             config: {
                 googleSignIn: {
                     apiKey: process.env.GOOGLE_APY_KEY,
                     certificateHash: process.env.ANDROID_HASH
                 }
-            }
+            },
+            enableProguardInReleaseBuilds: true,
+            enableShrinkResourcesInReleaseBuilds: true
         },
         web: {
             favicon: "./assets/favicon.png"

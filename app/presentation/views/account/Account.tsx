@@ -214,14 +214,14 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
 
                                 </View>
                             </View>
-                            <View style={styleAccount.containerLogOut}>
+                            <TouchableOpacity style={styleAccount.containerLogOut}>
                                 <Image source={require("../../../../assets/log-out-icon.png")}
                                        style={styleAccount.logOutIcon}
                                 />
                                 <Text style={styleAccount.LogOut} onPress={() => {
                                     deleteSession().then(r => navigation.replace("WelcomeScreen"))}
                                 }> Log out</Text>
-                            </View>
+                            </TouchableOpacity>
                         </Animated.View>
                         </View>
                     </>

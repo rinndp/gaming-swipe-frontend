@@ -88,7 +88,7 @@ function FilterModal({ onApply, selectedGenre, selectedPlatform, selectedRating}
         setSelectedRatingInModal(70)
     }
 
-    const nullFilters = selectedGenre.length === 0 && selectedPlatform.length === 0 && selectedRating === 70
+    const nullFilters = selectedGenre.length === 0 && selectedPlatform.length === 0 && selectedRating === 50
 
     return (
         <View style={styles.container}>

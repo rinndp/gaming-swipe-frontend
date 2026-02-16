@@ -36,7 +36,7 @@ export const homeViewModel = () => {
     let [showLoading, setShowLoading] = useState(true);
     let [selectedPlatforms, setSelectedPlatforms] = useState<Platform[]>([]);
     let [selectedGenres, setSelectedGenres] = useState<Platform[]>([]);
-    let [selectedRating, setSelectedRating] = useState<number>(70);
+    let [selectedRating, setSelectedRating] = useState<number>(50);
     let [swipesCounter, setSwipesCounter] = useState(0);
     let [userLikedSimilarGames, setUserLikedSimilarGames] = useState<Game[]>([]);
 
