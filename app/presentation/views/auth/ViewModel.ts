@@ -28,13 +28,28 @@ export const welcomeViewModel= () => {
             });
 
             const userInfo = await response.json();
-            const responseUsername = await checkIfUsernameRegisteredUseCase({username: userInfo.name});
-            if (responseUsername.error) {
-                userInfo.name = userInfo.name + Math.floor(Math.random() * 1000000);
+
+            let username = userInfo.name;
+            let isAvailable = false;
+            let attempts = 0;
+
+            while (!isAvailable && attempts < 10) {
+                try {
+                    await checkIfUsernameRegisteredUseCase({username}, false);
+                    isAvailable = true;
+                } catch (error) {
+                    username = `${userInfo.name}${Math.floor(Math.random() * 1000)}`;
+                    attempts++;
+                }
             }
+
+            if (!isAvailable) {
+                throw new Error('Could not generate unique username');
+            }
+
             const user: RegisterUserInterface = {
                 email: userInfo.email,
-                username: userInfo.name,
+                username: username,
                 google_id: userInfo.id,
             }
             return Promise.resolve(user);

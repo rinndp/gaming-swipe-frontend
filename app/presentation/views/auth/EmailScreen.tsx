@@ -30,7 +30,11 @@ export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation
         } if (!validateEmail(value)) {
             setErrorMessage("Email is not valid")
             return false
+        } if (value.toLowerCase().includes("@example.")) {
+            setErrorMessage("Example emails are not allowed")
+            return false
         }
+
         if (!login) {
             const response = await checkIfEmailRegisteredUseCase({email: value});
             if (response.error) {

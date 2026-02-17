@@ -13,6 +13,6 @@ export const checkIfEmailRegisteredUseCase = async (email: LoginUserInterface) =
 }
 
 const  {checkIfUsernameRegistered} = new AuthRepository();
-export const checkIfUsernameRegisteredUseCase = async (username: RegisterUserInterface) => {
-    return await checkIfUsernameRegistered(username);
+export const checkIfUsernameRegisteredUseCase = async (username: RegisterUserInterface, showToast?: boolean) => {
+    return await checkIfUsernameRegistered(username, showToast);
 }

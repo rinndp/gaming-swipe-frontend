@@ -51,13 +51,15 @@ export class AuthRepository implements AuthRepositoryInterface {
         }
     }
 
-    async checkIfUsernameRegistered(username: RegisterUserInterface): Promise<ApiDeliveryResponse> {
+    async checkIfUsernameRegistered(username: RegisterUserInterface, showToast?: boolean): Promise<ApiDeliveryResponse> {
         try {
             const response = await ApiDelivery.post("users/check-if-username-registered/", username);
             return Promise.resolve(response.data);
         } catch (error) {
             let e = (error as AxiosError <{error: string}>)
-            showCustomToast(e.response?.data.error)
+            if (showToast !== false) {
+                showCustomToast(e.response?.data.error)
+            }
             return Promise.reject(e.response?.data);
         }
     }
