@@ -40,24 +40,23 @@ export const homeViewModel = () => {
     let [swipesCounter, setSwipesCounter] = useState(0);
     let [userLikedSimilarGames, setUserLikedSimilarGames] = useState<Game[]>([]);
 
-    const {favListGames} = viewModel.favScreenViewModel();
 
     const refillSwipeGames = async () => {
         setShowLoading(true);
-        const response = await refillGamesFromSwiperUseCase()
+        const response = await refillGamesFromSwiperUseCase();
     
         setUserLikedSimilarGames((prevSimilarGames) => {            
             if (prevSimilarGames.length > 0) {
                 const gamesToAdd = prevSimilarGames.slice(0, 5);
-                setListGames([...gamesToAdd, ...response]);
+                setListGames([...gamesToAdd, ...response]); 
                 return prevSimilarGames.slice(5);
             } else {
-                setListGames(response);
+                setListGames(response); 
                 return prevSimilarGames;
             }
         });
         setShowLoading(false);
-    }
+    };
 
     const getSimilarGamesFromGame = async (gameId: number) => {
         return await getSimilarGamesFromGameUseCase(gameId)

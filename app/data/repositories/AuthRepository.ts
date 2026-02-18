@@ -28,14 +28,16 @@ export class AuthRepository implements AuthRepositoryInterface {
         }
     }
 
-    async login(user: LoginUserInterface): Promise<LoggedUserInterface> {
+    async login(user: LoginUserInterface, showToast?: boolean): Promise<LoggedUserInterface> {
         try {
             const response = await ApiDelivery.post("users/login", user);
             return Promise.resolve(response.data);
         } catch (error) {
             let e = (error as AxiosError <{error:string}>)
             console.log(e.response?.data.error);
-            showCustomToast(e.response?.data.error)
+            if (showToast !== false) {
+                showCustomToast(e.response?.data.error)
+            }
             return Promise.reject(e.response?.data.error);
         }
     }

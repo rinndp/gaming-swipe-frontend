@@ -97,10 +97,10 @@ export function UserDetails ({navigation = useNavigation()}: PropsStackNavigatio
                         </View>
                         <Animated.View
                             entering={FadeInDown.duration(800)}
-                            style={{paddingHorizontal: wp("3%")}}>
+                            style={{paddingHorizontal: wp("3%"), paddingBottom: hp("4%")}}>
                             {favGames.length > 0 && (
                                 <View>
-                                    <Text style={{...styleGameDetails.infoTitles, textAlign: "center"}}>Favorites games</Text>
+                                    <Text style={{...styleGameDetails.infoTitles, textAlign: "center"}}>Games to play</Text>
                                     <HorizontalFlashList data={favGames} renderItem={favGameItem} />
                                 </View>
                             )}

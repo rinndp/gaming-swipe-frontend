@@ -62,7 +62,7 @@ export const welcomeViewModel= () => {
 
     const handleUserAuth = async (userData: any) => {
         try {
-            return await loginAuthUseCase(userData);;
+            return await loginAuthUseCase(userData, false);;
         } catch (loginError) {
             try {
                 await registerUseCase(userData);

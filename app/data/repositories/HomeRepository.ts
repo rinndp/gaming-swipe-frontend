@@ -6,6 +6,7 @@ import {AxiosError} from "axios";
 import {Game, GameSimilarGames, Platform} from "../../domain/entities/Game";
 import {FavGame} from "../../domain/entities/FavGame";
 import Toast from "react-native-toast-message";
+import { DEFAULT_RATING } from "../../presentation/components/FilterButton";
 
 const SWIPE_GAMES_CALLED_FROM_API = 15
 const NOT_NULL_FIELDS_GAME_QUERY = "& genres != null & platforms != null & cover != null;"
@@ -30,7 +31,7 @@ export class HomeRepository implements HomeRepositoryInterface {
 
     refillGamesFromSwiper= async (): Promise<Game[]> => {
         try {
-            const query = `where rating >= 70 ${NOT_NULL_FIELDS_GAME_QUERY}`
+            const query = `where rating >= ${DEFAULT_RATING} ${NOT_NULL_FIELDS_GAME_QUERY}`
             const maxGames = await IgdbApiDelivery.post(
                 "/games/count", query)
 
@@ -59,7 +60,7 @@ export class HomeRepository implements HomeRepositoryInterface {
             const decimalRating = rating-1;
             let query = ""
             let response
-            if (genres.length === 0 && platforms.length === 0 && rating === 70) {
+            if (genres.length === 0 && platforms.length === 0 && rating === DEFAULT_RATING) {
                 response = await this.refillGamesFromSwiper()
                 return Promise.resolve(response)
             }

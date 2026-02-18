@@ -8,7 +8,6 @@ import {
 import stylesHome from "./StyleHome";
 import {Text} from "react-native"
 import React, {useEffect, useState, useCallback, useRef} from "react";
-import {CardItemHandle, TinderCard} from "rn-tinder-card";
 import styleHome from "./StyleHome";
 import viewModel from "./ViewModel";
 import {
@@ -22,19 +21,17 @@ import {useNavigation} from "@react-navigation/native";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {Swiper, type SwiperCardRefType} from "rn-swiper-list";
 import {AppColors} from "../../theme/AppTheme";
-import {styles} from "react-native-toast-message/lib/src/components/BaseToast.styles";
 import {GenreItem} from "../../components/GenreItem";
 import {PlatformItem} from "../../components/PlatformItem";
 import {NopeButton, stylesNopeButton} from "../../components/NopeButton";
 import {LikeButton, stylesLikeButton} from "../../components/LikeButton";
-import FilterButton from "../../components/FilterButton";
+import FilterButton, { DEFAULT_RATING } from "../../components/FilterButton";
 import {RewindButton} from "../../components/RewindButton";
 import {NO_GAMES_IMAGE_URL, NO_IMAGE_URL, transformCoverUrl} from "../../utils/TransformCoverUrls";
 import {generateNoGamesFoundCard, NO_GAMES_FOUND_LABEL} from "../../utils/NoGameFoundWithThisFilters";
 import {Image} from "expo-image"
 import {HorizontalFlashList} from "../../components/HorizontalFlashList";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
-
 
 function FiltroComponent(props: {
     onApply: (filters: { category: string | null; platform: string | null }) => Promise<void>,
@@ -270,14 +267,14 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                             onSwipedAll={() => {
                                 setShowAdCounter((prev) => {
                                     const newCount = prev + 1;
-                                    
+                                
                                     setTimeout(async () => {
                                         if (newCount === 2) {
                                             showAd();
                                             setShowAdCounter(0);
                                         }
                                         
-                                        if (selectedGenres.length === 0 && selectedPlatforms.length === 0 && selectedRating === 70) {
+                                        if (selectedGenres.length === 0 && selectedPlatforms.length === 0 && selectedRating === DEFAULT_RATING) {
                                             await refillSwipeGames()
                                         } else {
                                             const filters = {

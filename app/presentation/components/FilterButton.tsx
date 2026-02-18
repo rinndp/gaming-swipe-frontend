@@ -22,7 +22,10 @@ interface FilterModalProps {
     selectedPlatform: Platform [];
     selectedGenre: Platform [];
     selectedRating: number;
+    
 }
+
+export const DEFAULT_RATING = 50;
 
 function FilterModal({ onApply, selectedGenre, selectedPlatform, selectedRating}: FilterModalProps) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -85,10 +88,10 @@ function FilterModal({ onApply, selectedGenre, selectedPlatform, selectedRating}
     const clearFilters = () => {
         setSelectedGenresInModal([])
         setSelectedPlatformsInModal([])
-        setSelectedRatingInModal(70)
+        setSelectedRatingInModal(DEFAULT_RATING)
     }
 
-    const nullFilters = selectedGenre.length === 0 && selectedPlatform.length === 0 && selectedRating === 50
+    const nullFilters = selectedGenre.length === 0 && selectedPlatform.length === 0 && selectedRating === DEFAULT_RATING
 
     return (
         <View style={styles.container}>

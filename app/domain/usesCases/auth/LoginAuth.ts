@@ -5,6 +5,6 @@ import {LoginUserInterface} from "../../entities/User";
 
 const {login} = new AuthRepository();
 
-export const loginAuthUseCase = async (user: LoginUserInterface) => {
-    return await login(user);
+export const loginAuthUseCase = async (user: LoginUserInterface, showToast?: boolean) => {
+    return await login(user, showToast);
 }

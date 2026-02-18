@@ -27,6 +27,7 @@ import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {useCompanyDetails} from "../../hooks/UseCompanyDetails";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
+import { HorizontalFlashList } from "../../components/HorizontalFlashList";
 
 
 
@@ -53,66 +54,12 @@ export function CompanyDetails ({navigation = useNavigation()}: PropsStackNaviga
         }
     }, [isLoading]);
 
-    const ITEMS_PER_PAGE = 15;
 
-    const [developedGames, setDevelopedGames] = useState<SimilarGame[]>([]);
-    const [pageDevelopedGames, setPageDevelopedGames] = useState(1);
-    const [loadingMoreDevelopedGames, setLoadingMoreDevelopedGames] = useState(false);
+    const developedGames = companyDetails?.developed;
+    const publishedGames = companyDetails?.published;
 
-    const [publishedGames, setPublishedGames] = useState<SimilarGame[]>([]);
-    const [pagePublishedGames, setPagePublishedGames] = useState(1);
-    const [loadingMorePublishedGames, setLoadingMorePublishedGames] = useState(false);
 
-    const loadMoreDevelopedGames = () => {
-        if (!loadingMoreDevelopedGames) {
-            setLoadingMoreDevelopedGames(true);
-
-            const start = (pageDevelopedGames - 1) * ITEMS_PER_PAGE;
-            const end = start + ITEMS_PER_PAGE;
-            const newItems = companyDetails?.developed.slice(start, end);
-
-            if (newItems != undefined && newItems.length > 0) {
-                setTimeout(() => {
-                    if (newItems != undefined)
-                        setDevelopedGames((prev) => [...prev, ...newItems]);
-                    setPageDevelopedGames((prev) => prev + 1);
-                    setLoadingMoreDevelopedGames(false);
-                }, 500);
-            }
-            setLoadingMoreDevelopedGames(false);
-            return;
-        }
-    };
-
-    const loadMorePublishedGames = () => {
-        if (!loadingMorePublishedGames) {
-            setLoadingMorePublishedGames(true);
-
-            const start = (pagePublishedGames - 1) * ITEMS_PER_PAGE;
-            const end = start + ITEMS_PER_PAGE;
-            const newItems = companyDetails?.published.slice(start, end);
-
-            if (newItems != undefined && newItems.length > 0) {
-                setTimeout(() => {
-                    if (newItems != undefined)
-                        setPublishedGames((prev) => [...prev, ...newItems]);
-                    setPagePublishedGames((prev) => prev + 1);
-                    setLoadingMorePublishedGames(false);
-                }, 500);
-            }
-            setLoadingMorePublishedGames(false);
-            return;
-        }
-    };
-
-    useEffect(() => {
-        if (companyDetails?.developed != undefined)
-            loadMoreDevelopedGames()
-        if (companyDetails?.published != undefined)
-            loadMorePublishedGames()
-    }, [showLoading]);
-
-    const developedGameItem = useCallback(({item} : {item:SimilarGame}) => (
+    const gameItem = useCallback(({item} : {item:SimilarGame}) => (
         <View style={{...styleSimilarGame.card, backgroundColor: AppColors.buttonBackground}}>
             <TouchableOpacity onPress={() => {navigation.push("GameDetails", {gameId : item.id, likeButton: true})}}>
                 <Image
@@ -184,34 +131,14 @@ export function CompanyDetails ({navigation = useNavigation()}: PropsStackNaviga
                                 {companyDetails?.developed && (
                                     <View>
                                         <Text style={styleGameDetails.infoTitles}>Developed games</Text>
-                                        <FlashList
-                                            data={developedGames}
-                                            renderItem={developedGameItem}
-                                            fadingEdgeLength={5}
-                                            keyExtractor={(item) => item.id.toString()}
-                                            onEndReached={loadMoreDevelopedGames}
-                                            onEndReachedThreshold={1.5}
-                                            showsHorizontalScrollIndicator={false}
-                                            ListFooterComponent={loadingMoreDevelopedGames ? <ActivityIndicator size="large" color={AppColors.white} style={{marginTop: hp("2%")}} /> : null}
-                                            horizontal={true}
-                                        />
+                                        <HorizontalFlashList data={developedGames || []} renderItem={gameItem} />
                                     </View>
                                 )}
 
                                 {companyDetails?.published && (
                                     <View>
                                         <Text style={{...styleGameDetails.infoTitles, marginTop: wp("-4%")}}>Published games</Text>
-                                        <FlashList
-                                            data={publishedGames}
-                                            renderItem={developedGameItem}
-                                            fadingEdgeLength={5}
-                                            keyExtractor={(item) => item.id.toString()}
-                                            onEndReached={loadMorePublishedGames}
-                                            onEndReachedThreshold={1.5}
-                                            showsHorizontalScrollIndicator={false}
-                                            ListFooterComponent={loadingMorePublishedGames ? <ActivityIndicator size="large" color={AppColors.white} /> : null}
-                                            horizontal={true}
-                                        />
+                                        <HorizontalFlashList data={publishedGames || []} renderItem={gameItem} />
                                     </View>
                                 )}
                             </Animated.View>
