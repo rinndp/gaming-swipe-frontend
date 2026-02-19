@@ -72,7 +72,7 @@ const styleSearch = StyleSheet.create({
     },
 
     resultText: {
-        fontSize: wp("4%"),
+        fontSize: wp("4.4%"),
         color: "#fff",
         height: 28,
         verticalAlign: "middle",

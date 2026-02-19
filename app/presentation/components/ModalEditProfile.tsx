@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Alert, Modal, StyleSheet, Text, Pressable, View, Image} from 'react-native';
+import {Alert, Modal, StyleSheet, Pressable, View, Image} from 'react-native';
+import {Text} from './Text';
 import {AppColors} from "../theme/AppTheme";
 
 interface Props {

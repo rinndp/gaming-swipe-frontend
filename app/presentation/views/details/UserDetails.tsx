@@ -4,10 +4,10 @@ import {
     ActivityIndicator,
     Image,
     ScrollView,
-    Text,
     TouchableOpacity,
     View
 } from "react-native";
+import {Text} from "../../components/Text";
 import {
     heightPercentageToDP as hp,
     widthPercentageToDP,

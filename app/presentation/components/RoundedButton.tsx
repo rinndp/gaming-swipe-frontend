@@ -1,5 +1,6 @@
 import React from "react";
-import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, StyleSheet, TouchableOpacity, View} from "react-native";
+import {Text} from "./Text";
 import {AppColors} from "../theme/AppTheme";
 import {
     widthPercentageToDP as wp,

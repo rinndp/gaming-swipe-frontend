@@ -1,11 +1,11 @@
 import {
     Animated as Ani,
     ScrollView,
-    Text,
     Platform as Plat,
     TouchableOpacity, useWindowDimensions,
     View
 } from "react-native";
+import {Text} from "../../components/Text";
 import {Image, ImageSource} from "expo-image"
 import {RouteProp, useFocusEffect, useNavigation, useRoute} from "@react-navigation/native";
 import {RootStackParamsList} from "../../../../App";

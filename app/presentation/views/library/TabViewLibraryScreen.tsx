@@ -2,8 +2,9 @@ import * as React from 'react';
 import {widthPercentageToDP as wp} from "react-native-responsive-screen";
 import {
     View,
-    useWindowDimensions, Text,
+    useWindowDimensions,
 } from 'react-native';
+import {Text} from "../../components/Text";
 import {
     TabView,
     SceneMap,

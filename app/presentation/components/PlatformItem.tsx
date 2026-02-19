@@ -1,4 +1,5 @@
-import {Dimensions, Text, View} from "react-native";
+import {Dimensions, View} from "react-native";
+import {Text} from "./Text";
 import {Platform} from "../../domain/entities/Game";
 import {StyleSheet} from "react-native";
 import {AppColors} from "../theme/AppTheme";

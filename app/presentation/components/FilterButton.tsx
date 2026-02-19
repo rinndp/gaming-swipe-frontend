@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
     View,
-    Text,
     TouchableOpacity,
     Modal,
     StyleSheet,
     ActivityIndicator,
     ScrollView, Image,
 } from 'react-native';
+import {Text} from "./Text";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { IgdbApiDelivery } from '../../data/sources/remote/igdbAPI/IgdbApiDelivery';
 import {AppColors} from "../theme/AppTheme";

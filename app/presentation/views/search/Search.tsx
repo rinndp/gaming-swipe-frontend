@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {
-    Text,
     View,
     Keyboard, ActivityIndicator, TouchableOpacity,
 }
     from "react-native";
+import {Text} from "../../components/Text";
 import {Image} from "expo-image"
 import { CustomTextInputSearch } from "../../components/CustomTextInputSearch";
 import {styleSearch, styleSearchCompanyItem, styleSearchUserItem} from "./StyleSearch";
@@ -139,7 +139,7 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                             ) : (
                                 <Animated.Text
                                     entering={FadeInLeft.duration(800)}
-                                    style={styleSearch.resultText}><Text style={{...styleSearch.resultText, fontFamily: "zen_kaku_medium", fontSize: wp("4.4")}}>TOP 15</Text>   Most anticipated games</Animated.Text>
+                                    style={styleSearch.resultText}><Text style={{...styleSearch.resultText, fontFamily: "zen_kaku_medium", fontSize: wp("4.9")}}>TOP 15</Text>   Most anticipated games</Animated.Text>
                             )}
                         </View>
                         <View style={styleSearch.gameCardsContainer}>

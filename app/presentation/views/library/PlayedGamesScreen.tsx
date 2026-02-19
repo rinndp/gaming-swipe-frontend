@@ -3,10 +3,10 @@ import {
     FlatList,
     ImageBackground, Modal, Pressable,
     StyleSheet,
-    Text,
     TouchableOpacity,
     View
 } from "react-native";
+import {Text} from "../../components/Text";
 import {Image} from "expo-image"
 import stylesHome from "../home/StyleHome";
 import styleFav from "./StyleFav";

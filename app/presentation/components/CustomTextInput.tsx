@@ -1,5 +1,6 @@
 import React from "react";
-import {Image, KeyboardType, StyleSheet, Text, TextInput, View} from "react-native";
+import {Image, KeyboardType, StyleSheet, TextInput, View} from "react-native";
+import {Text} from "./Text";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,

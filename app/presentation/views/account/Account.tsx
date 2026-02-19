@@ -2,11 +2,11 @@ import {
     Alert,
     Modal, Platform,
     SafeAreaView, StyleSheet,
-    Text,
     TextInput,
     TouchableOpacity,
     View
 } from "react-native";
+import {Text} from "../../components/Text";
 import {Image} from "expo-image";
 import styleAccount from "./StyleAccount";
 import viewModel, {accountViewModel} from "./ViewModel";

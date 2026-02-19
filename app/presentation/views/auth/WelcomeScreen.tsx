@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
-import {ImageBackground, Text, View} from "react-native";
+import {ImageBackground, View} from "react-native";
+import {Text} from "../../components/Text";
 import styles from "./StylesAuthViews";
 import {RoundedButton} from "../../components/RoundedButton";
 import {welcomeViewModel} from "./ViewModel";

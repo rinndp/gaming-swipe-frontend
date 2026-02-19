@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import {Image, KeyboardType, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Image, KeyboardType, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
+import {Text} from "./Text";
 import {stylesCustomTextInput} from "./CustomTextInput";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {validateEmail} from "../utils/ValidateEmail";

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {ImageBackground, Text, TouchableOpacity, View} from "react-native";
+import {ImageBackground, TouchableOpacity, View} from "react-native";
+import {Text} from "../../components/Text";
 import {CustomTextInput} from "../../components/CustomTextInput";
 import {RoundedButton} from "../../components/RoundedButton";
 import {PropsStackNavigation} from "../../interfaces/StackNav";

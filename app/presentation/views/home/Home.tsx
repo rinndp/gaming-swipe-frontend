@@ -6,7 +6,7 @@ import {
     TouchableOpacity, FlatList, InteractionManager, ScrollView,
 } from "react-native";
 import stylesHome from "./StyleHome";
-import {Text} from "react-native"
+import {Text} from "../../components/Text"
 import React, {useEffect, useState, useCallback, useRef} from "react";
 import styleHome from "./StyleHome";
 import viewModel from "./ViewModel";

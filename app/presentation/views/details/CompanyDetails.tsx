@@ -3,10 +3,10 @@ import {PropsStackNavigation} from "../../interfaces/StackNav";
 import {
     ActivityIndicator,
     ScrollView,
-    Text,
     TouchableOpacity,
     View
 } from "react-native";
+import {Text} from "../../components/Text";
 import {Image} from "expo-image";
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import {companyDetailsViewModel} from "./ViewModel";
