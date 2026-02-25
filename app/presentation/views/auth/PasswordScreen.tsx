@@ -20,8 +20,10 @@ import {saveUserUseCase} from "../../../domain/usesCases/user-local/SaveUser";
 import {saveTokens} from "../../../data/sources/local/secure/TokenStorage";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
 import {showCustomToast} from "../../utils/ShowCustomToast";
+import { useTheme } from "../../theme/ThemeContext";
 
 export function PasswordScreen({navigation = useNavigation()}: PropsStackNavigation) {
+    const { colors, theme } = useTheme();
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [showLoading, setShowLoading] = useState<boolean>(false);
 
@@ -89,21 +91,21 @@ export function PasswordScreen({navigation = useNavigation()}: PropsStackNavigat
         }, [errorMessage]);
 
         return (
-            <View style={stylesAuthViews.container}>
+            <View style={stylesAuthViews(colors).container}>
                 <TouchableOpacity onPress={() => navigation.goBack()}
-                                  style={{...styleGameDetails.goBackIconTouchable, bottom: hp("90%")}}>
+                                  style={{...styleGameDetails(colors).goBackIconTouchable, bottom: hp("89%")}}>
                     <Image source={require("../../../../assets/go-back-icon.png")}
                            cachePolicy={"memory-disk"}
                            contentFit={"contain"}
-                           style={styleGameDetails.goBackIcon}/>
+                           style={styleGameDetails(colors).goBackIcon}/>
                 </TouchableOpacity>
                 <View style={{marginTop: hp("7%"), alignItems: "center"}}>
                     <Image
-                        style={{width: wp("9%"), height: hp("5%")}}
+                        style={{width: wp("9%"), height: hp("5%"), tintColor: colors.white}}
                         source={require('../../../../assets/logo.png')}/>
                     <View style={{marginTop: hp("2%"), gap: hp("2%")}}>
                         <Text
-                            style={stylesAuthViews.h2}>{login ? "Introduce your password" : "Choose a password"}</Text>
+                            style={stylesAuthViews(colors).h2}>{login ? "Introduce your password" : "Choose a password"}</Text>
                         <CustomTextInputPassword
                             label={login && loginValues?.email ? loginValues.email : "Password"}
                             keyboardType={"default"}
@@ -112,7 +114,7 @@ export function PasswordScreen({navigation = useNavigation()}: PropsStackNavigat
                             onChangeText={(text) => onChangeDynamic(login, "password", text)}/>
                         {!login && (
                             <>
-                                <Text style={styles.passwordHint}>Password must have at least 8
+                                <Text style={stylesAuthViews(colors).passwordHint}>Password must have at least 8
                                     characters</Text>
                                 <CustomTextInputPassword label={"Confirm password"}
                                                          keyboardType={"default"}
@@ -121,7 +123,7 @@ export function PasswordScreen({navigation = useNavigation()}: PropsStackNavigat
                             </>
                         )}
                         <RoundedButton
-                            backgroundColor={AppColors.buttonBackground}
+                            backgroundColor={colors.buttonBackground}
                             text={login ? "Sign in" : "Continue"}
                             loading={showLoading}
                             onPressFromInterface={() => handleContinue(

@@ -3,28 +3,25 @@ import {AppColors, AppFonts} from "../../theme/AppTheme";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
-const stylesAuthViews = StyleSheet.create({
+const stylesAuthViews = (colors: any) => StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: colors.backgroundColor,
     },
 
     welcomeText: {
         fontSize: wp("10%"),
-        color: 'white',
         fontFamily: "zen_kaku_light",
     },
 
     h2: {
         fontSize: wp("5.8%"),
-        color: 'white',
         fontFamily: "zen_kaku_light",
     },
 
     titleRegister: {
         fontSize: wp("8%"),
-        color: AppColors.white,
         marginTop: hp("12%"),
         marginBottom: hp("5%"),
         fontFamily: "zen_kaku_light",
@@ -32,7 +29,6 @@ const stylesAuthViews = StyleSheet.create({
 
     passwordHint: {
         fontFamily: "zen_kaku_regular",
-        color: AppColors.white,
         fontSize: wp("2.6%"),
         margin: wp("1%")
     },

@@ -4,21 +4,23 @@ import {Genre, Platform} from "../../domain/entities/Game";
 import {StyleSheet} from "react-native";
 import {AppColors} from "../theme/AppTheme";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
+import { useTheme } from "../theme/ThemeContext";
 
 
-export const GenreItem = ({item}: {item: Genre}) => {
+export const GenreItem = ({item, colors, home, theme}: {item: Genre, colors: any, home?: boolean, theme?: string}) => {
+    const styleGI = styles(colors);
     return (
-        <View style={styles.container} pointerEvents="box-none">
-            <Text style={styles.name}>
+        <View style={[styleGI.container, {backgroundColor: home && theme === "light" ? colors.backgroundColor : colors.genreBackground}]} pointerEvents="box-none">
+            <Text style={styleGI.name}>
                 {item.name}
             </Text>
         </View>
     )
 }
 
-const styles = StyleSheet.create({
+const styles = (colors: any ) => StyleSheet.create({
     container: {
-        backgroundColor: AppColors.secondaryColor,
+        backgroundColor: colors.genreBackground,
         borderRadius: 15,
         paddingHorizontal: wp("2.5%"),
         height: hp("3.3%"),
@@ -32,6 +34,5 @@ const styles = StyleSheet.create({
         fontSize: wp("3%"),
         verticalAlign: "middle",
         fontFamily: "zen_kaku_regular",
-        color: AppColors.white,
     }
 })

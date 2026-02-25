@@ -7,6 +7,7 @@ import { styleGameDetails } from "../views/details/StyleGameDetails";
 import { addGameToFavoriteUseCase } from "../../domain/usesCases/home/AddGameToFavorite";
 import { FavGame } from "../../domain/entities/FavGame";
 import { deleteFavGameUseCase } from "../../domain/usesCases/favGames/DeleteFavGame";
+import { useTheme } from "../theme/ThemeContext";
 
 interface Props {
     game: FavGame | undefined;
@@ -14,6 +15,9 @@ interface Props {
 }
 
 export const HandleLikeButton = ({game, loadFavGames}: Props) => {
+    const { colors } = useTheme();
+    const style = styleGameDetails(colors);
+    
     const {user} = UseUserLocalStorage()
     const {favListGames, playedListGames} = useUserGamesContext()
     const [isLiked, setIsLiked] = useState<boolean>(false)
@@ -58,7 +62,7 @@ export const HandleLikeButton = ({game, loadFavGames}: Props) => {
                     contentFit={"contain"}
                     cachePolicy={"memory-disk"}
                     priority={"high"}
-                    style={styleGameDetails.fav} 
+                    style={style.fav} 
                     source={require("../../../assets/check-icon.png")}
                 />
             ) : (
@@ -66,7 +70,7 @@ export const HandleLikeButton = ({game, loadFavGames}: Props) => {
                     contentFit={"contain"}
                     cachePolicy={"memory-disk"}
                     priority={"high"}
-                    style={styleGameDetails.fav}
+                    style={style.fav}
                     source={isLiked 
                         ? require("../../../assets/filled-heart.png")
                         : require("../../../assets/heart.png")

@@ -24,9 +24,16 @@ import {PropsStackNavigation} from "../../interfaces/StackNav";
 import {stylesFavGameItem} from "./ToPlayGamesScreen";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {FlashList} from "@shopify/flash-list";
+import { useTheme } from "../../theme/ThemeContext";
+import Animated, { FadeInLeft } from "react-native-reanimated";
 
 
 export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavigation) {
+
+    const { colors } = useTheme();
+    const styleFGI = stylesFavGameItem(colors);
+    const styleAcc = styleAccount(colors);
+
     const {playedListGames,
         loadPlayedGames,
         showLoading,
@@ -44,23 +51,23 @@ export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavi
     const [selectedGameId, setSelectedGameId] = useState<number | null>(null);
 
     const toPlayGameRenderItem = useCallback(({ item }: { item: FavGame }) => (
-        <View style={stylesFavGameItem.card}>
-            <View style={stylesFavGameItem.container}>
+        <View style={styleFGI.card}>
+            <View style={styleFGI.container}>
                 <TouchableOpacity onPress={() => navigation.navigate("GameDetails", {gameId : item.id_api, likeButton: false})}>
                     <Image
                         contentFit="contain"
                         transition={500}
-                        source={{ uri: item.image_url }} style={stylesFavGameItem.image} />
+                        source={{ uri: item.image_url }} style={styleFGI.image} />
                 </TouchableOpacity>
-                <Text style={{ ...stylesHome.gameNameText, width: "50%", fontSize: wp("3.5%"), color:"white"}}>{item.name}</Text>
+                <Text style={{ ...stylesHome(colors).gameNameText, width: "50%", fontSize: wp("3.5%")}}>{item.name}</Text>
                 <TouchableOpacity
-                    style={{...stylesFavGameItem.deleteIcon, padding: wp("3%"), alignItems:"center", justifyContent:"center"}}
+                    style={{...styleFGI.deleteIcon, padding: wp("3%"), alignItems:"center", justifyContent:"center"}}
                     onPress={() => {
                         item.id
                             ? setSelectedGameId(item.id)
                             : Toast.show({"type": "error", "text1": "Unexpected error!"})}}
                 >
-                    <Image source={require("../../../../assets/borrar.png")} style={stylesFavGameItem.deleteIcon} />
+                    <Image source={require("../../../../assets/borrar.png")} style={styleFGI.deleteIcon} />
                 </TouchableOpacity>
 
                 {selectedGameId === item.id && (
@@ -70,26 +77,26 @@ export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavi
                         visible={true}
                         onRequestClose={() => setSelectedGameId(null)}
                     >
-                        <View style={styleAccount.centeredView}>
-                            <View style={styleAccount.modalView}>
-                                <Text style={{...styleAccount.textPopUp, color: AppColors.red}}>Delete this game?</Text>
-                                <Text style={styleAccount.gameNamePopUp}>{item.name}</Text>
-                                <View style={styleAccount.containerButton}>
+                        <View style={styleAcc.centeredView}>
+                            <View style={styleAcc.modalView}>
+                                <Text style={{...styleAcc.textPopUp, color: colors.red}}>Delete this game?</Text>
+                                <Text style={styleAcc.gameNamePopUp}>{item.name}</Text>
+                                <View style={styleAcc.containerButton}>
                                     <TouchableOpacity
-                                        style={styleAccount.modalCancelButton}
+                                        style={styleAcc.modalCancelButton}
                                         onPress={() => setSelectedGameId(null)}
                                     >
-                                        <Text style={styleAccount.modalButtonTextStyle}>Cancel</Text>
+                                        <Text style={styleAcc.modalButtonTextStyle}>Cancel</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        style={styleAccount.modalAcceptButton}
+                                        style={styleAcc.modalAcceptButton}
                                         onPress={async () => {
                                             console.log(item.name)
                                             await deletePlayedGame(item.id_api, user?.slug || "");
                                             setSelectedGameId(null);
                                         }}
                                     >
-                                        <Text style={styleAccount.modalButtonTextStyle}>Accept</Text>
+                                        <Text style={styleAcc.modalButtonTextStyle}>Accept</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -101,23 +108,25 @@ export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavi
     ), [user?.slug, selectedGameId, navigation]);
 
     return (
-        <View style={{width: '100%', height: '100%', backgroundColor: AppColors.backgroundColor}}>
+        <View style={{width: '100%', height: '100%', backgroundColor: colors.backgroundColor}}>
             {showLoading ? (
                 <>
                     <ActivtyIndicatorCustom showLoading={showLoading}/>
                 </>
             ):(
                 <>
-                    <View style={{height:"100%"}}>
+                    <Animated.View 
+                        entering={FadeInLeft.duration(800)} 
+                        style={{height:"100%"}}>
                         <FlashList data={playedListGames}
                                   removeClippedSubviews={true}
                                   renderItem={toPlayGameRenderItem}
                                   extraData={playedListGames}
                                   initialScrollIndex={0}
                                   fadingEdgeLength={10}
-                                  ListFooterComponent={<Text style={{...styleFav.footerFavGames, display: showLoading ? "none" : "flex"}}>Play more games!</Text>}
+                                  ListFooterComponent={<Text style={{...styleFav(colors).footerFavGames, display: showLoading ? "none" : "flex"}}>Play more games!</Text>}
                         />
-                    </View>
+                    </Animated.View>
                 </>
             )}
                 <Toast/>

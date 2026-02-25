@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
-import { AppColors } from "../../theme/AppTheme";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { AppColors } from "../../theme/AppTheme";
 
-const styleFav = StyleSheet.create({
+const styleFav = (colors: any) => StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
@@ -11,7 +11,7 @@ const styleFav = StyleSheet.create({
     header: {
         paddingTop: hp("9%"),
         elevation:10,
-        backgroundColor: AppColors.buttonBackground,
+        backgroundColor: colors.buttonBackground,
     },
     title: {
         height: 70,
@@ -19,13 +19,11 @@ const styleFav = StyleSheet.create({
         alignSelf: "center",
         paddingBottom: 20,
         verticalAlign: "middle",
-        color: AppColors.white,
         fontFamily: "zen_kaku_light",
     },
 
     footerFavGames: {
         alignSelf: "center",
-        color: AppColors.white,
         width: "100%",
         textAlign: "center",
         fontSize: wp("3%"),

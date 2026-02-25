@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import { Text } from "./Text"
-import { AppColors } from "../theme/AppTheme";
+import { useTheme } from "../theme/ThemeContext";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
@@ -9,18 +9,20 @@ import { HorizontalFlashList } from "./HorizontalFlashList";
 import { PlatformItem } from "./PlatformItem";
 import { transformGameIntoFavGameInterface } from "../views/home/ViewModel";
 import { HandleLikeButton } from "./HandleLikeButton";
-import { Game } from "../../domain/entities/Game";
+import { Game, Platform } from "../../domain/entities/Game";
 
 
 interface SearchGameItemProps {
     item: Game;
     navigation: any;
     loadFavGames: () => Promise<void>;
+    colors: any;
 }
 
-  export const SearchGameItem = ({item, navigation, loadFavGames}: SearchGameItemProps) => {
+  export const SearchGameItem = ({item, navigation, loadFavGames, colors}: SearchGameItemProps) => {
+    const style = styleSearchGameItem(colors);
     return (
-        <View style={styleSearchGameItem.gameCard}>
+        <View style={style.gameCard}>
         <TouchableOpacity onPress={() => navigation.navigate("GameDetails", {gameId : item.id, likeButton: true})}>
             <Image
                 source={{
@@ -30,31 +32,31 @@ interface SearchGameItemProps {
                 }}
                 contentFit="contain"
                 transition={250}
-                style={styleSearchGameItem.gameCover}
+                style={style.gameCover}
             />
         </TouchableOpacity>
         <View>
-            <View style={styleSearchGameItem.name_rating}>
-                <Text style={styleSearchGameItem.gameName}>{item.name}</Text>
+            <View style={style.name_rating}>
+                <Text style={style.gameName}>{item.name}</Text>
             </View>
-            <View style={styleSearchGameItem.plaformsFlatlistContainer}>
+            <View style={style.plaformsFlatlistContainer}>
                 <HorizontalFlashList
                     data={item.platforms ? item.platforms : []}
                     style={{minWidth:wp("50%")}}
-                    renderItem={PlatformItem}
+                    renderItem={({item}: {item: Platform}) => PlatformItem({item, colors: colors})}
                 />
             </View>
         </View>
-        <View style={styleSearchGameItem.thirdColumnContainer}>
+        <View style={style.thirdColumnContainer}>
             {item.rating ? (
-                <Text style={styleSearchGameItem.rating}>{item.rating.toFixed(1)}</Text>
+                <Text style={style.rating}>{item.rating.toFixed(1)}</Text>
             ) : (
                 <>
-                    <View style={styleSearchGameItem.rating}>
-                        <Text style={{width:item.hypes ? "auto" : "100%", fontSize:wp("3%"), textAlign:"center", color: item.hypes ? AppColors.green : AppColors.white}}>
+                    <View style={style.rating}>
+                        <Text style={{width:item.hypes ? "auto" : "100%", fontSize:wp("3%"), textAlign:"center", color: item.hypes ? colors.green : colors.white}}>
                             {item.hypes ? item.hypes : "No rate"}</Text>
                         {item.hypes && (
-                        <Image style={{width:wp("3%"), height:hp("1%"), tintColor: AppColors.green}}
+                        <Image style={{width:wp("3%"), height:hp("1%"), tintColor: colors.green}}
                             source={require("../../../assets/hypes-icon.png")}/>
                         )}
                     </View>
@@ -62,13 +64,13 @@ interface SearchGameItemProps {
 
             )}
             <HandleLikeButton game={transformGameIntoFavGameInterface(item)} loadFavGames={() => loadFavGames()}/>
-            <Text style={styleSearchGameItem.gameReleaseYear}>{item.release_dates?.[0]?.y ?? "TBD"}</Text>
+            <Text style={style.gameReleaseYear}>{item.release_dates?.[0]?.y ?? "TBD"}</Text>
         </View>
     </View>
     )
 }
 
-const styleSearchGameItem = StyleSheet.create({
+const styleSearchGameItem = (colors: any) => StyleSheet.create({
     thirdColumnContainer:{
         alignItems: "center",
         gap: hp("2.4%"),
@@ -81,7 +83,7 @@ const styleSearchGameItem = StyleSheet.create({
     },
     rating: {
         fontSize: wp("3%"),
-        backgroundColor: AppColors.thirdColor,
+        backgroundColor: colors.thirdColor,
         padding: wp("2%"),
         flexDirection:"row",
         gap:wp("1%"),
@@ -90,11 +92,9 @@ const styleSearchGameItem = StyleSheet.create({
         textAlign: "center",
         width: wp("15%"),
         borderRadius: 15,
-        color: AppColors.white,
     },
     gameReleaseYear: {
         fontSize: wp("3%"),
-        color: AppColors.white,
         textAlign: "center",
     },
     gameCard: {
@@ -125,7 +125,6 @@ const styleSearchGameItem = StyleSheet.create({
         marginTop: hp("1%"),
         paddingEnd: wp("3%"),
         fontFamily: "zen_kaku_regular",
-        color: AppColors.white,
     },
     plaformsFlatlistContainer:{
         flex:1,

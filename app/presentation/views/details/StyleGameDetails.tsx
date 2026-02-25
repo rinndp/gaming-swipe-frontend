@@ -1,9 +1,11 @@
 import {StyleSheet} from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import {AppColors} from "../../theme/AppTheme";
+import { useTheme } from "../../theme/ThemeContext";
 
 
-const styleGameDetails = StyleSheet.create({
+const styleGameDetails = (colors: any) => StyleSheet.create({
+    
     image: {
         width: wp("43%"),
         height: hp("27%"),
@@ -18,9 +20,10 @@ const styleGameDetails = StyleSheet.create({
         paddingTop: hp("13%"),
         paddingBottom: hp("2%"),
         paddingHorizontal: hp("2%"),
-        elevation: 30,
+        elevation: 14,
         gap: 20,
-        backgroundColor: AppColors.buttonBackground,
+        zIndex: 2,
+        backgroundColor: colors.buttonBackground,
 
     },
 
@@ -35,20 +38,18 @@ const styleGameDetails = StyleSheet.create({
     goBackIcon: {
         width: wp("7%"),
         height: hp("3%"),
-        tintColor: "white",
+        tintColor: colors.white,
     },
 
     name: {
         fontSize: wp("4.5%"),
-        color: AppColors.white,
         height: hp("22.5%"),
         width: "85%",
         fontFamily: "zen_kaku_regular"
     },
 
     rating: {
-        color: AppColors.white,
-        backgroundColor: AppColors.secondaryColor,
+        backgroundColor: colors.secondaryColor,
         padding: wp("2%"),
         width: wp("15%"),
         textAlign:"center",
@@ -61,7 +62,6 @@ const styleGameDetails = StyleSheet.create({
         fontFamily: "zen_kaku_bold",
         lineHeight: hp("5%"),
         textTransform: "uppercase",
-        color: AppColors.white,
         fontSize: wp("3.7%"),
         marginTop: hp("2.5%"),
         marginBottom: hp("1.5%"),
@@ -70,7 +70,6 @@ const styleGameDetails = StyleSheet.create({
 
     summary: {
         fontFamily: "zen_kaku_regular",
-        color: AppColors.white,
         fontSize: wp("3.5%"),
         lineHeight: 27,
         textAlign: "justify",
@@ -78,10 +77,9 @@ const styleGameDetails = StyleSheet.create({
 
     involvedCompany: {
         fontFamily: "zen_kaku_regular",
-        color: AppColors.white,
         lineHeight: 50,
-        borderBottomWidth: 2,
-        borderBottomColor: AppColors.neonPurpleTransparent,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.neonPurpleTransparent,
         fontSize: wp("3.5%"),
     },
 
@@ -92,7 +90,7 @@ const styleGameDetails = StyleSheet.create({
     },
 })
 
-const styleSimilarGame = StyleSheet.create({
+const styleSimilarGame = (colors: any) => StyleSheet.create({
     card: {
         width: wp("37%"),
         height: hp("31.6%"),
@@ -100,8 +98,8 @@ const styleSimilarGame = StyleSheet.create({
         marginBottom: hp("5%"),
         marginTop: hp("2%"),
         borderRadius: 10,
-        backgroundColor: AppColors.backgroundColor,
-        elevation: 5,
+        backgroundColor: colors.backgroundColor,
+        elevation: 1,
     },
 
     image: {
@@ -117,7 +115,6 @@ const styleSimilarGame = StyleSheet.create({
         flex:1,
         textAlign: "center",
         fontFamily: "zen_kaku_regular",
-        color: AppColors.white,
     },
 })
 

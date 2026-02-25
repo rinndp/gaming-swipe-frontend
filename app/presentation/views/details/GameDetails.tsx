@@ -38,13 +38,15 @@ import {ExpandingDot} from "react-native-animated-pagination-dots";
 import Animated, {FadeInDown, FadeInLeft, FadeInRight, FadeInUp, SlideInDown} from 'react-native-reanimated';
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import { HandleLikeButton } from "../../components/HandleLikeButton";
+import { useTheme } from "../../theme/ThemeContext";
 
 type GameDetailsRouteProp = RouteProp<RootStackParamsList, "GameDetails">;
 
 export function GameDetails({navigation = useNavigation()}: PropsStackNavigation) {
     const {user} = UseUserLocalStorage()
     const [showLoading, setShowLoading] = useState(true);
-
+    const { colors } = useTheme();
+    const style = styleGameDetails(colors);
     const {
         transformGameIntoFavGameInterface,
     } = viewModelHome.homeViewModel()
@@ -67,7 +69,7 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
     const nullPlatform: Platform = {name : "No platforms registered"}
 
     const similarGameItem = useCallback(({item} : {item:SimilarGame}) => (
-        <View style={styleSimilarGame.card}>
+        <View style={styleSimilarGame(colors).card}>
             <TouchableOpacity onPress={() => {navigation.push("GameDetails", {gameId : item.id, likeButton: true})}}>
                 <Image
                     source={{
@@ -78,10 +80,10 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                     contentFit="cover"
                     placeholder={NO_IMAGE_URL}
                     cachePolicy={"memory-disk"}
-                    style={styleSimilarGame.image}
+                    style={styleSimilarGame(colors).image}
                 />
             </TouchableOpacity>
-            <Text style={styleSimilarGame.name}>{item.name}</Text>
+            <Text style={styleSimilarGame(colors).name}>{item.name}</Text>
         </View>
         ), [navigation])
 
@@ -102,28 +104,28 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
 
     return(
             <View style={{width: '100%', height: '100%',
-                backgroundColor: showLoading ? AppColors.backgroundColor : AppColors.buttonBackground}}>
+                backgroundColor: showLoading ? colors.backgroundColor : colors.buttonBackground}}>
                 {!showLoading ? (
                     <>
                     <ScrollView
                         removeClippedSubviews={true} 
                         nestedScrollEnabled={true} showsVerticalScrollIndicator={false}>
-                        <View style={{...styleSearch.logoContainer, position:"absolute", zIndex:99}}>
+                        <View style={{...styleSearch(colors).logoContainer, position:"absolute", zIndex:99}}>
                             <Image transition={100} priority={"high"}
                                    cachePolicy={"memory-disk"}
-                                   source={require("../../../../assets/igdb-logo.webp")} style={styleSearch.logo} />
+                                   source={require("../../../../assets/igdb-logo.webp")} style={styleSearch(colors).logo} />
                         </View>
-                        <View style={styleGameDetails.header}>
+                        <View style={style.header}>
                             <TouchableOpacity 
                                 onPress={() => {
                                     setShowLoading(true)
                                     navigation.goBack()
                                     }}
-                                style={styleGameDetails.goBackIconTouchable}>
+                                style={style.goBackIconTouchable}>
                                 <Image source={require("../../../../assets/go-back-icon.png")}
                                        cachePolicy={"memory-disk"}
                                        contentFit={"contain"}
-                                       style={styleGameDetails.goBackIcon}/>
+                                       style={style.goBackIcon}/>
                             </TouchableOpacity>
                             <Image
                                 source={{
@@ -135,23 +137,25 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                                 priority={"high"}
                                 transition={350}
                                 cachePolicy={"memory-disk"}
-                                style={styleGameDetails.image}
+                                style={style.image}
                             />
                             <Animated.View
                                 entering={FadeInRight.duration(800)}
                                 style={{flex: 2}}>
-                                <Text style={styleGameDetails.name}>{gameDetails?.name}</Text>
+                                <Text style={style.name}>{gameDetails?.name}</Text>
                                 <View style={{flexDirection: "row", gap: wp("11%")}}>
-                                    <Text style={styleGameDetails.rating}>{gameDetails?.rating ? gameDetails?.rating.toFixed(1) : "No rate"}</Text>
-                                    <Text style={styleGameDetails.rating}>{gameDetails?.release_dates ? (gameDetails?.release_dates[0].y ? gameDetails?.release_dates[0].y : "TBD") : "TBD"}</Text>
+                                    <Text style={style.rating}>{gameDetails?.rating ? gameDetails?.rating.toFixed(1) : "No rate"}</Text>
+                                    <Text style={style.rating}>{gameDetails?.release_dates ? (gameDetails?.release_dates[0].y ? gameDetails?.release_dates[0].y : "TBD") : "TBD"}</Text>
                                 </View>
                             </Animated.View>
                         </View>
                         <Animated.View
                             entering={FadeInDown.duration(800)}
-                            style={{paddingHorizontal:wp("4%"), backgroundColor: AppColors.backgroundColor}}>
+                            style={{paddingHorizontal:wp("4%"), backgroundColor: colors.backgroundColor}}>
                             <View style={{flexDirection: "row", gap:wp("36%")}}>
-                                <Text style={styleGameDetails.infoTitles}>Involved companies</Text>
+                                {gameDetails?.involved_companies && (
+                                    <Text style={style.infoTitles}>Involved companies</Text>
+                                )}
                                 {likeButton && (
                                     <View style={{justifyContent: "center"}}>
                                     <HandleLikeButton 
@@ -166,36 +170,36 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                                 scrollEnabled={false}
                                 renderItem={({ item }) => (
                                     <TouchableOpacity style={{flexDirection: "row", alignSelf:"flex-start", alignItems:"center", gap:wp("3%")}} onPress={() => navigation.push("CompanyDetails", {companyId: item.company.id})}>
-                                        <Text style={styleGameDetails.involvedCompany}>{item.company.name}</Text>
+                                        <Text style={style.involvedCompany}>{item.company.name}</Text>
                                         <Image priority={"high"}
                                                cachePolicy={"memory-disk"}
                                                source={require("../../../../assets/url-icon.png")}
-                                        style={{width: wp("3.5%"), height: hp("1.6%"), tintColor: AppColors.white}}/>
+                                        style={{width: wp("3.5%"), height: hp("1.6%"), tintColor: colors.white}}/>
                                     </TouchableOpacity>
                                 )}/>
 
-                            <Text style={styleGameDetails.infoTitles}>Platforms</Text>
+                            <Text style={style.infoTitles}>Platforms</Text>
                             <HorizontalFlashList style={{width: wp("90%")}}
                                                  data={gameDetails?.platforms ? gameDetails?.platforms : [nullPlatform]}
-                                                 renderItem={PlatformItem}
+                                                 renderItem={({item}: {item: Platform}) => PlatformItem({item, colors: colors})}
                             />
-                            <Text style={styleGameDetails.infoTitles}>Genres</Text>
+                            <Text style={style.infoTitles}>Genres</Text>
                             <HorizontalFlashList style={{width: wp("90%")}}
                                                  data={gameDetails?.genres ? gameDetails?.genres : [nullGenre]}
-                                                 renderItem={GenreItem}
+                                                 renderItem={({item}: {item: Genre}) => GenreItem({item, colors: colors})}
                             />
                             {gameDetails?.release_dates && (
                                 <View>
-                                    <Text style={styleGameDetails.infoTitles}>Release date</Text>
-                                    <Text style={{...styleGameDetails.summary, lineHeight: 20}}>{gameDetails?.release_dates[0].human}</Text>
+                                    <Text style={style.infoTitles}>Release date</Text>
+                                    <Text style={{...style.summary, lineHeight: 20}}>{gameDetails?.release_dates[0].human}</Text>
                                 </View>
                             )}
-                            <Text style={styleGameDetails.infoTitles}>Summary</Text>
-                            <Text style={styleGameDetails.summary}>{gameDetails?.summary ? gameDetails?.summary : "--"}</Text>
+                            <Text style={style.infoTitles}>Summary</Text>
+                            <Text style={style.summary}>{gameDetails?.summary ? gameDetails?.summary : "--"}</Text>
                             {gameDetails?.storyline && (
                                 <View>
-                                    <Text style={styleGameDetails.infoTitles}>Story line</Text>
-                                    <Text style={styleGameDetails.summary}>{gameDetails?.storyline ? gameDetails?.storyline : "--"}</Text>
+                                    <Text style={style.infoTitles}>Story line</Text>
+                                    <Text style={style.summary}>{gameDetails?.storyline ? gameDetails?.storyline : "--"}</Text>
                                 </View>
                             )}
                             {gameDetails?.screenshots && (
@@ -232,10 +236,10 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                                             data={gameDetails.screenshots}
                                             expandingDotWidth={30}
                                             scrollX={scrollX}
-                                            activeDotColor={AppColors.white}
+                                            activeDotColor={colors.white}
                                             inActiveDotOpacity={0.4}
-                                            inActiveDotColor="#fff"
-                                            dotStyle={styleGameDetails.dot}
+                                            inActiveDotColor={colors.gray}
+                                            dotStyle={style.dot}
                                             containerStyle={{
                                                 position: "relative",
                                                 alignSelf: "center",
@@ -256,8 +260,8 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                             )}
 
                             {gameDetails?.similar_games && (
-                                <View style={{marginTop: hp("4%"), paddingBottom: Plat.OS === "android" ? hp("2%") : hp("0%"), backgroundColor: AppColors.buttonBackground, marginHorizontal: wp("-4%"), paddingHorizontal: wp("4%")}}>
-                                    <Text style={{...styleGameDetails.infoTitles, textAlign:"center"}}>Similar games</Text>
+                                <View style={{marginTop: hp("4%"), paddingBottom: Plat.OS === "android" ? hp("2%") : hp("0%"), backgroundColor: colors.buttonBackground, marginHorizontal: wp("-4%"), paddingHorizontal: wp("4%"), elevation: 14, zIndex: 2}}>
+                                    <Text style={{...style.infoTitles, textAlign:"center"}}>Similar games</Text>
                                     <HorizontalFlashList data={gameDetails?.similar_games}
                                                          renderItem={similarGameItem}/>
                                 </View>

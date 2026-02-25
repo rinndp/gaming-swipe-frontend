@@ -20,7 +20,6 @@ import {PropsStackNavigation} from "../../interfaces/StackNav";
 import {useNavigation} from "@react-navigation/native";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {Swiper, type SwiperCardRefType} from "rn-swiper-list";
-import {AppColors} from "../../theme/AppTheme";
 import {GenreItem} from "../../components/GenreItem";
 import {PlatformItem} from "../../components/PlatformItem";
 import {NopeButton, stylesNopeButton} from "../../components/NopeButton";
@@ -32,6 +31,7 @@ import {generateNoGamesFoundCard, NO_GAMES_FOUND_LABEL} from "../../utils/NoGame
 import {Image} from "expo-image"
 import {HorizontalFlashList} from "../../components/HorizontalFlashList";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
+import { useTheme } from "../../theme/ThemeContext";
 
 function FiltroComponent(props: {
     onApply: (filters: { category: string | null; platform: string | null }) => Promise<void>,
@@ -57,6 +57,8 @@ try {
 
 export function Home({navigation = useNavigation()}: PropsStackNavigation) {
 
+    const { colors, theme } = useTheme();
+    const styleH = stylesHome(colors);
 
     const ADS_AVAILABLE = InterstitialAd !== null;
     const adUnitId = ADS_AVAILABLE ? TestIds?.INTERSTITIAL : '';
@@ -152,15 +154,15 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                         priority={"high"}
                         contentFit={"cover"}
                         transition={250}
-                        style={styleHome.image}
+                        style={styleH.image}
                     />
                 </TouchableOpacity>
                 <View style={{marginVertical: hp("1%"), paddingHorizontal: wp("5%")}}>
-                    <View style={stylesHome.firstRowCardContainer}>
-                        <Text style={stylesHome.gameNameText}> {item.name}</Text>
-                        <View style={stylesHome.ratingContainer}>
+                    <View style={styleH.firstRowCardContainer}>
+                        <Text style={styleH.gameNameText}> {item.name}</Text>
+                        <View style={styleH.ratingContainer}>
                         <Text
-                            style={stylesHome.ratingText}>{
+                            style={styleH.ratingText}>{
                             item.rating
                                 ? (item.rating === 100 ? item.rating : item.rating.toFixed(1))
                                 : "N/A"
@@ -169,20 +171,20 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                     </View>
                     <View style={{marginTop: hp("1%")}} collapsable={false}>
                         <HorizontalFlashList data={item.platforms ? item.platforms : [nullPlatform]}
-                                             renderItem={PlatformItem}/>
+                                             renderItem={({item}: {item: Platform}) => PlatformItem({item, colors: colors, home: true, theme: theme})}/>
                     </View>
-                    <View style={styleHome.thirdRowCardContainer} collapsable={false}>
+                    <View style={styleH.thirdRowCardContainer} collapsable={false}>
                         <HorizontalFlashList data={item.genres ? item.genres : [nullGenre]}
-                                             renderItem={GenreItem}
+                                             renderItem={({item}: {item: Genre}) => GenreItem({item, colors: colors, home: true, theme: theme})}
                                              style={{width: "83%"}}
                         />
                         <Text
-                            style={styleHome.releaseDateText}>{item.release_dates ? item.release_dates[0].y : "TBD"}</Text>
+                            style={styleH.releaseDateText}>{item.release_dates ? item.release_dates[0].y : "TBD"}</Text>
                     </View>
                 </View>
             </View>
         );
-    }, []);
+    }, [colors, theme, navigation, styleH, nullGenre, nullPlatform]);
 
 
     const ref = useRef<SwiperCardRefType>(null);
@@ -191,14 +193,14 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
         return (
             <View
                 style={[
-                    stylesHome.overlayLabelContainer,
+                    styleH.overlayLabelContainer,
                     {
-                        backgroundColor: AppColors.like,
+                        backgroundColor: colors.like,
                         opacity: 0.8
                     },
                 ]}
             >
-                <Text style={stylesHome.overlayLabelText}>Like</Text>
+                <Text style={styleH.overlayLabelText}>Like</Text>
             </View>
         );
     };
@@ -206,32 +208,32 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
         return (
             <View
                 style={[
-                    stylesHome.overlayLabelContainer,
+                    styleH.overlayLabelContainer,
                     {
-                        backgroundColor: AppColors.nope,
+                        backgroundColor: colors.nope,
                         opacity: 0.8,
                     },
                 ]}
             >
-                <Text style={stylesHome.overlayLabelText}>Nope</Text>
+                <Text style={styleH.overlayLabelText}>Nope</Text>
             </View>
         );
     };
 
     return (
-        <View style={{width: '100%', height: '100%', backgroundColor: AppColors.backgroundColor}}>
+        <View style={{width: '100%', height: '100%', backgroundColor: colors.backgroundColor}}>
             {showLoading ? (
                 <>
                     <ActivtyIndicatorCustom showLoading={showLoading}/>
                 </>
             ):(
                 <>
-                    <GestureHandlerRootView style={styleHome.cardContainer}>
+                    <GestureHandlerRootView style={styleH.cardContainer}>
                         <Swiper
                             ref={ref}
                             data={listGames}
-                            cardStyle={styleHome.cardStyle}
-                            overlayLabelContainerStyle={styleHome.overlayLabelContainer}
+                            cardStyle={styleH.cardStyle}
+                            overlayLabelContainerStyle={styleH.overlayLabelContainer}
                             swipeVelocityThreshold={1000}
                             prerenderItems={3}
                             renderCard={renderCard}
@@ -293,13 +295,17 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                             OverlayLabelLeft={OverlayLeft}
                         />
                     </GestureHandlerRootView>
-                    <View style={styleHome.buttonsContainer}>
-                        <NopeButton onPress={() =>  ref.current?.swipeLeft()}></NopeButton>
+                    <View style={styleH.buttonsContainer}>
+                        <View style={{marginTop: hp("1%")}}>
+                            <NopeButton onPress={() =>  ref.current?.swipeLeft()}></NopeButton>
+                        </View>
                         <View style={{gap:hp("2%"), alignItems: "center"}}>
                             <RewindButton onPress={() =>  ref.current?.swipeBack()}></RewindButton>
                             <FilterButton onApply={refillSwipeGamesWithFilters} selectedGenre={selectedGenres} selectedPlatform={selectedPlatforms} selectedRating={selectedRating}  />
                         </View>
-                        <LikeButton onPress={() => ref.current?.swipeRight()}></LikeButton>
+                        <View style={{marginTop: hp("1%")}}>
+                            <LikeButton onPress={() => ref.current?.swipeRight()}></LikeButton>
+                        </View>
                     </View>
                 </>
             )}

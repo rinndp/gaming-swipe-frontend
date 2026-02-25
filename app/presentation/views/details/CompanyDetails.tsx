@@ -28,6 +28,7 @@ import {useCompanyDetails} from "../../hooks/UseCompanyDetails";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
 import { HorizontalFlashList } from "../../components/HorizontalFlashList";
+import { useTheme } from "../../theme/ThemeContext";
 
 
 
@@ -35,6 +36,9 @@ type CompanyDetailsRouteProp = RouteProp<RootStackParamsList, "CompanyDetails">;
 
 export function CompanyDetails ({navigation = useNavigation()}: PropsStackNavigation) {
     countries.registerLocale(enLocale);
+
+    const { colors, theme } = useTheme();
+    const style = styleGameDetails(colors);
 
     const route = useRoute<CompanyDetailsRouteProp>()
     const {companyId} = route.params
@@ -60,7 +64,7 @@ export function CompanyDetails ({navigation = useNavigation()}: PropsStackNaviga
 
 
     const gameItem = useCallback(({item} : {item:SimilarGame}) => (
-        <View style={{...styleSimilarGame.card, backgroundColor: AppColors.buttonBackground}}>
+        <View style={{...styleSimilarGame(colors).card, backgroundColor: colors.buttonBackground}}>
             <TouchableOpacity onPress={() => {navigation.push("GameDetails", {gameId : item.id, likeButton: true})}}>
                 <Image
                     source={{
@@ -71,27 +75,27 @@ export function CompanyDetails ({navigation = useNavigation()}: PropsStackNaviga
                     priority={"high"}
                     contentFit="cover"
                     transition={250}
-                    style={styleSimilarGame.image}
+                    style={styleSimilarGame(colors).image}
                 />
             </TouchableOpacity>
-            <Text style={styleSimilarGame.name}>{item.name}</Text>
+            <Text style={styleSimilarGame(colors).name}>{item.name}</Text>
         </View>
     ), [navigation])
 
     return (
-            <View style={{width: '100%', height: '100%', backgroundColor: AppColors.backgroundColor}}>
+            <View style={{width: '100%', height: '100%', backgroundColor: colors.backgroundColor}}>
                 {!showLoading ? (
                     <>
-                        <ScrollView style={{paddingBottom: hp("60%")}} showsVerticalScrollIndicator={false}>
+                        <ScrollView nestedScrollEnabled={true} showsVerticalScrollIndicator={false}>
                             <View
-                                style={{...styleGameDetails.header, flexDirection: "column", paddingBottom: 0, alignItems:"center"}}>
+                                style={{...style.header, flexDirection: "column", paddingBottom: 0, alignItems:"center"}}>
                                 <TouchableOpacity onPress={() => {
                                     setShowLoading(true)
                                     navigation.goBack()
                                     }} 
-                                    style={{...styleGameDetails.goBackIconTouchable, bottom: hp("30%")}}>
+                                    style={{...style.goBackIconTouchable, bottom: hp("30%")}}>
                                     <Image source={require("../../../../assets/go-back-icon.png")}
-                                           style={styleGameDetails.goBackIcon} />
+                                           style={style.goBackIcon} />
                                 </TouchableOpacity>
                                 <Animated.View
                                     style={{width: wp("100%"), alignItems: "center"}}>
@@ -109,7 +113,7 @@ export function CompanyDetails ({navigation = useNavigation()}: PropsStackNaviga
                                 <Animated.View
                                     entering={FadeInLeft.duration(800)}
                                     style={{flex: 1}}>
-                                    <Text style={{...styleGameDetails.name, height: "auto", lineHeight: 40, paddingBottom: hp("2%")}}>{companyDetails?.name}</Text>
+                                    <Text style={{...style.name, height: "auto", lineHeight: 40, paddingBottom: hp("2%")}}>{companyDetails?.name}</Text>
                                 </Animated.View>
                             </View>
                             <Animated.View
@@ -117,27 +121,27 @@ export function CompanyDetails ({navigation = useNavigation()}: PropsStackNaviga
                                 style={{paddingHorizontal: wp("4%")}}>
                                 {companyDetails?.start_date && (
                                     <View>
-                                        <Text style={styleGameDetails.infoTitles}>Founded</Text>
-                                        <Text style={styleGameDetails.summary}>{formatUnixDate(companyDetails.start_date)}</Text>
+                                        <Text style={style.infoTitles}>Founded</Text>
+                                        <Text style={style.summary}>{formatUnixDate(companyDetails.start_date)}</Text>
                                         {companyDetails?.country && (
                                             <View>
-                                                <Text style={styleGameDetails.summary}>{getCountryNameFromNumericCode(companyDetails.country)}</Text>
+                                                <Text style={style.summary}>{getCountryNameFromNumericCode(companyDetails.country)}</Text>
                                             </View>
                                         )}
                                     </View>
                                 )}
-                                <Text style={styleGameDetails.infoTitles}>Description</Text>
-                                <Text style={{...styleGameDetails.summary, marginBottom: hp("4%")}}>{companyDetails?.description ? companyDetails.description : "No description available"}</Text>
+                                <Text style={style.infoTitles}>Description</Text>
+                                <Text style={{...style.summary, marginBottom: hp("4%")}}>{companyDetails?.description ? companyDetails.description : "No description available"}</Text>
                                 {companyDetails?.developed && (
                                     <View>
-                                        <Text style={styleGameDetails.infoTitles}>Developed games</Text>
+                                        <Text style={style.infoTitles}>Developed games</Text>
                                         <HorizontalFlashList data={developedGames || []} renderItem={gameItem} />
                                     </View>
                                 )}
 
                                 {companyDetails?.published && (
-                                    <View>
-                                        <Text style={{...styleGameDetails.infoTitles, marginTop: wp("-4%")}}>Published games</Text>
+                                    <View style={{paddingBottom: hp("4%")}}>
+                                        <Text style={{...style.infoTitles, marginTop: wp("-4%")}}>Published games</Text>
                                         <HorizontalFlashList data={publishedGames || []} renderItem={gameItem} />
                                     </View>
                                 )}

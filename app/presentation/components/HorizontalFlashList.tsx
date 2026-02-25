@@ -5,7 +5,6 @@ import {ScrollView, StyleProp, StyleSheet, View, ViewStyle} from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
 import {LinearGradient} from "expo-linear-gradient";
 import {FadeWrapper} from "rn-fade-wrapper";
-import {AppColors} from "../theme/AppTheme";
 
 interface FlashListProps {
     data: any []
@@ -18,7 +17,7 @@ export const HorizontalFlashList = ({data, renderItem, style}: FlashListProps) =
         <FlashList
             keyExtractor={(item, index) => `${item.name || item.id || ''}-${index}`}
             data={data}
-            style={style}
+            style={style || {}}
             renderItem={renderItem}
             horizontal={true}
             showsHorizontalScrollIndicator={false}

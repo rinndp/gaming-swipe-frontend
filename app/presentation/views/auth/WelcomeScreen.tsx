@@ -17,6 +17,7 @@ import {Image} from "expo-image";
 import {useUserInfoAuthContext} from "../../provider/UserInfoAuthProvider";
 import { ANDROID_GOOGLE_ID, IOS_GOOGLE_ID } from '@env';
 import { showCustomToast } from "../../utils/ShowCustomToast";
+import { useTheme } from "../../theme/ThemeContext";
 
 
 export const googleLogo = require("../../../../assets/google-logo.png")
@@ -25,6 +26,9 @@ export const googleLogo = require("../../../../assets/google-logo.png")
 WebBrowser.maybeCompleteAuthSession()
 
 export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackNavigation){
+
+    const { colors, theme } = useTheme();
+    const styles = stylesAuthViews(colors);
 
     const {
         handleGoogleLogin,
@@ -52,7 +56,7 @@ export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackN
     }, [response]);
 
     return (
-        <View style={stylesAuthViews.container}>
+        <View style={stylesAuthViews(colors).container}>
                 {showLoading ? (
                     <>
                         <ActivtyIndicatorCustom showLoading={showLoading}/>
@@ -65,11 +69,11 @@ export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackN
                             <Text style={styles.welcomeText}>GamingSwipe</Text>
                             <View style={{flexDirection:"row", gap:wp("2%"), marginTop:hp("2%"), alignItems:"center"}}>
                                 <Image
-                                    style={{width: wp("9%"), height: hp("5%")}}
+                                    style={{width: wp("9%"), height: hp("5%"), tintColor: colors.white}}
                                     source={require('../../../../assets/logo.png')} />
-                                <Text style={{color:AppColors.white}}>+</Text>
+                                <Text>+</Text>
                                 <Image
-                                    style={{width: wp("12%"), height: hp("5%"), tintColor: AppColors.white}}
+                                    style={{width: wp("12%"), height: hp("5%"), tintColor: colors.white}}
                                     source={require('../../../../assets/igdb-logo.webp')} />
                             </View>
                         </View>
@@ -77,20 +81,21 @@ export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackN
                             <RoundedButton
                                 width={wp("98%")}
                                 logo={googleLogo}
-                                backgroundColor={AppColors.backgroundColor}
+                                backgroundColor={colors.backgroundColor}
                                 text="Sign in with Google" onPressFromInterface={async () =>{
                                 promptAsync().catch((e) => console.error("Error al iniciar sesion: ", e));
                             }}/>
                             <RoundedButton
                                 width={wp("98%")}
-                                backgroundColor={AppColors.buttonBackground}
+                                backgroundColor={colors.buttonBackground}
                                 text="Sign In" onPressFromInterface={() => {
                                     navigation.navigate("EmailScreen")
                                     setLogin(true)
                                 }}/>
                             <RoundedButton
                                 width={wp("98%")}
-                                backgroundColor={AppColors.secondaryColor}
+                                backgroundColor={theme === "light" ? colors.white : colors.secondaryColor}
+                                textColor={theme === "light" ? colors.black : colors.white}
                                 text="Create an account" onPressFromInterface={() => {
                                     navigation.navigate("EmailScreen")
                                     setLogin(false)

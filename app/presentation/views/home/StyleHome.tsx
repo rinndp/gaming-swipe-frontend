@@ -3,9 +3,9 @@ import { AppColors } from "../../theme/AppTheme";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import {shadow} from "react-native-paper";
 
-const stylesHome = StyleSheet.create({
+const stylesHome = (colors: any) => StyleSheet.create({
     iconButton: {
-        backgroundColor: AppColors.buttonBackground,
+        backgroundColor: colors.buttonBackground,
     },
     logo: {
         width: wp("13%"),
@@ -28,8 +28,9 @@ const stylesHome = StyleSheet.create({
         height: hp("67%"),
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: AppColors.buttonBackground,
+        backgroundColor: colors.buttonBackground,
         borderRadius: 15,
+        elevation: 1,
     },
     loadingIconContainer: {
         position: "absolute",
@@ -66,7 +67,7 @@ const stylesHome = StyleSheet.create({
         fontFamily:"zen_kaku_bold",
     },
     ratingContainer: {
-        backgroundColor: AppColors.secondaryColor,
+        backgroundColor: colors.secondaryColor,
         padding: wp("2%"),
         alignSelf: "flex-end",
         borderRadius: 8,
@@ -75,7 +76,6 @@ const stylesHome = StyleSheet.create({
     },
     ratingText: {
         fontSize: wp("4.2%"),
-        color: AppColors.white,
         fontWeight: "bold",
     },
     gameNameText: {
@@ -83,12 +83,10 @@ const stylesHome = StyleSheet.create({
         width: "78%",
         lineHeight: hp("2%"),
         fontFamily: "zen_kaku_medium",
-        color: AppColors.white,
     },
     releaseDateText: {
         fontSize: wp("3%"),
         fontWeight: "bold",
-        color: AppColors.white,
     },
     firstRowCardContainer: {
         width: "100%",

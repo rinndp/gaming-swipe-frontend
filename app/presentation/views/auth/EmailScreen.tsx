@@ -16,9 +16,12 @@ import {validateEmail} from "../../utils/ValidateEmail";
 import {checkIfEmailRegisteredUseCase} from "../../../domain/usesCases/auth/RegisterAuth";
 import {useUserInfoAuthContext} from "../../provider/UserInfoAuthProvider";
 import {showCustomToast} from "../../utils/ShowCustomToast";
+import { useTheme } from "../../theme/ThemeContext";
 
 
 export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation){
+    const { colors, theme } = useTheme();
+
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [showLoading, setShowLoading] = useState(false);
 
@@ -59,25 +62,25 @@ export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation
     }, [errorMessage]);
 
     return (
-        <View style={stylesAuthViews.container}>
+        <View style={stylesAuthViews(colors).container}>
             {showLoading ? (
                 <>
                     <ActivtyIndicatorCustom showLoading={showLoading}/>
                 </>
             ):(
                 <>
-                    <TouchableOpacity onPress={() => navigation.goBack()} style={{...styleGameDetails.goBackIconTouchable, bottom: hp("90%")}}>
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={{...styleGameDetails(colors).goBackIconTouchable, bottom: hp("89%")}}>
                         <Image source={require("../../../../assets/go-back-icon.png")}
                                cachePolicy={"memory-disk"}
                                contentFit={"contain"}
-                               style={styleGameDetails.goBackIcon}/>
+                               style={styleGameDetails(colors).goBackIcon}/>
                     </TouchableOpacity>
                     <View style={{marginTop: hp("7%"), alignItems:"center"}}>
                         <Image
-                            style={{width: wp("9%"), height: hp("5%")}}
+                            style={{width: wp("9%"), height: hp("5%"), tintColor: colors.white}}
                             source={require('../../../../assets/logo.png')} />
                         <View style={{marginTop: hp("2%"), gap: hp("2%")}}>
-                            <Text style={stylesAuthViews.h2}>{login ? "Introduce your email" : "Create your account"}</Text>
+                            <Text style={stylesAuthViews(colors).h2}>{login ? "Introduce your email" : "Create your account"}</Text>
                             <CustomTextInput label={"Email"}
                                              keyboardType={"email-address"}
                                              width={"large"}
@@ -89,7 +92,7 @@ export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation
                                                  registerValues?.email ? registerValues.email : ""}
                                              onChangeText={(text) => onChangeDynamic(login, "email", text)}/>
                             <RoundedButton
-                                backgroundColor={AppColors.buttonBackground}
+                                backgroundColor={colors.buttonBackground}
                                 text={"Continue"}
                                onPressFromInterface={() => handleContinue(
                                    login ?

@@ -18,7 +18,6 @@ import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
 import {UpdateUserDTO} from "../../../domain/entities/User";
 import Toast from "react-native-toast-message";
 import * as ImagePickerExpo from "expo-image-picker";
-import {AppColors} from "../../theme/AppTheme";
 import {API_BASE_URL} from "../../../data/sources/remote/api/ApiDelivery";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
 import Animated, {FadeInDown, FadeInLeft} from "react-native-reanimated";
@@ -26,11 +25,16 @@ import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {showCustomToast} from "../../utils/ShowCustomToast";
 import Constants from "expo-constants";
 import { checkIfUsernameRegisteredUseCase } from "../../../domain/usesCases/auth/RegisterAuth";
+import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from "../../theme/ThemeContext";
+
 
 export function Account({navigation = useNavigation(), route}: PropsStackNavigation){
 
     const [modalUpdateUsernameVisible, setModalUpdateUsernameVisible] = useState(false);
-
+    const { colors } = useTheme();
+    const style = styleAccount(colors);
+    const stylesPP = stylesProfilePicture(colors);
     const {user} = UseUserLocalStorage()
     const {
         deleteSession,
@@ -109,42 +113,46 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
     }
 
     return (
-            <View style={{width: '100%', height: '100%', backgroundColor: AppColors.backgroundColor}}>
+            <View style={{width: '100%', height: '100%', backgroundColor: colors.backgroundColor}}>
                 {!showLoading ? (
                     <>
                     <View style={{paddingHorizontal:wp("10%")}}>
-                        <View style={{marginTop: hp("4%")}}>
-                            <Text style={styleAccount.title}>
+                        <View style={{marginTop: hp("5%")}}>
+                            <TouchableOpacity style={{position: "absolute", alignSelf: "flex-end"}}
+                             onPress={() => navigation.navigate("SettingsScreen")}>
+                                <Ionicons name="settings-outline" size={24} color={colors.white} />
+                            </TouchableOpacity>
+                            <Text style={style.title}>
                                 Account details
                             </Text>
                         </View>
                         <Animated.View
                             entering={FadeInLeft.duration(800)}
-                            style={styleAccount.containerEmail}>
-                            <Text style={styleAccount.textEmail}>{userDB?.email}</Text>
+                            style={style.containerEmail}>
+                            <Text style={style.textEmail}>{userDB?.email}</Text>
                         </Animated.View>
-                        <View style={styleAccount.containerPhoto}>
-                            <View style={stylesProfilePicture.container}>
-                                <View style={stylesProfilePicture.containerPhoto}>
+                        <View style={style.containerPhoto}>
+                            <View style={stylesPP.container}>
+                                <View style={stylesPP.containerPhoto}>
                                     <Image
                                         priority={"high"}
                                         contentFit="cover"
                                         transition={500}
-                                        style={stylesProfilePicture.photo}  
+                                        style={stylesPP.photo}  
                                         source={userDB?.image ? {uri: `${userDB?.image}`} : require("../../../../assets/account-image.jpg")}
                                     />
                                 </View>
-                                <TouchableOpacity style={stylesProfilePicture.changePhotoButton} onPress={selectImage}>
-                                    <Text style={stylesProfilePicture.changePhotoButtonText}>Change photo</Text>
+                                <TouchableOpacity style={stylesPP.changePhotoButton} onPress={selectImage}>
+                                    <Text style={stylesPP.changePhotoButtonText}>Change photo</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
                         <Animated.View
                             entering={FadeInDown.duration(800)}
-                            style={styleAccount.containerInfo}>
-                            <Text style={styleAccount.labelName}>Username</Text>
-                            <View style={styleAccount.containerEditName}>
-                                <Text style={styleAccount.Name}>{userDB?.username}</Text>
+                            style={style.containerInfo}>
+                            <Text style={style.labelName}>Username</Text>
+                            <View style={style.containerEditName}>
+                                <Text style={style.Name}>{userDB?.username}</Text>
                                 <View>
                                     <Modal
                                         animationType="fade"
@@ -154,8 +162,8 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                             setModalUpdateUsernameVisible(!modalUpdateUsernameVisible);
                                         }}
                                     >
-                                        <View style={styleAccount.centeredView}>
-                                            <View style={styleAccount.modalView}>
+                                        <View style={style.centeredView}>
+                                            <View style={style.modalView}>
                                                 <CustomTextInput
                                                     label={"Username (Max. 30 characters)"}
                                                     keyboardType={"default"}
@@ -165,15 +173,15 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                                     secureTextEntry={false}
                                                     onChangeText={(text) => setUpdateUsername(text)}
                                                 />
-                                                <View style={styleAccount.containerButton}>
+                                                <View style={style.containerButton}>
                                                     <TouchableOpacity
-                                                        style={styleAccount.modalCancelButton}
+                                                        style={style.modalCancelButton}
                                                         onPress={() => setModalUpdateUsernameVisible(!modalUpdateUsernameVisible)}
                                                     >
-                                                        <Text style={styleAccount.modalButtonTextStyle}>Cancel</Text>
+                                                        <Text style={style.modalButtonTextStyle}>Cancel</Text>
                                                     </TouchableOpacity>
                                                     <TouchableOpacity
-                                                        style={styleAccount.modalAcceptButton}
+                                                        style={style.modalAcceptButton}
                                                         onPress={async () => {
                                                             if(userDB != undefined) {
                                                                 if (updatedUsername === "") {
@@ -200,7 +208,7 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                                             }}
                                                         }
                                                     >
-                                                        <Text style={styleAccount.modalButtonTextStyle}>Accept</Text>
+                                                        <Text style={style.modalButtonTextStyle}>Accept</Text>
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>
@@ -209,19 +217,11 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                     </Modal>
                                     <TouchableOpacity
                                         onPress={() => setModalUpdateUsernameVisible(true)}>
-                                        <Image source={require('../../../../assets/edit.png')} style={styleAccount.editButton}/>
+                                        <Image source={require('../../../../assets/edit.png')} style={style.editButton}/>
                                     </TouchableOpacity>
 
                                 </View>
                             </View>
-                            <TouchableOpacity style={styleAccount.containerLogOut}>
-                                <Image source={require("../../../../assets/log-out-icon.png")}
-                                       style={styleAccount.logOutIcon}
-                                />
-                                <Text style={styleAccount.LogOut} onPress={() => {
-                                    deleteSession().then(r => navigation.replace("WelcomeScreen"))}
-                                }> Log out</Text>
-                            </TouchableOpacity>
                         </Animated.View>
                         </View>
                     </>
@@ -234,7 +234,7 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
     );
 }
 
-export const stylesProfilePicture =StyleSheet.create({
+export const stylesProfilePicture = (colors: any) => StyleSheet.create({
     container:{
         flex: 1,
         alignItems:"center",
@@ -250,16 +250,16 @@ export const stylesProfilePicture =StyleSheet.create({
         alignItems:"center",
     },
     changePhotoButton:{
-        backgroundColor:AppColors.secondaryColor,
+        backgroundColor: colors.changePhotoButton,
         width:wp("30%"),
         height:hp("3.7%"),
         justifyContent:"center",
         borderRadius:25,
         marginTop:hp("3%"),
+        elevation: 2,
     },
     changePhotoButtonText:{
         fontFamily:"zen_kaku_regular",
-        color:AppColors.white,
         alignSelf:"center",
     }
 })

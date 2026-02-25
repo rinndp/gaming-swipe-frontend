@@ -24,9 +24,14 @@ import {PropsStackNavigation} from "../../interfaces/StackNav";
 import Animated, {FadeInDown, FadeInLeft, FadeInUp} from 'react-native-reanimated';
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {FlashList} from "@shopify/flash-list";
+import { useTheme } from "../../theme/ThemeContext";
 
 
 export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavigation) {
+    const { colors } = useTheme();
+    const styleAcc = styleAccount(colors);
+    const stylesFGI = stylesFavGameItem(colors);
+
     const {favListGames,
         loadFavGames,
         showLoading,
@@ -47,32 +52,32 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
 
     const playedGameRenderItem = useCallback(({ item }: { item: FavGame }) => (
         <View
-            style={stylesFavGameItem.card}>
-            <View style={stylesFavGameItem.container}>
+            style={stylesFGI.card}>
+            <View style={stylesFGI.container}>
                 <TouchableOpacity onPress={() => navigation.navigate("GameDetails", {gameId : item.id_api, likeButton: true})}>
                     <Image
                         contentFit="contain"
                         transition={100}
-                        source={{ uri: item.image_url }} style={stylesFavGameItem.image} />
+                        source={{ uri: item.image_url }} style={stylesFGI.image} />
                 </TouchableOpacity>
-                <Text style={{ ...stylesHome.gameNameText, width: "43%"}}>{item.name}</Text>
+                <Text style={{ ...stylesHome(colors).gameNameText, width: "43%"}}>{item.name}</Text>
                 <TouchableOpacity
-                    style={{...stylesFavGameItem.deleteIcon, padding: wp("3%"), alignItems:"center", justifyContent:"center"}}
+                    style={{...stylesFGI.deleteIcon, padding: wp("3%"), alignItems:"center", justifyContent:"center"}}
                     onPress={() => {
                         item.id
                             ? setSelectedPlayedGameId(item.id)
                             : Toast.show({"type": "error", "text1": "Unexpected error!"})}}
                 >
-                    <Image source={require("../../../../assets/check-icon.png")} style={{...stylesFavGameItem.deleteIcon, tintColor: AppColors.green}} />
+                    <Image source={require("../../../../assets/check-icon.png")} style={{...stylesFGI.deleteIcon, tintColor: colors.green}} />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={{...stylesFavGameItem.deleteIcon, padding: wp("3%"), alignItems:"center", justifyContent:"center"}}
+                    style={{...stylesFGI.deleteIcon, padding: wp("3%"), alignItems:"center", justifyContent:"center"}}
                     onPress={() => {
                         item.id
                             ? setSelectedDeleteGameId(item.id)
                             : Toast.show({"type": "error", "text1": "Unexpected error!"})}}
                 >
-                    <Image source={require("../../../../assets/borrar.png")} style={stylesFavGameItem.deleteIcon} />
+                    <Image source={require("../../../../assets/borrar.png")} style={stylesFGI.deleteIcon} />
                 </TouchableOpacity>
 
                 {selectedDeleteGameId === item.id && (
@@ -82,26 +87,26 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
                         visible={true}
                         onRequestClose={() => setSelectedDeleteGameId(null)}
                     >
-                        <View style={styleAccount.centeredView}>
-                            <View style={styleAccount.modalView}>
-                                <Text style={{...styleAccount.textPopUp, color: AppColors.red}}>Delete this game?</Text>
-                                <Text style={styleAccount.gameNamePopUp}>{item.name}</Text>
-                                <View style={styleAccount.containerButton}>
+                        <View style={styleAcc.centeredView}>
+                            <View style={styleAcc.modalView}>
+                                <Text style={{...styleAcc.textPopUp, color: colors.red}}>Delete this game?</Text>
+                                <Text style={styleAcc.gameNamePopUp}>{item.name}</Text>
+                                <View style={styleAcc.containerButton}>
                                     <TouchableOpacity
-                                        style={styleAccount.modalCancelButton}
+                                        style={styleAcc.modalCancelButton}
                                         onPress={() => setSelectedDeleteGameId(null)}
                                     >
-                                        <Text style={styleAccount.modalButtonTextStyle}>Cancel</Text>
+                                        <Text style={styleAcc.modalButtonTextStyle}>Cancel</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        style={styleAccount.modalAcceptButton}
+                                        style={styleAcc.modalAcceptButton}
                                         onPress={async () => {
                                             console.log(item.name)
                                             await deleteGameFromFav(item.id_api, user?.slug || "");
                                             setSelectedDeleteGameId(null);
                                         }}
                                     >
-                                        <Text style={styleAccount.modalButtonTextStyle}>Accept</Text>
+                                        <Text style={styleAcc.modalButtonTextStyle}>Accept</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -115,26 +120,26 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
                         visible={true}
                         onRequestClose={() => setSelectedPlayedGameId(null)}
                     >
-                        <View style={styleAccount.centeredView}>
-                            <View style={styleAccount.modalView}>
-                                <Text style={{...styleAccount.textPopUp, color: AppColors.green}}>Have you played this game?</Text>
-                                <Text style={styleAccount.gameNamePopUp}>{item.name}</Text>
-                                <View style={styleAccount.containerButton}>
+                        <View style={styleAcc.centeredView}>
+                            <View style={styleAcc.modalView}>
+                                <Text style={{...styleAcc.textPopUp, color: colors.green}}>Have you played this game?</Text>
+                                <Text style={styleAcc.gameNamePopUp}>{item.name}</Text>
+                                <View style={styleAcc.containerButton}>
                                     <TouchableOpacity
-                                        style={styleAccount.modalCancelButton}
+                                        style={styleAcc.modalCancelButton}
                                         onPress={() => setSelectedPlayedGameId(null)}
                                     >
-                                        <Text style={styleAccount.modalButtonTextStyle}>Cancel</Text>
+                                        <Text style={styleAcc.modalButtonTextStyle}>Cancel</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        style={styleAccount.modalAcceptButton}
+                                        style={styleAcc.modalAcceptButton}
                                         onPress={async () => {
                                             console.log(item.name)
                                             await addPlayedGame(user?.slug ? user?.slug : "", item);
                                             setSelectedPlayedGameId(null);
                                         }}
                                     >
-                                        <Text style={styleAccount.modalButtonTextStyle}>Accept</Text>
+                                        <Text style={styleAcc.modalButtonTextStyle}>Accept</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -146,8 +151,8 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
     ), [user?.slug, selectedDeleteGameId, selectedPlayedGameId, navigation]);
 
     return (
-        <View style={styleFav.container}>
-            <View style={{width: '100%', height: '100%', backgroundColor: AppColors.backgroundColor}}>
+        <View style={styleFav(colors).container}>
+            <View style={{width: '100%', height: '100%', backgroundColor: colors.backgroundColor}}>
                 {showLoading ? (
                     <>
                         <ActivtyIndicatorCustom showLoading={showLoading}/>
@@ -163,7 +168,7 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
                                       extraData={favListGames}
                                       initialScrollIndex={0}
                                       fadingEdgeLength={10}
-                                      ListFooterComponent={<Text style={{...styleFav.footerFavGames, display: showLoading ? "none" : "flex"}}>Add more games!</Text>}
+                                      ListFooterComponent={<Text style={{...styleFav(colors).footerFavGames, display: showLoading ? "none" : "flex"}}>Add more games!</Text>}
                             />
                         </Animated.View>
                     </>
@@ -174,7 +179,7 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
     );
 }
 
-export const stylesFavGameItem = StyleSheet.create({
+export const stylesFavGameItem = (colors: any) => StyleSheet.create({
     card: {
         justifyContent: "center",
         width: "100%",
@@ -198,6 +203,6 @@ export const stylesFavGameItem = StyleSheet.create({
         width: wp("3%"),
         height: hp("1%"),
         padding: wp("2%"),
-        tintColor: AppColors.white,
+        tintColor: colors.white,
     }
 })

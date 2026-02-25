@@ -1,15 +1,15 @@
 import { StyleSheet, Dimensions, PixelRatio } from "react-native";
-import { AppColors } from "../../theme/AppTheme";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { AppColors } from "../../theme/AppTheme";
 
 
-const styleSearch = StyleSheet.create({
+const styleSearch = (colors: any) => StyleSheet.create({
     logo: {
         width: wp("12%"),
         height: hp("4%"),
         marginTop: hp("2%"),
-        tintColor: AppColors.white,
+        tintColor: colors.white,
     },
     container: {
         flex: 1,
@@ -17,7 +17,6 @@ const styleSearch = StyleSheet.create({
     },
     appName: {
         fontSize: wp("4%"),
-        color: AppColors.white,
         alignSelf: "center",
         lineHeight: 23,
         marginTop: hp("0.7%"),
@@ -36,7 +35,6 @@ const styleSearch = StyleSheet.create({
         fontSize: wp("7%"),
         alignSelf: "center",
         marginBottom: hp("1%"),
-        color: AppColors.white,
         fontFamily: "zen_kaku_light",
     },
     containerSearchInput: {
@@ -60,23 +58,23 @@ const styleSearch = StyleSheet.create({
 
     containerHeader:{
         elevation:2,
-        backgroundColor: AppColors.buttonBackground,
+        backgroundColor: colors.buttonBackground,
     },
 
     resultTextContainer: {
-        backgroundColor: AppColors.buttonBackground,
+        backgroundColor: colors.buttonBackground,
         padding: 13,
-        borderColor: AppColors.opacWhite,
+        borderColor: colors.opacWhite,
         elevation: 10,
         alignItems: "center",
     },
 
     resultText: {
         fontSize: wp("4.4%"),
-        color: "#fff",
         height: 28,
         verticalAlign: "middle",
         marginBottom: hp("0.2%"),
+        color: colors.white,
         fontFamily: "zen_kaku_regular",
     },
     resultTextFilter: {
@@ -103,13 +101,13 @@ const styleSearch = StyleSheet.create({
 
     clearFilterText: {
         fontSize: wp("3%"),
-        color: AppColors.red,
+        color: colors.red,
     },
     item: {
         width:wp("7%"),
         height:hp("2.4%"),
         paddingHorizontal: wp("2%"),
-        tintColor:AppColors.white,
+        tintColor:colors.white,
     },
     tabsContainer: {
         flexDirection: "row",
@@ -124,7 +122,7 @@ const styleSearch = StyleSheet.create({
         borderBottomColor: "transparent",
     },
     tabButtonSelected: {
-        borderBottomColor: AppColors.opacWhite,
+        borderBottomColor: colors.focusSearchTabColor,
     },
     tabText: {
         color: "gray",
@@ -141,14 +139,7 @@ const styleSearch = StyleSheet.create({
 
 
 
-const styleSearchCompanyItem = StyleSheet.create({
-    companyCard: {
-        flexDirection: "row",
-        paddingVertical: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: AppColors.opacWhite,
-        alignItems: "center",
-    },
+const styleSearchCompanyItem = (colors: any) => StyleSheet.create({
     companyCover: {
         margin: wp("3%"),
         width: wp("25%"),
@@ -169,12 +160,10 @@ const styleSearchCompanyItem = StyleSheet.create({
         lineHeight: 20,
         marginStart: wp("3%"),
         fontFamily: "zen_kaku_regular",
-        color:AppColors.white,
     },
     description:{
         width: wp("60%"),
         fontFamily: "zen_kaku_regular",
-        color:AppColors.white,
     },
 
 });
@@ -191,7 +180,6 @@ const styleSearchUserItem = StyleSheet.create({
         lineHeight: 20,
         alignSelf:"center",
         fontFamily: "zen_kaku_regular",
-        color:AppColors.white,
     },
 
     image: {

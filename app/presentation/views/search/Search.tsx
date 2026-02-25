@@ -1,44 +1,34 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {
     View,
-    Keyboard, ActivityIndicator, TouchableOpacity,
+    TouchableOpacity,
 }
     from "react-native";
 import {Text} from "../../components/Text";
 import {Image} from "expo-image"
 import { CustomTextInputSearch } from "../../components/CustomTextInputSearch";
-import {styleSearch, styleSearchCompanyItem, styleSearchUserItem} from "./StyleSearch";
-import {Game} from "../../../domain/entities/Game";
-import viewModel, {searchViewModel} from "./ViewModel";
-import {AppColors} from "../../theme/AppTheme";
+import {styleSearch, styleSearchUserItem} from "./StyleSearch";
+import {searchViewModel} from "./ViewModel";
 import styleFav from "../library/StyleFav";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import {ToPlayGamesScreen} from "../library/ToPlayGamesScreen";
-import FiltroComponent from "../../components/FilterButton";
-import {useFocusEffect, useNavigation} from "@react-navigation/native";
+import {useNavigation} from "@react-navigation/native";
 import {PropsStackNavigation} from "../../interfaces/StackNav";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
-import viewModelHome, {homeViewModel} from "../home/ViewModel";
-import viewModelFav, {favScreenViewModel} from "../library/ViewModel";
-import {PlatformItem} from "../../components/PlatformItem";
-import Toast from "react-native-toast-message";
-import {CompanyDetailsInterface} from "../../../domain/entities/Company";
-import stylesHome from "../home/StyleHome";
-import styleHome from "../home/StyleHome";
+import {homeViewModel} from "../home/ViewModel";
+import {favScreenViewModel} from "../library/ViewModel";
 import {GetSearchUserInterface} from "../../../domain/entities/User";
-import {API_BASE_URL} from "../../../data/sources/remote/api/ApiDelivery";
 import {FlashList} from "@shopify/flash-list";
-import {transformCoverUrl, transformSmallCoverUrl} from "../../utils/TransformCoverUrls";
-import Animated, {FadeInDown, FadeInLeft} from 'react-native-reanimated';
+import Animated, {FadeInLeft} from 'react-native-reanimated';
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
-import {useUserGamesContext} from "../../provider/GameProvider";
 import {useAnticipatedGames} from "../../hooks/UseAnticipatedGames";
-import {HorizontalFlashList} from "../../components/HorizontalFlashList";
-import { HandleLikeButton } from "../../components/HandleLikeButton";
 import { SearchGameItem } from "../../components/SearchGameItem";
+import { useTheme } from "../../theme/ThemeContext";
 
 
 export function Search({navigation = useNavigation()}: PropsStackNavigation) {
+
+    const { colors } = useTheme();
+    const style = styleSearch(colors);
     const {
         gamesDisplayed,
         loading,
@@ -91,40 +81,40 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
     ), [])
 
     return (
-        <View style={styleSearch.container}>
-            <View style={{width: '100%', height: '100%', backgroundColor: AppColors.backgroundColor}}>
-                <View style={styleSearch.containerHeader}>
-                    <View style={styleSearch.logoContainer}>
-                        <Image source={require("../../../../assets/igdb-logo.webp")} style={styleSearch.logo} />
+        <View style={style.container}>
+            <View style={{width: '100%', height: '100%', backgroundColor: colors.backgroundColor}}>
+                <View style={style.containerHeader}>
+                    <View style={style.logoContainer}>
+                        <Image source={require("../../../../assets/igdb-logo.webp")} style={style.logo} />
                     </View>
                     <View>
-                        <Text style={styleSearch.headerTitle}>Search</Text>
+                        <Text style={style.headerTitle}>Search</Text>
                     </View>
-                    <View style={styleSearch.tabsContainer}>
+                    <View style={style.tabsContainer}>
                         <TouchableOpacity
-                            style={[styleSearch.tabButton, selectedTab === "games" && styleSearch.tabButtonSelected]}
+                            style={[style.tabButton, selectedTab === "games" && style.tabButtonSelected]}
                             onPress={() => setSelectedTab("games")}
                         >
                             <Image
                                 contentFit={"contain"}
                                 source={require("../../../../assets/controller-icon.png")}
-                                style={{...styleSearch.item, height: hp("2.7%"),}}/>
+                                style={{...style.item, height: hp("2.7%"),}}/>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={[styleSearch.tabButton, selectedTab === "users" && styleSearch.tabButtonSelected]}
+                            style={[style.tabButton, selectedTab === "users" && style.tabButtonSelected]}
                             onPress={() => setSelectedTab("users")}
                         >
                             <Image
                                 contentFit={"contain"}
                                 source={require("../../../../assets/account-icon-filled.png")}
-                                style={styleSearch.item}/>
+                                style={style.item}/>
                         </TouchableOpacity>
                     </View>
                 </View>
                 {selectedTab === "games" && (
                     <>
-                        <View style={styleSearch.containerHeader}>
-                            <View style={styleSearch.containerSearchInput}>
+                        <View style={style.containerHeader}>
+                            <View style={style.containerSearchInput}>
                                 <CustomTextInputSearch
                                     keyboardType="default"
                                     secureTextEntry={false}
@@ -133,16 +123,16 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                                 />
                             </View>
                         </View>
-                        <View style={styleSearch.resultTextContainer}>
+                        <View style={style.resultTextContainer}>
                             {searchText !== "" ? (
-                                <Text style={styleSearch.resultText}>Results for "{searchText}"</Text>
+                                <Text style={style.resultText}>Results for "{searchText}"</Text>
                             ) : (
                                 <Animated.Text
                                     entering={FadeInLeft.duration(800)}
-                                    style={styleSearch.resultText}><Text style={{...styleSearch.resultText, fontFamily: "zen_kaku_medium", fontSize: wp("4.9")}}>TOP 15</Text>   Most anticipated games</Animated.Text>
+                                    style={style.resultText}><Text style={{...style.resultText, fontFamily: "zen_kaku_medium", fontSize: wp("4.9")}}>TOP 15</Text>   Most anticipated games</Animated.Text>
                             )}
                         </View>
-                        <View style={styleSearch.gameCardsContainer}>
+                        <View style={style.gameCardsContainer}>
                             {loading ? (
                                 <>
                                     <ActivtyIndicatorCustom showLoading={loading}/>
@@ -156,7 +146,8 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                                         renderItem={({item}) => SearchGameItem({
                                             item, 
                                             navigation, 
-                                            loadFavGames: () => loadFavGames(user?.slug || "")
+                                            loadFavGames: () => loadFavGames(user?.slug || ""),
+                                            colors: colors
                                         })}                                        
                                         ListFooterComponent={
                                             <Text style={{...styleFav.footerFavGames, display: gamesDisplayed.length > 0 ? "flex" : "none"}}>No more games</Text>
@@ -166,7 +157,7 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                                         getItemType={() => "game"} 
                                         ListEmptyComponent={
                                             <View style={{ alignItems: "center", width: "100%", marginTop: 20 }}>
-                                                <Text style={{ ...styleSearch.emptyFlatListText, display: loading ? "none" : "flex" }}>
+                                                <Text style={{ ...style.emptyFlatListText, display: loading ? "none" : "flex" }}>
                                                     No results
                                                 </Text>
                                             </View>
@@ -180,8 +171,8 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
 
                 {selectedTab ===  "users" && (
                     <>
-                        <View style={styleSearch.containerHeader}>
-                            <View style={styleSearch.containerSearchInput}>
+                        <View style={style.containerHeader}>
+                            <View style={style.containerSearchInput}>
                                 <CustomTextInputSearch
                                     keyboardType="default"
                                     secureTextEntry={false}
@@ -203,7 +194,7 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                                     fadingEdgeLength={10}
                                     ListEmptyComponent={
                                         <View style={{ alignItems: "center", width: "100%", marginTop: 20 }}>
-                                            <Text style={{ ...styleSearch.emptyFlatListText, display: loading ? "none" : "flex" }}>
+                                            <Text style={{ ...style.emptyFlatListText, display: loading ? "none" : "flex" }}>
                                                 No results
                                             </Text>
                                         </View>

@@ -1,6 +1,6 @@
 export const AppColors = {
     black: "#FF000000" ,
-    white:"#ffffff",
+    white:"#0583f2",
     opacWhite: "rgba(255,255,255,0.45)",
     backgroundColor: "#121315",
     blue:"#0583F2",

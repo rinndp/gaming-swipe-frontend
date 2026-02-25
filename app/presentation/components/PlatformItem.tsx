@@ -6,19 +6,20 @@ import {AppColors} from "../theme/AppTheme";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
 
 
-export const PlatformItem = ({item}: {item: Platform}) => {
+export const PlatformItem = ({item, colors, home, theme}: {item: Platform, colors: any, home?: boolean, theme?: string}) => {
+    const style = stylesPlatformItem(colors);
     return (
-        <View style={stylesPlatformItem.container} pointerEvents="box-none">
-                <Text style={stylesPlatformItem.abbreviation}>
+        <View style={[style.container, {backgroundColor: home && theme === "light" ? colors.backgroundColor : colors.thirdColor}]} pointerEvents="box-none">
+                <Text style={style.abbreviation}>
                     {item.abbreviation ? item.abbreviation : item.name}
                 </Text>
         </View>
     )
 }
 
-export const stylesPlatformItem = StyleSheet.create({
+export const stylesPlatformItem = (colors: any) => StyleSheet.create({
     container: {
-        backgroundColor: AppColors.thirdColor,
+        backgroundColor: colors.thirdColor,
         borderRadius: 15,
         paddingHorizontal: wp("2%"),
         height: hp("3.3%"),
@@ -32,6 +33,5 @@ export const stylesPlatformItem = StyleSheet.create({
         fontSize: wp("3%"),
         verticalAlign: "middle",
         fontFamily: "zen_kaku_regular",
-        color: AppColors.white,
     }
 })

@@ -1,20 +1,13 @@
 import { StyleSheet } from "react-native";
-import { AppColors } from "../../theme/AppTheme";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-const styleAccount = StyleSheet.create({
+const styleAccount = (colors: any) => StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
     },
-
-    charactersCounter: {
-        color: AppColors.white,
-    },
-
     passwordHint: {
         fontFamily: "zen_kaku_regular",
-        color: AppColors.white,
         fontSize: 14,
         height: 20,
         marginTop: wp("-3"),
@@ -30,7 +23,6 @@ const styleAccount = StyleSheet.create({
     appName: {
         fontSize: wp("4%"),
         top: hp("3%"),
-        color: AppColors.white,
         fontFamily: "zen_kaku_light",
     },
     header: {
@@ -41,8 +33,7 @@ const styleAccount = StyleSheet.create({
     title: {
         fontSize: wp("7.5%"),
         alignSelf: "center",
-        top: hp("6%"),
-        color: AppColors.white,
+        top: hp("5%"),
         fontFamily: "zen_kaku_light",
     },
     containerEmail: {
@@ -52,7 +43,6 @@ const styleAccount = StyleSheet.create({
     textEmail: {
         fontSize: wp("4.5%"),
         height: hp("4%"),
-        color: AppColors.white,
         fontFamily: "zen_kaku_medium",
     },
     containerPhoto: {
@@ -69,22 +59,20 @@ const styleAccount = StyleSheet.create({
     },
     labelName: {
         fontSize: wp("4.1%"),
-        color: AppColors.white,
-        fontFamily: "zen_kaku_medium",
+        fontFamily: "zen_kaku_regular",
     },
     Name: {
         fontSize: wp("4.9%"),
         marginTop: hp("1%"),
         width: "90%",
         lineHeight: 40,
-        color: AppColors.white,
-        fontFamily: "zen_kaku_light",
+        fontFamily: "zen_kaku_medium",
     },
     editButton: {
         width: wp("7%"),
         height: wp("7%"),
         alignSelf: "flex-end",
-        tintColor: AppColors.white,
+        tintColor: colors.white,
     },
     containerLastName: {
         marginTop: hp("4%"),
@@ -96,7 +84,6 @@ const styleAccount = StyleSheet.create({
     },
     TextResetPassword: {
         fontSize: wp("3.5%"),
-        color: AppColors.white,
         textDecorationLine: "underline",
         fontFamily: "zen_kaku_regular",
         lineHeight:25,
@@ -109,7 +96,7 @@ const styleAccount = StyleSheet.create({
     },
     LogOut: {
         fontSize: wp("5%"),
-        color: AppColors.red,
+        color: colors.red,
         fontFamily: "zen_kaku_regular",
     },
     modalText: {
@@ -122,7 +109,7 @@ const styleAccount = StyleSheet.create({
         backgroundColor: "rgba(0,0,0,0.75)",
     },
     modalView: {
-        backgroundColor: AppColors.buttonBackground,
+        backgroundColor: colors.buttonBackground,
         borderRadius: 15,
         padding: wp("5%"),
         gap: hp("2%"),
@@ -166,7 +153,6 @@ const styleAccount = StyleSheet.create({
     },
     textPopUp:{
         fontSize: wp("4%"),
-        color: AppColors.white,
         textAlign: "center",
         fontFamily: "zen_kaku_regular",
         height:hp("3%"),
@@ -175,20 +161,12 @@ const styleAccount = StyleSheet.create({
 
     gameNamePopUp:{
         fontSize: wp("4.3%"),
-        color: AppColors.white,
         textAlign: "center",
         fontFamily: "zen_kaku_medium",
         height: "auto",
         lineHeight: hp("3%"),
         verticalAlign: "middle"
     },
-
-    logOutIcon: {
-        tintColor: AppColors.red,
-        marginStart:wp("2%"),
-        width: wp("4%"),
-        height: hp("2%"),
-    }
 });
 
 export default styleAccount;

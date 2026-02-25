@@ -19,6 +19,7 @@ import {useEffect, useState} from "react";
 import {useUserGamesContext} from "../../provider/GameProvider";
 import Animated, {FadeInUp} from 'react-native-reanimated';
 import AnimatedNumber from "react-native-animated-numbers";
+import { useTheme } from '../../theme/ThemeContext';
 
 
 const renderScene = SceneMap({
@@ -27,6 +28,7 @@ const renderScene = SceneMap({
 });
 
 export default function TabViewLibraryScreen({}) {
+    const { colors } = useTheme();
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
     const {favListGames, playedListGames} = useUserGamesContext()
@@ -42,21 +44,23 @@ export default function TabViewLibraryScreen({}) {
     }, [playedListGames.length]);
 
     const renderTabBar = (props: any) => (
-        <View style={styleFav.header}>
+        <View style={styleFav(colors).header}>
             <Animated.View
                 entering={FadeInUp.duration(800)}>
-                <Text style={styleFav.title}>Game library</Text>
+                <Text style={styleFav(colors).title}>Game library</Text>
                 <View
                     style={{alignItems:"center"}}>
                     <View
                         style={{flexDirection:"row", gap:wp("32%"), position:"absolute"}}>
-                        <AnimatedNumber fontStyle={stylesTabBar.textLabels} animateToNumber={favGamesLength} animationDuration={400}/>
-                        <AnimatedNumber fontStyle={stylesTabBar.textLabels} animateToNumber={playedGamesLength} animationDuration={400}/>
+                        <AnimatedNumber fontStyle={stylesTabBar(colors).textLabels} animateToNumber={favGamesLength} animationDuration={400}/>
+                        <AnimatedNumber fontStyle={stylesTabBar(colors).textLabels} animateToNumber={playedGamesLength} animationDuration={400}/>
                     </View>
                     <TabBar
                         {...props}
-                        indicatorStyle={{ backgroundColor: AppColors.white }}
-                        style={stylesTabBar.favScreenTabLabels}
+                        indicatorStyle={{ backgroundColor: colors.white }}
+                        activeColor={colors.white}
+                        inactiveColor={colors.gray}
+                        style={stylesTabBar(colors).favScreenTabLabels}
                     />
                 </View>
             </Animated.View>

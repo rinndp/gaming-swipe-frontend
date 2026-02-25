@@ -23,6 +23,9 @@ import {EmailScreen} from "./app/presentation/views/auth/EmailScreen";
 import {PasswordScreen} from "./app/presentation/views/auth/PasswordScreen";
 import {UserInfoAuthProvider} from "./app/presentation/provider/UserInfoAuthProvider";
 import {UsernameScreen} from "./app/presentation/views/auth/UsernameScreen";
+import { SettingsScreen } from "./app/presentation/views/settings/SettingsScreen";
+import { ThemeScreen } from "./app/presentation/views/settings/ThemeScreen";
+import { ThemeProvider } from "./app/presentation/theme/ThemeContext";
 
 
 let mobileAds: any = null;
@@ -39,6 +42,8 @@ export type RootStackParamsList = {
     EmailScreen: undefined
     PasswordScreen: undefined
     UsernameScreen: undefined
+    SettingsScreen: undefined
+    ThemeScreen: undefined
 }
 
 const Stack = createStackNavigator<RootStackParamsList>();
@@ -88,6 +93,7 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
         <GameProvider>
         <UserInfoAuthProvider>
+        <ThemeProvider>
         <NavigationContainer>
           <Stack.Navigator
               initialRouteName={user && user.slug ? "UserNavigation" : "WelcomeScreen"}
@@ -104,8 +110,11 @@ export default function App() {
               <Stack.Screen name="GameDetails" component={GameDetails}/>
               <Stack.Screen name="CompanyDetails" component={CompanyDetails}/>
               <Stack.Screen name="UserDetails" component={UserDetails}/>
+              <Stack.Screen name="SettingsScreen" component={SettingsScreen}/>
+              <Stack.Screen name="ThemeScreen" component={ThemeScreen}/>
           </Stack.Navigator>
         </NavigationContainer>
+        </ThemeProvider>
         </UserInfoAuthProvider>
         </GameProvider>
         </QueryClientProvider>

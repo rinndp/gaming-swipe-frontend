@@ -12,56 +12,52 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
 import {styles} from "react-native-toast-message/lib/src/components/BaseToast.styles";
 import App from "../../../App";
+import { useTheme } from "../theme/ThemeContext";
+import { Ionicons } from "@expo/vector-icons";
 
 const Tab = createMaterialBottomTabNavigator();
 
 export function UserNavigation ({navigation = useNavigation()}: PropsStackNavigation) {
+    const { colors } = useTheme();
+    const style = stylesTabBarItems(colors);
     return (
         <Tab.Navigator
             initialRouteName="Home"
             shifting={true}
-            activeIndicatorStyle={{backgroundColor: AppColors.secondaryColor}}
-            activeColor={AppColors.white}
-            inactiveColor={AppColors.buttonBackground}
-            barStyle={{ backgroundColor: AppColors.buttonBackground, height: Platform.OS === "ios" ? hp("10%") : hp("13.5%"), zIndex: 8 }}
+            activeColor={colors.white}
+            activeIndicatorStyle={{backgroundColor: colors.secondaryColor}}
+            inactiveColor={colors.buttonBackground}
+            barStyle={{ backgroundColor: colors.buttonBackground, height: Platform.OS === "ios" ? hp("10%") : hp("13.5%"), zIndex: 8 }}
         >
             <Tab.Screen name="Home" options={{title:"Swipes",
                 tabBarIcon: ({color})=>(
-                    <Image
-                        source={require("../../../assets/home-icon.png")}
-                        style={stylesTabBarItems.item}/>
+                    <Ionicons name="home-outline" size={22} color={colors.white} />
                 )}}
                         component={Home} />
             <Tab.Screen name="Library" options={{title:"Library",
                 tabBarIcon: ({color})=>(
-                    <Image
-                        source={require("../../../assets/heart.png")}
-                        style={stylesTabBarItems.item}/>
+                    <Ionicons name="heart-outline" size={22} color={colors.white} />
                 )}}
                         component={TabViewLibraryScreen} />
             <Tab.Screen name="Search" options={{title:"Search",
                 tabBarIcon: ({color})=>(
-                    <Image
-                        source={require("../../../assets/search.png")}
-                        style={stylesTabBarItems.item}/>
+                    <Ionicons name="search-outline" size={22} color={colors.white} />
                 )}}
                         component={Search} />
             <Tab.Screen name="Account" options={{title:"Account",
                 tabBarIcon: ({color})=>(
-                    <Image
-                        source={require("../../../assets/account.png")}
-                        style={stylesTabBarItems.item}/>
+                    <Ionicons name="person-outline" size={20} color={colors.white} />
                 )}}
                         component={Account} />
         </Tab.Navigator>
     )
 }
 
-export const stylesTabBarItems = StyleSheet.create({
+export const stylesTabBarItems = (colors: any) => StyleSheet.create({
     item: {
         width:wp("4.8%"),
         height:hp("3%"),
         resizeMode:"contain",
-        tintColor:AppColors.white,
+        tintColor:colors.white,
     }
 })

@@ -20,10 +20,12 @@ import {loginAuthUseCase} from "../../../domain/usesCases/auth/LoginAuth";
 import {saveUserUseCase} from "../../../domain/usesCases/user-local/SaveUser";
 import {saveTokens} from "../../../data/sources/local/secure/TokenStorage";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
+import { useTheme } from "../../theme/ThemeContext";
 
 
 
 export function UsernameScreen({navigation = useNavigation()}: PropsStackNavigation){
+    const { colors, theme } = useTheme();
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [showLoading, setShowLoading] = useState(false);
 
@@ -52,16 +54,18 @@ export function UsernameScreen({navigation = useNavigation()}: PropsStackNavigat
     const handleContinue = async (value: string) => {
         if (await validateInput(value || "")) {
             try{
-                setShowLoading(true);
-                await registerUseCase(registerValues)
-                const responseLogin = await loginAuthUseCase(registerValues as LoginUserInterface);
-                await saveUserUseCase({slug: responseLogin.slug})
-                await saveTokens(responseLogin.access_token, responseLogin.refresh_token)
-                await getUserSession()
-                setLoginValues({})
-                setRegisterValues({})
-                setShowLoading(false);
-                navigation.navigate("UserNavigation")
+                if (registerValues) {
+                    setShowLoading(true);
+                    await registerUseCase(registerValues)
+                    const responseLogin = await loginAuthUseCase(registerValues as LoginUserInterface);
+                    await saveUserUseCase({slug: responseLogin.slug})
+                    await saveTokens(responseLogin.access_token, responseLogin.refresh_token)
+                    await getUserSession()
+                    setLoginValues({})
+                    setRegisterValues({})
+                    setShowLoading(false);
+                    navigation.navigate("UserNavigation")
+                }
             } catch {
                 setShowLoading(false);
             }
@@ -76,19 +80,19 @@ export function UsernameScreen({navigation = useNavigation()}: PropsStackNavigat
     }, [errorMessage]);
 
     return (
-        <View style={stylesAuthViews.container}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={{...styleGameDetails.goBackIconTouchable, bottom: hp("90%")}}>
+        <View style={stylesAuthViews(colors).container}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{...styleGameDetails(colors).goBackIconTouchable, bottom: hp("90%")}}>
                 <Image source={require("../../../../assets/go-back-icon.png")}
                        cachePolicy={"memory-disk"}
                        contentFit={"contain"}
-                       style={styleGameDetails.goBackIcon}/>
+                       style={styleGameDetails(colors).goBackIcon}/>
             </TouchableOpacity>
             <View style={{marginTop: hp("7%"), alignItems:"center"}}>
                 <Image
                     style={{width: wp("9%"), height: hp("5%")}}
                     source={require('../../../../assets/logo.png')} />
                 <View style={{marginTop: hp("2%"), gap: hp("2%")}}>
-                    <Text style={stylesAuthViews.h2}>{"Choose an username"}</Text>
+                    <Text style={stylesAuthViews(colors).h2}>{"Choose an username"}</Text>
                     <CustomTextInput label={"Username (Max. 30 characters)"}
                                      keyboardType={"default"}
                                      width={"large"}
@@ -98,7 +102,7 @@ export function UsernameScreen({navigation = useNavigation()}: PropsStackNavigat
                                      value={registerValues?.username}
                                      onChangeText={(text) => onChangeRegister("username", text)}/>
                     <RoundedButton
-                        backgroundColor={AppColors.buttonBackground}
+                        backgroundColor={colors.buttonBackground}
                         text={"Continue"}
                         loading={showLoading}
                         onPressFromInterface={() => handleContinue(registerValues?.username || "")}/>
