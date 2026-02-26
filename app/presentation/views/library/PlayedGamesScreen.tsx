@@ -30,7 +30,7 @@ import Animated, { FadeInLeft } from "react-native-reanimated";
 
 export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavigation) {
 
-    const { colors } = useTheme();
+    const { colors, theme } = useTheme();
     const styleFGI = stylesFavGameItem(colors);
     const styleAcc = styleAccount(colors);
 
@@ -50,7 +50,7 @@ export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavi
 
     const [selectedGameId, setSelectedGameId] = useState<number | null>(null);
 
-    const toPlayGameRenderItem = useCallback(({ item }: { item: FavGame }) => (
+    const playedGameRenderItem = useCallback(({ item }: { item: FavGame }) => (
         <View style={styleFGI.card}>
             <View style={styleFGI.container}>
                 <TouchableOpacity onPress={() => navigation.navigate("GameDetails", {gameId : item.id_api, likeButton: false})}>
@@ -105,7 +105,7 @@ export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavi
                 )}
             </View>
         </View>
-    ), [user?.slug, selectedGameId, navigation]);
+    ), [user?.slug, selectedGameId, navigation, colors, theme]);
 
     return (
         <View style={{width: '100%', height: '100%', backgroundColor: colors.backgroundColor}}>
@@ -120,7 +120,7 @@ export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavi
                         style={{height:"100%"}}>
                         <FlashList data={playedListGames}
                                   removeClippedSubviews={true}
-                                  renderItem={toPlayGameRenderItem}
+                                  renderItem={playedGameRenderItem}
                                   extraData={playedListGames}
                                   initialScrollIndex={0}
                                   fadingEdgeLength={10}

@@ -28,7 +28,7 @@ import { useTheme } from "../../theme/ThemeContext";
 
 
 export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavigation) {
-    const { colors } = useTheme();
+    const { colors, theme } = useTheme();
     const styleAcc = styleAccount(colors);
     const stylesFGI = stylesFavGameItem(colors);
 
@@ -50,7 +50,7 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
     const [selectedDeleteGameId, setSelectedDeleteGameId] = useState<number | null>(null);
     const [selectedPlayedGameId, setSelectedPlayedGameId] = useState<number | null>(null);
 
-    const playedGameRenderItem = useCallback(({ item }: { item: FavGame }) => (
+    const toPlayGameRenderItem = useCallback(({ item }: { item: FavGame }) => (
         <View
             style={stylesFGI.card}>
             <View style={stylesFGI.container}>
@@ -148,7 +148,7 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
                 )}
             </View>
         </View>
-    ), [user?.slug, selectedDeleteGameId, selectedPlayedGameId, navigation]);
+    ), [user?.slug, selectedDeleteGameId, selectedPlayedGameId, navigation, colors, theme]);
 
     return (
         <View style={styleFav(colors).container}>
@@ -164,7 +164,7 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
                             style={{height:"100%"}}>
                             <FlashList data={favListGames}
                                       removeClippedSubviews={true}
-                                      renderItem={playedGameRenderItem}
+                                      renderItem={toPlayGameRenderItem}
                                       extraData={favListGames}
                                       initialScrollIndex={0}
                                       fadingEdgeLength={10}

@@ -150,7 +150,7 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                                             colors: colors
                                         })}                                        
                                         ListFooterComponent={
-                                            <Text style={{...styleFav.footerFavGames, display: gamesDisplayed.length > 0 ? "flex" : "none"}}>No more games</Text>
+                                            <Text style={{...styleFav(colors).footerFavGames, display: gamesDisplayed.length > 0 ? "flex" : "none"}}>No more games</Text>
                                         }
                                         onEndReached={loadMoreGames}
                                         onEndReachedThreshold={0.5}

@@ -37,7 +37,6 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
     const stylesPP = stylesProfilePicture(colors);
     const {user} = UseUserLocalStorage()
     const {
-        deleteSession,
         userDB,
         getUserDB,
         showLoading,
@@ -118,9 +117,9 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                     <>
                     <View style={{paddingHorizontal:wp("10%")}}>
                         <View style={{marginTop: hp("5%")}}>
-                            <TouchableOpacity style={{position: "absolute", alignSelf: "flex-end"}}
+                            <TouchableOpacity style={{position: "absolute", alignSelf: "flex-end", marginTop: hp("2.5%")}}
                              onPress={() => navigation.navigate("SettingsScreen")}>
-                                <Ionicons name="settings-outline" size={24} color={colors.white} />
+                                <Ionicons name="settings-outline" size={33} color={colors.white} />
                             </TouchableOpacity>
                             <Text style={style.title}>
                                 Account details

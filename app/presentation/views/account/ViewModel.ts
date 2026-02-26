@@ -11,11 +11,6 @@ export const accountViewModel =()=> {
     const [showLoading, setShowLoading] = useState(true);
     let [errorMessage, setErrorMessage] = useState("");
 
-    const deleteSession = async () => {
-        await removeUserUseCase()
-        await clearTokens()
-    }
-
     const getUserDB = async (slug: string) => {
         const response = await getUserDBUseCase(slug)
         setUserDB(response)
@@ -30,7 +25,6 @@ export const accountViewModel =()=> {
     }
 
     return {
-        deleteSession,
         getUserDB,
         userDB,
         showLoading,

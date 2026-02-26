@@ -12,6 +12,8 @@ import stylesHome from "../home/StyleHome";
 import stylesSettings from "./StylesSettings";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../../theme/ThemeContext";
+import { removeUserUseCase } from "../../../domain/usesCases/user-local/RemoveUser";
+import { clearTokens } from "../../../data/sources/local/secure/TokenStorage";
 
 
 interface SettingsItem {
@@ -27,9 +29,13 @@ interface SettingsItem {
 
 export function SettingsScreen({navigation = useNavigation()}: PropsStackNavigation) {
 
-    const {deleteSession} = accountViewModel()
     const { colors } = useTheme();
     const style = stylesSettings(colors);
+
+    const deleteSession = async () => {
+        await removeUserUseCase()
+        await clearTokens()
+    }
     
     const settings: SettingsItem[] = [
         {
@@ -64,10 +70,14 @@ export function SettingsScreen({navigation = useNavigation()}: PropsStackNavigat
                 {
                     title: "Log out",
                     color: colors.red,
-                    onPress: () => {
-                        deleteSession().then(r => navigation.replace("WelcomeScreen"))
+                    onPress: async () => {
+                        await deleteSession();
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: "WelcomeScreen" }],
+                        });
                     }
-                },
+                }
             ]
         }    
     ]

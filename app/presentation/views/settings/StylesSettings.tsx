@@ -16,7 +16,7 @@ const stylesSettings = (colors: any) => StyleSheet.create({
     },
     sectionItemLabel: {
         fontSize: wp("4.1%"),
-        fontFamily: "zen_kaku_medium",
+        fontFamily: "zen_kaku_regular",
     },
 });
 
