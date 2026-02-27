@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import { Text } from "./Text"
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../provider/ThemeProvider";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { TouchableOpacity } from "react-native";
 import { Image } from "expo-image";

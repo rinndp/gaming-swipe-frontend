@@ -16,7 +16,7 @@ import {validateEmail} from "../../utils/ValidateEmail";
 import {checkIfEmailRegisteredUseCase} from "../../../domain/usesCases/auth/RegisterAuth";
 import {useUserInfoAuthContext} from "../../provider/UserInfoAuthProvider";
 import {showCustomToast} from "../../utils/ShowCustomToast";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 
 
 export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation){

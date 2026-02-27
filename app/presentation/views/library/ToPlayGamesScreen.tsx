@@ -24,7 +24,7 @@ import {PropsStackNavigation} from "../../interfaces/StackNav";
 import Animated, {FadeInDown, FadeInLeft, FadeInUp} from 'react-native-reanimated';
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {FlashList} from "@shopify/flash-list";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 import { Ionicons } from "@expo/vector-icons";
 
 

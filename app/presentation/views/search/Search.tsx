@@ -22,7 +22,7 @@ import Animated, {FadeInLeft} from 'react-native-reanimated';
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {useAnticipatedGames} from "../../hooks/UseAnticipatedGames";
 import { SearchGameItem } from "../../components/SearchGameItem";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 import { Ionicons } from "@expo/vector-icons";
 import { Game } from "../../../domain/entities/Game";
 

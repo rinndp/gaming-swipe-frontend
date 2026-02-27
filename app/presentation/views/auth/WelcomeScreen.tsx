@@ -17,7 +17,7 @@ import {Image} from "expo-image";
 import {useUserInfoAuthContext} from "../../provider/UserInfoAuthProvider";
 import { ANDROID_GOOGLE_ID, IOS_GOOGLE_ID } from '@env';
 import { showCustomToast } from "../../utils/ShowCustomToast";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 
 
 export const googleLogo = require("../../../../assets/google-logo.png")

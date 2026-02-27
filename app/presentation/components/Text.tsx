@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text as RNText, TextProps } from 'react-native';
 import { AppColors } from '../theme/AppTheme';
-import { useTheme } from '../theme/ThemeContext';
+import { useTheme } from '../provider/ThemeProvider';
 
 export const CustomText = ({ children, ...props }: TextProps) => {
     const { colors } = useTheme();

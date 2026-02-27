@@ -38,7 +38,7 @@ import {ExpandingDot} from "react-native-animated-pagination-dots";
 import Animated, {FadeInDown, FadeInLeft, FadeInRight, FadeInUp, SlideInDown} from 'react-native-reanimated';
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import { HandleLikeButton } from "../../components/HandleLikeButton";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 
 type GameDetailsRouteProp = RouteProp<RootStackParamsList, "GameDetails">;
 

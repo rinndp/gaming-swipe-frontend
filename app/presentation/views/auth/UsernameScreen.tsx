@@ -20,7 +20,7 @@ import {loginAuthUseCase} from "../../../domain/usesCases/auth/LoginAuth";
 import {saveUserUseCase} from "../../../domain/usesCases/user-local/SaveUser";
 import {saveTokens} from "../../../data/sources/local/secure/TokenStorage";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 
 
 

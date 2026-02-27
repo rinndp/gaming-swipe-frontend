@@ -10,7 +10,7 @@ import {
 import {Image, ImageSource} from "expo-image"
 import {ActivtyIndicatorCustom} from "./ActivtyIndicatorCustom";
 import styleHome from "../views/home/StyleHome";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../provider/ThemeProvider";
 import stylesHome from "../views/home/StyleHome";
 
 interface Props {

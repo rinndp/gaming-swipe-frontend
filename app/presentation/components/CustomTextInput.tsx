@@ -7,7 +7,7 @@ import {
     widthPercentageToDP
 } from "react-native-responsive-screen";
 import { AppColors } from "../theme/AppTheme";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../provider/ThemeProvider";
 
 interface Props {
     label: string,

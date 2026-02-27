@@ -10,7 +10,7 @@ import { Image } from "expo-image";
 import { styleGameDetails } from "../details/StyleGameDetails";
 import { useEffect, useMemo, useState } from "react";
 import RadioGroup from 'react-native-radio-buttons-group';
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 
 
 

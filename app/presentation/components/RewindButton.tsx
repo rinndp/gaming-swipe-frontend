@@ -2,7 +2,7 @@ import {Image, TouchableOpacity,StyleSheet} from "react-native";
 import {AppColors} from "../theme/AppTheme";
 import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {Shadow} from "react-native-shadow-2";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../provider/ThemeProvider";
 
 interface Props {
     onPress: () => void;

@@ -7,7 +7,7 @@ import { styleGameDetails } from "../views/details/StyleGameDetails";
 import { addGameToFavoriteUseCase } from "../../domain/usesCases/home/AddGameToFavorite";
 import { FavGame } from "../../domain/entities/FavGame";
 import { deleteFavGameUseCase } from "../../domain/usesCases/favGames/DeleteFavGame";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../provider/ThemeProvider";
 
 interface Props {
     game: FavGame | undefined;

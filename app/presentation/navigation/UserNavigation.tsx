@@ -12,7 +12,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
 import {styles} from "react-native-toast-message/lib/src/components/BaseToast.styles";
 import App from "../../../App";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../provider/ThemeProvider";
 import { Ionicons } from "@expo/vector-icons";
 
 const Tab = createMaterialBottomTabNavigator();

@@ -2,7 +2,7 @@ import React from "react";
 import { TextInput, KeyboardType, StyleSheet } from "react-native";
 import { AppColors } from "../theme/AppTheme";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../provider/ThemeProvider";
 
 interface Props {
     keyboardType: KeyboardType;

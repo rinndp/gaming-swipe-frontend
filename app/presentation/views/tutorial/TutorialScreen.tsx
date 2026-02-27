@@ -1,7 +1,7 @@
 import { TouchableOpacity, View } from "react-native";
 import { Text } from "../../components/Text";
 import stylesAuthViews from "../auth/StylesAuthViews";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { PropsStackNavigation } from "../../interfaces/StackNav";
 import { useCallback, useMemo, useRef } from "react";

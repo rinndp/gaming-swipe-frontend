@@ -31,7 +31,7 @@ import {generateNoGamesFoundCard, NO_GAMES_FOUND_LABEL} from "../../utils/NoGame
 import {Image} from "expo-image"
 import {HorizontalFlashList} from "../../components/HorizontalFlashList";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 
 function FiltroComponent(props: {
     onApply: (filters: { category: string | null; platform: string | null }) => Promise<void>,

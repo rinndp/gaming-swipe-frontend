@@ -20,7 +20,7 @@ import {saveUserUseCase} from "../../../domain/usesCases/user-local/SaveUser";
 import {saveTokens} from "../../../data/sources/local/secure/TokenStorage";
 import {UseUserLocalStorage} from "../../hooks/UseUserLocalStorage";
 import {showCustomToast} from "../../utils/ShowCustomToast";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 
 export function PasswordScreen({navigation = useNavigation()}: PropsStackNavigation) {
     const { colors, theme } = useTheme();

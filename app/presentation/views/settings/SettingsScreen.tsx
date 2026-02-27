@@ -11,7 +11,7 @@ import { accountViewModel } from "../account/ViewModel";
 import stylesHome from "../home/StyleHome";
 import stylesSettings from "./StylesSettings";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 import { removeUserUseCase } from "../../../domain/usesCases/user-local/RemoveUser";
 import { clearTokens } from "../../../data/sources/local/secure/TokenStorage";
 

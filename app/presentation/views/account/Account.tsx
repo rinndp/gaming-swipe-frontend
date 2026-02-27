@@ -26,7 +26,7 @@ import {showCustomToast} from "../../utils/ShowCustomToast";
 import Constants from "expo-constants";
 import { checkIfUsernameRegisteredUseCase } from "../../../domain/usesCases/auth/RegisterAuth";
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 
 
 export function Account({navigation = useNavigation(), route}: PropsStackNavigation){

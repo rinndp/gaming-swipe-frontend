@@ -4,7 +4,7 @@ import {Text} from "./Text";
 import {stylesCustomTextInput} from "./CustomTextInput";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {validateEmail} from "../utils/ValidateEmail";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../provider/ThemeProvider";
 
 interface Props {
     label: string,

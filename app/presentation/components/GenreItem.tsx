@@ -4,7 +4,7 @@ import {Genre, Platform} from "../../domain/entities/Game";
 import {StyleSheet} from "react-native";
 import {AppColors} from "../theme/AppTheme";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../provider/ThemeProvider";
 
 
 export const GenreItem = ({item, colors, home, theme}: {item: Genre, colors: any, home?: boolean, theme?: string}) => {

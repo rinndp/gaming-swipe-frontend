@@ -30,7 +30,7 @@ import Animated, {FadeInDown, FadeInLeft} from "react-native-reanimated";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {homeViewModel} from "../home/ViewModel";
 import {HorizontalFlashList} from "../../components/HorizontalFlashList";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 import { Image } from "expo-image";
 
 type GameDetailsRouteProp = RouteProp<RootStackParamsList, "UserDetails">;

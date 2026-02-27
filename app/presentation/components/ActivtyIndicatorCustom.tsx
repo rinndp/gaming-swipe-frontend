@@ -3,7 +3,7 @@ import {ActivityIndicator, View} from "react-native";
 import styleHome from "../views/home/StyleHome";
 import React from "react";
 import {AppColors} from "../theme/AppTheme";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../provider/ThemeProvider";
 
 interface Props {
     showLoading: boolean;

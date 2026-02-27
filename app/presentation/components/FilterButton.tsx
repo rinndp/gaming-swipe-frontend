@@ -10,7 +10,7 @@ import {
 import {Text} from "./Text";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { IgdbApiDelivery } from '../../data/sources/remote/igdbAPI/IgdbApiDelivery';
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../provider/ThemeProvider";
 import {useFocusEffect} from "@react-navigation/native";
 import {Platform} from "../../domain/entities/Game";
 import {popularPlatforms} from "../utils/PopularPlatformsArray";

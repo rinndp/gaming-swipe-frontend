@@ -25,7 +25,7 @@ import {UserInfoAuthProvider} from "./app/presentation/provider/UserInfoAuthProv
 import {UsernameScreen} from "./app/presentation/views/auth/UsernameScreen";
 import { SettingsScreen } from "./app/presentation/views/settings/SettingsScreen";
 import { ThemeScreen } from "./app/presentation/views/settings/ThemeScreen";
-import { ThemeProvider, useTheme } from "./app/presentation/theme/ThemeContext";
+import { ThemeProvider, useTheme } from "./app/presentation/provider/ThemeProvider";
 import { TutorialScreen } from "./app/presentation/views/tutorial/TutorialScreen";
 
 

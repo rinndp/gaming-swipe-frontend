@@ -19,7 +19,7 @@ import {useEffect, useState} from "react";
 import {useUserGamesContext} from "../../provider/GameProvider";
 import Animated, {FadeInUp} from 'react-native-reanimated';
 import AnimatedNumber from "react-native-animated-numbers";
-import { useTheme } from '../../theme/ThemeContext';
+import { useTheme } from '../../provider/ThemeProvider';
 
 
 const renderScene = SceneMap({

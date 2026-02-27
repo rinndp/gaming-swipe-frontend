@@ -1,7 +1,7 @@
 import {StyleSheet} from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import {AppColors} from "../../theme/AppTheme";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 
 
 const styleGameDetails = (colors: any) => StyleSheet.create({

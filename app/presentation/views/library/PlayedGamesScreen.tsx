@@ -24,7 +24,7 @@ import {PropsStackNavigation} from "../../interfaces/StackNav";
 import {stylesFavGameItem} from "./ToPlayGamesScreen";
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {FlashList} from "@shopify/flash-list";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
 

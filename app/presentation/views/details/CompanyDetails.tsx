@@ -28,7 +28,7 @@ import {useCompanyDetails} from "../../hooks/UseCompanyDetails";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
 import { HorizontalFlashList } from "../../components/HorizontalFlashList";
-import { useTheme } from "../../theme/ThemeContext";
+import { useTheme } from "../../provider/ThemeProvider";
 
 
 

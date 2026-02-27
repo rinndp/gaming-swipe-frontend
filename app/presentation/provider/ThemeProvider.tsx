@@ -4,7 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import { Platform } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
-import { getBackgroundColorAsync, setBackgroundColorAsync } from 'expo-system-ui';
 
 
 type ThemeType = 'default' | 'light';
@@ -109,20 +108,12 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const updateSystemTheme = async () => {
-      const currentTheme = themes[theme];
-
-
-      await setBackgroundColorAsync(currentTheme.backgroundColor);
-
 
       if (Platform.OS === 'android') {
         await NavigationBar.setButtonStyleAsync(
           theme === 'light' ? 'dark' : 'light'
         );
       }
-
-      const color = await getBackgroundColorAsync();
-      console.log(color);
     };
     updateSystemTheme();
   }, [theme]);
