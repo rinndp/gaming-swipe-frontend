@@ -18,6 +18,7 @@ const stylesAuthViews = (colors: any) => StyleSheet.create({
     h2: {
         fontSize: wp("5.8%"),
         fontFamily: "zen_kaku_light",
+        color: colors.white,
     },
 
     titleRegister: {

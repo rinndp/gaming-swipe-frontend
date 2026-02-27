@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {TouchableOpacity, View} from "react-native";
 import {Text} from "../../components/Text";
 import {CustomTextInput} from "../../components/CustomTextInput";
@@ -28,6 +28,9 @@ export function UsernameScreen({navigation = useNavigation()}: PropsStackNavigat
     const { colors, theme } = useTheme();
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [showLoading, setShowLoading] = useState(false);
+
+    const styles = useMemo(() => stylesAuthViews(colors), [colors]);
+    const styleDetails = useMemo(() => styleGameDetails(colors), [colors]);
 
     const {
         registerValues,
@@ -64,7 +67,7 @@ export function UsernameScreen({navigation = useNavigation()}: PropsStackNavigat
                     setLoginValues({})
                     setRegisterValues({})
                     setShowLoading(false);
-                    navigation.navigate("UserNavigation")
+                    navigation.navigate("TutorialScreen", {firstTime: true})
                 }
             } catch {
                 setShowLoading(false);
@@ -80,23 +83,23 @@ export function UsernameScreen({navigation = useNavigation()}: PropsStackNavigat
     }, [errorMessage]);
 
     return (
-        <View style={stylesAuthViews(colors).container}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={{...styleGameDetails(colors).goBackIconTouchable, bottom: hp("90%")}}>
+        <View style={styles.container}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{...styleDetails.goBackIconTouchable, bottom: hp("89%")}}>
                 <Image source={require("../../../../assets/go-back-icon.png")}
                        cachePolicy={"memory-disk"}
                        contentFit={"contain"}
-                       style={styleGameDetails(colors).goBackIcon}/>
+                       style={styleDetails.goBackIcon}/>
             </TouchableOpacity>
-            <View style={{marginTop: hp("7%"), alignItems:"center"}}>
+            <View style={{marginTop: hp("5%"), alignItems:"center"}}>
                 <Image
-                    style={{width: wp("9%"), height: hp("5%")}}
-                    source={require('../../../../assets/logo.png')} />
+                    style={{width: wp("9%"), height: hp("7%")}}
+                    cachePolicy={"memory-disk"}
+                    source={require('../../../../assets/icon-without-bg.png')} />
                 <View style={{marginTop: hp("2%"), gap: hp("2%")}}>
-                    <Text style={stylesAuthViews(colors).h2}>{"Choose an username"}</Text>
+                    <Text style={styles.h2}>{"Choose an username"}</Text>
                     <CustomTextInput label={"Username (Max. 30 characters)"}
                                      keyboardType={"default"}
                                      width={"large"}
-                                     autoFocus={true}
                                      maxLenght={30}
                                      secureTextEntry={false}
                                      value={registerValues?.username}

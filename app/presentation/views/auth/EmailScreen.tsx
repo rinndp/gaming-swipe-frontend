@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {ImageBackground, TouchableOpacity, View} from "react-native";
 import {Text} from "../../components/Text";
 import {CustomTextInput} from "../../components/CustomTextInput";
@@ -21,6 +21,9 @@ import { useTheme } from "../../theme/ThemeContext";
 
 export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation){
     const { colors, theme } = useTheme();
+
+    const styles = useMemo(() => stylesAuthViews(colors), [colors]);
+    const styleDetails = useMemo(() => styleGameDetails(colors), [colors]);
 
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [showLoading, setShowLoading] = useState(false);
@@ -62,29 +65,29 @@ export function EmailScreen({navigation = useNavigation()}: PropsStackNavigation
     }, [errorMessage]);
 
     return (
-        <View style={stylesAuthViews(colors).container}>
+        <View style={styles.container}>
             {showLoading ? (
                 <>
                     <ActivtyIndicatorCustom showLoading={showLoading}/>
                 </>
             ):(
                 <>
-                    <TouchableOpacity onPress={() => navigation.goBack()} style={{...styleGameDetails(colors).goBackIconTouchable, bottom: hp("89%")}}>
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={{...styleDetails.goBackIconTouchable, bottom: hp("89%")}}>
                         <Image source={require("../../../../assets/go-back-icon.png")}
                                cachePolicy={"memory-disk"}
                                contentFit={"contain"}
-                               style={styleGameDetails(colors).goBackIcon}/>
+                               style={styleDetails.goBackIcon}/>
                     </TouchableOpacity>
-                    <View style={{marginTop: hp("7%"), alignItems:"center"}}>
+                    <View style={{marginTop: hp("5%"), alignItems:"center"}}>
                         <Image
-                            style={{width: wp("9%"), height: hp("5%"), tintColor: colors.white}}
-                            source={require('../../../../assets/logo.png')} />
+                            style={{width: wp("9%"), height: hp("7%")}}
+                            cachePolicy={"memory-disk"}
+                            source={require('../../../../assets/icon-without-bg.png')} />
                         <View style={{marginTop: hp("2%"), gap: hp("2%")}}>
-                            <Text style={stylesAuthViews(colors).h2}>{login ? "Introduce your email" : "Create your account"}</Text>
+                            <Text style={styles.h2}>{login ? "Introduce your email" : "Create your account"}</Text>
                             <CustomTextInput label={"Email"}
                                              keyboardType={"email-address"}
                                              width={"large"}
-                                             autoFocus={true}
                                              secureTextEntry={false}
                                              value={login ?
                                                  loginValues?.email ? loginValues.email : ""

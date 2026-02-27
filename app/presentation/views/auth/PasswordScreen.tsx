@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {TouchableOpacity, View} from "react-native";
 import {Text} from "../../components/Text";
 import styles from "./StylesAuthViews";
@@ -26,6 +26,9 @@ export function PasswordScreen({navigation = useNavigation()}: PropsStackNavigat
     const { colors, theme } = useTheme();
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [showLoading, setShowLoading] = useState<boolean>(false);
+
+    const styles = useMemo(() => stylesAuthViews(colors), [colors]);
+    const styleDetails = useMemo(() => styleGameDetails(colors), [colors]);
 
     const {getUserSession} = UseUserLocalStorage()
 
@@ -91,30 +94,30 @@ export function PasswordScreen({navigation = useNavigation()}: PropsStackNavigat
         }, [errorMessage]);
 
         return (
-            <View style={stylesAuthViews(colors).container}>
+            <View style={styles.container}>
                 <TouchableOpacity onPress={() => navigation.goBack()}
-                                  style={{...styleGameDetails(colors).goBackIconTouchable, bottom: hp("89%")}}>
+                                  style={{...styleDetails.goBackIconTouchable, bottom: hp("89%")}}>
                     <Image source={require("../../../../assets/go-back-icon.png")}
                            cachePolicy={"memory-disk"}
                            contentFit={"contain"}
-                           style={styleGameDetails(colors).goBackIcon}/>
+                           style={styleDetails.goBackIcon}/>
                 </TouchableOpacity>
-                <View style={{marginTop: hp("7%"), alignItems: "center"}}>
+                <View style={{marginTop: hp("5%"), alignItems: "center"}}>
                     <Image
-                        style={{width: wp("9%"), height: hp("5%"), tintColor: colors.white}}
-                        source={require('../../../../assets/logo.png')}/>
+                        style={{width: wp("9%"), height: hp("7%")}}
+                        cachePolicy={"memory-disk"}
+                        source={require('../../../../assets/icon-without-bg.png')}/>
                     <View style={{marginTop: hp("2%"), gap: hp("2%")}}>
                         <Text
-                            style={stylesAuthViews(colors).h2}>{login ? "Introduce your password" : "Choose a password"}</Text>
+                            style={styles.h2}>{login ? "Introduce your password" : "Choose a password"}</Text>
                         <CustomTextInputPassword
                             label={login && loginValues?.email ? loginValues.email : "Password"}
                             keyboardType={"default"}
-                            autoFocus={true}
                             value={login ? loginValues?.password : registerValues?.password}
                             onChangeText={(text) => onChangeDynamic(login, "password", text)}/>
                         {!login && (
                             <>
-                                <Text style={stylesAuthViews(colors).passwordHint}>Password must have at least 8
+                                <Text style={styles.passwordHint}>Password must have at least 8
                                     characters</Text>
                                 <CustomTextInputPassword label={"Confirm password"}
                                                          keyboardType={"default"}

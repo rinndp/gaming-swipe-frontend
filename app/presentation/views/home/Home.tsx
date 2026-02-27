@@ -153,7 +153,9 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                         }}
                         priority={"high"}
                         contentFit={"cover"}
-                        transition={250}
+                        cachePolicy="memory-disk"
+                        placeholder={{ blurhash: 'LGF5]+Yk^6#M@-5c,1J5@[or[Q6.' }}  // ← Hash del blur
+                        transition={150}
                         style={styleH.image}
                     />
                 </TouchableOpacity>
@@ -170,8 +172,15 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                         </View>
                     </View>
                     <View style={{marginTop: hp("1%")}} collapsable={false}>
-                        <HorizontalFlashList data={item.platforms ? item.platforms : [nullPlatform]}
-                                             renderItem={({item}: {item: Platform}) => PlatformItem({item, colors: colors, home: true, theme: theme})}/>
+                        <FlatList
+                            data={item.platforms ? item.platforms : [nullPlatform]}
+                            renderItem={({item}: {item: Platform}) => PlatformItem({item, colors: colors, home: true, theme: theme})}
+                            keyExtractor={(item: Platform) => item.id?.toString() || ""}
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                            nestedScrollEnabled={true}
+                            scrollEnabled={true}
+                        />
                     </View>
                     <View style={styleH.thirdRowCardContainer} collapsable={false}>
                         <HorizontalFlashList data={item.genres ? item.genres : [nullGenre]}
@@ -236,6 +245,7 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                             overlayLabelContainerStyle={styleH.overlayLabelContainer}
                             swipeVelocityThreshold={1000}
                             prerenderItems={3}
+                            
                             renderCard={renderCard}
                             disableTopSwipe={true}
                             disableBottomSwipe={true}

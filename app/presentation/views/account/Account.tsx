@@ -105,7 +105,6 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                 if(user?.slug != undefined){
                     await updateUserDetails(user?.slug, formData)
                     await getUserDB(user?.slug)
-                    console.log("aaaa")
                 }
             }
         }

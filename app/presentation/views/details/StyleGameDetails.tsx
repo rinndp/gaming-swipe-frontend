@@ -79,7 +79,7 @@ const styleGameDetails = (colors: any) => StyleSheet.create({
         fontFamily: "zen_kaku_regular",
         lineHeight: 50,
         borderBottomWidth: 1,
-        borderBottomColor: colors.neonPurpleTransparent,
+        borderBottomColor: colors.white,
         fontSize: wp("3.5%"),
     },
 

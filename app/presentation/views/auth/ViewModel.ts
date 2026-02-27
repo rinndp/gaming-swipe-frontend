@@ -13,6 +13,7 @@ export const welcomeViewModel= () => {
 
     const [showLoading, setShowLoading] = useState<boolean>(false)
     const {user, getUserSession} = UseUserLocalStorage()
+    const [firstTime, setFirstTime] = useState<boolean>(false)
 
     const[loginValues, setLoginvalue] = useState({
         email: "",
@@ -66,6 +67,7 @@ export const welcomeViewModel= () => {
         } catch (loginError) {
             try {
                 await registerUseCase(userData);
+                setFirstTime(true);
                 return await loginAuthUseCase(userData);;
             } catch (registerError) {
                 const response = await checkIfEmailRegisteredUseCase({email: userData.email});
@@ -90,7 +92,11 @@ export const welcomeViewModel= () => {
                 await saveUserUseCase({ slug: response.slug });
                 await saveTokens(response.access_token, response.refresh_token);
                 await getUserSession();
-                navigation.navigate('UserNavigation');
+                if (firstTime) {
+                    navigation.replace('TutorialScreen', {firstTime: true});
+                } else {
+                    navigation.replace('UserNavigation');
+                }
             }
         } catch (error) {
             throw error;

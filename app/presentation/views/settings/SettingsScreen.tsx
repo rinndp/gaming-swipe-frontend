@@ -6,7 +6,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import { PropsStackNavigation } from "../../interfaces/StackNav";
 import { styleGameDetails } from "../details/StyleGameDetails";
 import { Image } from "expo-image";
-import Animated, { FadeInLeft, FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInLeft, FadeInUp, FadeOutLeft } from "react-native-reanimated";
 import { accountViewModel } from "../account/ViewModel";
 import stylesHome from "../home/StyleHome";
 import stylesSettings from "./StylesSettings";
@@ -56,6 +56,12 @@ export function SettingsScreen({navigation = useNavigation()}: PropsStackNavigat
             icon: "help-circle",
             items: [
                 {
+                    title: "Tutorial",
+                    onPress: () => {
+                        navigation.navigate("TutorialScreen", {firstTime: false})                 
+                    }
+                },
+                {
                     title: "Privacy Policy and Terms of Service",
                     onPress: () => {
                         Linking.openURL("https://www.termsfeed.com/live/7f86ce7f-7566-454f-a8da-94d5f0007ef5")
@@ -85,7 +91,7 @@ export function SettingsScreen({navigation = useNavigation()}: PropsStackNavigat
     return (
         <View style={{width: '100%', height: '100%', backgroundColor: colors.backgroundColor}}>
             <View style={{paddingHorizontal:wp("5%")}}>
-                <Animated.View entering={FadeInLeft.duration(800)} style={{position: "relative", gap: wp("4%"), flexDirection: "row", alignItems: "center", marginTop: hp("5%")}}>
+                <Animated.View entering={FadeInLeft.duration(800)} exiting={FadeOutLeft.duration(800)} style={{position: "relative", gap: wp("4%"), flexDirection: "row", alignItems: "center", marginTop: hp("5%")}}>
                     <TouchableOpacity onPress={() => {navigation.goBack()}}>
                         <Image source={require("../../../../assets/go-back-icon.png")} style={[styleGameDetails(colors).goBackIcon, {marginTop: hp("0.5%")}]}/>
                     </TouchableOpacity>

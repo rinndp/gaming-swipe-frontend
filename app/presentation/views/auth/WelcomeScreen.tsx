@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useMemo} from "react";
 import {ImageBackground, View} from "react-native";
 import {Text} from "../../components/Text";
 import styles from "./StylesAuthViews";
@@ -28,7 +28,7 @@ WebBrowser.maybeCompleteAuthSession()
 export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackNavigation){
 
     const { colors, theme } = useTheme();
-    const styles = stylesAuthViews(colors);
+    const styles = useMemo(() => stylesAuthViews(colors), [colors]);
 
     const {
         handleGoogleLogin,
@@ -66,11 +66,11 @@ export function WelcomeScreen({navigation = useNavigation(), route}: PropsStackN
 
                         <View style={styles.welcomeTextContainer}>
                             <Text style={{...styles.welcomeText, fontSize:wp("7%")}}>Welcome to</Text>
-                            <Text style={styles.welcomeText}>GamingSwipe</Text>
+                            <Text style={[styles.welcomeText, {lineHeight: 55, fontFamily: "zen_kaku_regular"}]}>GamingSwipe</Text>
                             <View style={{flexDirection:"row", gap:wp("2%"), marginTop:hp("2%"), alignItems:"center"}}>
                                 <Image
-                                    style={{width: wp("9%"), height: hp("5%"), tintColor: colors.white}}
-                                    source={require('../../../../assets/logo.png')} />
+                                    style={{width: wp("9%"), height: hp("6%"), tintColor: colors.white}}
+                                    source={require('../../../../assets/icon-without-bg.png')} />
                                 <Text>+</Text>
                                 <Image
                                     style={{width: wp("12%"), height: hp("5%"), tintColor: colors.white}}

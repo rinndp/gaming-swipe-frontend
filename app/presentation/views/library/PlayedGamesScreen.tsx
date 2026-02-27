@@ -26,6 +26,7 @@ import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {FlashList} from "@shopify/flash-list";
 import { useTheme } from "../../theme/ThemeContext";
 import Animated, { FadeInLeft } from "react-native-reanimated";
+import { Ionicons } from "@expo/vector-icons";
 
 
 export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavigation) {
@@ -56,18 +57,19 @@ export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavi
                 <TouchableOpacity onPress={() => navigation.navigate("GameDetails", {gameId : item.id_api, likeButton: false})}>
                     <Image
                         contentFit="contain"
-                        transition={500}
+                        cachePolicy="memory-disk"
+                        transition={200}
                         source={{ uri: item.image_url }} style={styleFGI.image} />
                 </TouchableOpacity>
                 <Text style={{ ...stylesHome(colors).gameNameText, width: "50%", fontSize: wp("3.5%")}}>{item.name}</Text>
                 <TouchableOpacity
-                    style={{...styleFGI.deleteIcon, padding: wp("3%"), alignItems:"center", justifyContent:"center"}}
+                    style={{alignItems:"center", justifyContent:"center", padding: wp("2%")}}
                     onPress={() => {
                         item.id
                             ? setSelectedGameId(item.id)
                             : Toast.show({"type": "error", "text1": "Unexpected error!"})}}
                 >
-                    <Image source={require("../../../../assets/borrar.png")} style={styleFGI.deleteIcon} />
+                    <Ionicons name="trash-outline" size={17} color={colors.white} />
                 </TouchableOpacity>
 
                 {selectedGameId === item.id && (
@@ -118,13 +120,15 @@ export function PlayedGamesScreen({navigation = useNavigation()}: PropsStackNavi
                     <Animated.View 
                         entering={FadeInLeft.duration(800)} 
                         style={{height:"100%"}}>
-                        <FlashList data={playedListGames}
-                                  removeClippedSubviews={true}
-                                  renderItem={playedGameRenderItem}
-                                  extraData={playedListGames}
-                                  initialScrollIndex={0}
-                                  fadingEdgeLength={10}
-                                  ListFooterComponent={<Text style={{...styleFav(colors).footerFavGames, display: showLoading ? "none" : "flex"}}>Play more games!</Text>}
+                        <FlashList 
+                                keyExtractor={(item: FavGame) => item.id?.toString() || ""}
+                                data={playedListGames}
+                                removeClippedSubviews={true}
+                                renderItem={playedGameRenderItem}
+                                extraData={playedListGames}
+                                initialScrollIndex={0}
+                                fadingEdgeLength={10}
+                                ListFooterComponent={<Text style={{...styleFav(colors).footerFavGames, display: showLoading ? "none" : "flex"}}>Play more games!</Text>}
                         />
                     </Animated.View>
                 </>

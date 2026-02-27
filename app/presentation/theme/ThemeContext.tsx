@@ -1,6 +1,11 @@
 // app/presentation/contexts/ThemeContext.tsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusBar } from 'expo-status-bar';
+import { Platform } from 'react-native';
+import * as NavigationBar from 'expo-navigation-bar';
+import { getBackgroundColorAsync, setBackgroundColorAsync } from 'expo-system-ui';
+
 
 type ThemeType = 'default' | 'light';
 
@@ -102,6 +107,26 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     loadTheme();
   }, []);
 
+  useEffect(() => {
+    const updateSystemTheme = async () => {
+      const currentTheme = themes[theme];
+
+
+      await setBackgroundColorAsync(currentTheme.backgroundColor);
+
+
+      if (Platform.OS === 'android') {
+        await NavigationBar.setButtonStyleAsync(
+          theme === 'light' ? 'dark' : 'light'
+        );
+      }
+
+      const color = await getBackgroundColorAsync();
+      console.log(color);
+    };
+    updateSystemTheme();
+  }, [theme]);
+
   const setTheme = async (newTheme: ThemeType) => {
     setThemeState(newTheme);
     await AsyncStorage.setItem('app_theme', newTheme);
@@ -109,6 +134,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <ThemeContext.Provider value={{ theme, colors: themes[theme], setTheme }}>
+      <StatusBar style={theme === 'light' ? 'dark' : 'light'} />
+
       {children}
     </ThemeContext.Provider>
   );

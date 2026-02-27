@@ -2,7 +2,7 @@ export const AppColors = {
     black: "#FF000000" ,
     white:"#0583f2",
     opacWhite: "rgba(255,255,255,0.45)",
-    backgroundColor: "#121315",
+    backgroundColor: "#18191F",
     blue:"#0583F2",
     like:"#0583F2",
     nope:"#c50a0a",

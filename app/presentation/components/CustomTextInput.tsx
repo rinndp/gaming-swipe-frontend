@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {Image, KeyboardType, StyleSheet, TextInput, View} from "react-native";
 import {Text} from "./Text";
 import {
@@ -21,7 +21,7 @@ interface Props {
 }
 export const CustomTextInput = ({label, autoFocus, value, width, maxLenght, keyboardType,secureTextEntry,onChangeText}:Props) => {
     const { colors } = useTheme();
-    const style = stylesCustomTextInput(colors);
+    const style = useMemo(() => stylesCustomTextInput(colors), [colors]);
     return (
         <View>
             <Text style={style.formInputLabel}>{label}</Text>

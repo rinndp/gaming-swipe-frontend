@@ -23,6 +23,8 @@ import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {useAnticipatedGames} from "../../hooks/UseAnticipatedGames";
 import { SearchGameItem } from "../../components/SearchGameItem";
 import { useTheme } from "../../theme/ThemeContext";
+import { Ionicons } from "@expo/vector-icons";
+import { Game } from "../../../domain/entities/Game";
 
 
 export function Search({navigation = useNavigation()}: PropsStackNavigation) {
@@ -104,10 +106,7 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                             style={[style.tabButton, selectedTab === "users" && style.tabButtonSelected]}
                             onPress={() => setSelectedTab("users")}
                         >
-                            <Image
-                                contentFit={"contain"}
-                                source={require("../../../../assets/account-icon-filled.png")}
-                                style={style.item}/>
+                            <Ionicons name="person" size={20} color={colors.white} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -141,7 +140,7 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                                 <>
                                     <FlashList
                                         data={gamesDisplayed}
-                                        keyExtractor={(item) => item.id.toString()}
+                                        keyExtractor={(item: Game) => item.id?.toString() || ""}
                                         fadingEdgeLength={10}
                                         renderItem={({item}) => SearchGameItem({
                                             item, 
@@ -188,6 +187,7 @@ export function Search({navigation = useNavigation()}: PropsStackNavigation) {
                         ):(
                             <>
                                 <FlashList
+                                    keyExtractor={(item: GetSearchUserInterface) => item.username || ""}
                                     data={searchedUsers}
                                     removeClippedSubviews={true}
                                     renderItem={searchUserItem}

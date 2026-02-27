@@ -11,7 +11,7 @@ export const GenreItem = ({item, colors, home, theme}: {item: Genre, colors: any
     const styleGI = styles(colors);
     return (
         <View style={[styleGI.container, {backgroundColor: home && theme === "light" ? colors.backgroundColor : colors.genreBackground}]} pointerEvents="box-none">
-            <Text style={styleGI.name}>
+            <Text style={styleGI.name} numberOfLines={1}>
                 {item.name}
             </Text>
         </View>
@@ -22,17 +22,15 @@ const styles = (colors: any ) => StyleSheet.create({
     container: {
         backgroundColor: colors.genreBackground,
         borderRadius: 15,
-        paddingHorizontal: wp("2.5%"),
+        paddingHorizontal: wp("3%"),
         height: hp("3.3%"),
-        alignSelf:'baseline',
-        alignItems: "center",
+        flexShrink: 0,
         justifyContent: 'center',
         marginEnd: wp("1%"),
     },
 
     name: {
         fontSize: wp("3%"),
-        verticalAlign: "middle",
         fontFamily: "zen_kaku_regular",
     }
 })

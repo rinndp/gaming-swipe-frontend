@@ -25,6 +25,7 @@ import Animated, {FadeInDown, FadeInLeft, FadeInUp} from 'react-native-reanimate
 import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {FlashList} from "@shopify/flash-list";
 import { useTheme } from "../../theme/ThemeContext";
+import { Ionicons } from "@expo/vector-icons";
 
 
 export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavigation) {
@@ -57,12 +58,14 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
                 <TouchableOpacity onPress={() => navigation.navigate("GameDetails", {gameId : item.id_api, likeButton: true})}>
                     <Image
                         contentFit="contain"
-                        transition={100}
+                        cachePolicy="memory-disk"
+                        priority="high"
+                        transition={200}
                         source={{ uri: item.image_url }} style={stylesFGI.image} />
                 </TouchableOpacity>
-                <Text style={{ ...stylesHome(colors).gameNameText, width: "43%"}}>{item.name}</Text>
+                <Text style={{ ...stylesHome(colors).gameNameText, width: "42%"}}>{item.name}</Text>
                 <TouchableOpacity
-                    style={{...stylesFGI.deleteIcon, padding: wp("3%"), alignItems:"center", justifyContent:"center"}}
+                    style={{...stylesFGI.deleteIcon, padding: wp("4%"), alignItems:"center", justifyContent:"center"}}
                     onPress={() => {
                         item.id
                             ? setSelectedPlayedGameId(item.id)
@@ -71,13 +74,13 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
                     <Image source={require("../../../../assets/check-icon.png")} style={{...stylesFGI.deleteIcon, tintColor: colors.green}} />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={{...stylesFGI.deleteIcon, padding: wp("3%"), alignItems:"center", justifyContent:"center"}}
+                    style={{alignItems:"center", justifyContent:"center", padding: wp("2%")}}
                     onPress={() => {
                         item.id
                             ? setSelectedDeleteGameId(item.id)
                             : Toast.show({"type": "error", "text1": "Unexpected error!"})}}
                 >
-                    <Image source={require("../../../../assets/borrar.png")} style={stylesFGI.deleteIcon} />
+                    <Ionicons name="trash-outline" size={17} color={colors.white} />
                 </TouchableOpacity>
 
                 {selectedDeleteGameId === item.id && (
@@ -162,13 +165,15 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
                         <Animated.View
                             entering={FadeInLeft.duration(800)}
                             style={{height:"100%"}}>
-                            <FlashList data={favListGames}
-                                      removeClippedSubviews={true}
-                                      renderItem={toPlayGameRenderItem}
-                                      extraData={favListGames}
-                                      initialScrollIndex={0}
-                                      fadingEdgeLength={10}
-                                      ListFooterComponent={<Text style={{...styleFav(colors).footerFavGames, display: showLoading ? "none" : "flex"}}>Add more games!</Text>}
+                            <FlashList 
+                                    keyExtractor={(item: FavGame) => item.id?.toString() || ""}
+                                    data={favListGames}
+                                    removeClippedSubviews={true}
+                                    renderItem={toPlayGameRenderItem}
+                                    extraData={favListGames}
+                                    initialScrollIndex={0}
+                                    fadingEdgeLength={10}
+                                    ListFooterComponent={<Text style={{...styleFav(colors).footerFavGames, display: showLoading ? "none" : "flex"}}>Add more games!</Text>}
                             />
                         </Animated.View>
                     </>
@@ -188,7 +193,7 @@ export const stylesFavGameItem = (colors: any) => StyleSheet.create({
 
     container: {
         flexDirection: "row",
-        gap: wp("4%"),
+        gap: wp("3%"),
         alignItems: "center",
     },
 
@@ -203,6 +208,5 @@ export const stylesFavGameItem = (colors: any) => StyleSheet.create({
         width: wp("3%"),
         height: hp("1%"),
         padding: wp("2%"),
-        tintColor: colors.white,
     }
 })

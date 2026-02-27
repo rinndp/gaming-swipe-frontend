@@ -2,7 +2,6 @@ import {RouteProp, useFocusEffect, useNavigation, useRoute} from "@react-navigat
 import {PropsStackNavigation} from "../../interfaces/StackNav";
 import {
     ActivityIndicator,
-    Image,
     ScrollView,
     TouchableOpacity,
     View
@@ -32,6 +31,7 @@ import {ActivtyIndicatorCustom} from "../../components/ActivtyIndicatorCustom";
 import {homeViewModel} from "../home/ViewModel";
 import {HorizontalFlashList} from "../../components/HorizontalFlashList";
 import { useTheme } from "../../theme/ThemeContext";
+import { Image } from "expo-image";
 
 type GameDetailsRouteProp = RouteProp<RootStackParamsList, "UserDetails">;
 
@@ -62,6 +62,8 @@ export function UserDetails ({navigation = useNavigation()}: PropsStackNavigatio
         <View style={{...styleSimilarGame(colors).card, backgroundColor: colors.buttonBackground}}>
             <TouchableOpacity onPress={() => {navigation.push("GameDetails", {gameId : item.id_api, likeButton: true})}}>
                 <Image
+                    cachePolicy="memory-disk"
+                    priority="high"
                     source={{
                         uri: item.image_url
                             ? item.image_url

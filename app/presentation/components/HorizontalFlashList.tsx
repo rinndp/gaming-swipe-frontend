@@ -17,7 +17,7 @@ export const HorizontalFlashList = ({data, renderItem, style}: FlashListProps) =
         <FlashList
             keyExtractor={(item, index) => `${item.name || item.id || ''}-${index}`}
             data={data}
-            style={style || {}}
+            style={style as ViewStyle}
             renderItem={renderItem}
             horizontal={true}
             showsHorizontalScrollIndicator={false}

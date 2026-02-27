@@ -10,6 +10,7 @@ import { PlatformItem } from "./PlatformItem";
 import { transformGameIntoFavGameInterface } from "../views/home/ViewModel";
 import { HandleLikeButton } from "./HandleLikeButton";
 import { Game, Platform } from "../../domain/entities/Game";
+import { FlatList } from "react-native-gesture-handler";
 
 
 interface SearchGameItemProps {
@@ -31,7 +32,9 @@ interface SearchGameItemProps {
                         : "https://www.igdb.com/assets/no_cover_show-ef1e36c00e101c2fb23d15bb80edd9667bbf604a12fc0267a66033afea320c65.png"
                 }}
                 contentFit="contain"
-                transition={250}
+                transition={200}
+                cachePolicy="memory-disk"
+                priority="high"
                 style={style.gameCover}
             />
         </TouchableOpacity>
@@ -40,10 +43,14 @@ interface SearchGameItemProps {
                 <Text style={style.gameName}>{item.name}</Text>
             </View>
             <View style={style.plaformsFlatlistContainer}>
-                <HorizontalFlashList
+                <FlatList
                     data={item.platforms ? item.platforms : []}
-                    style={{minWidth:wp("50%")}}
                     renderItem={({item}: {item: Platform}) => PlatformItem({item, colors: colors})}
+                    keyExtractor={(item: Platform) => item.id?.toString() || ""}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    nestedScrollEnabled={true}
+                    scrollEnabled={true}
                 />
             </View>
         </View>

@@ -31,6 +31,7 @@ const stylesHome = (colors: any) => StyleSheet.create({
         backgroundColor: colors.buttonBackground,
         borderRadius: 15,
         elevation: 1,
+        zIndex: 1,
     },
     loadingIconContainer: {
         position: "absolute",

@@ -1,4 +1,4 @@
-import {NavigationContainer} from "@react-navigation/native";
+import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import {CardStyleInterpolators, createStackNavigator} from "@react-navigation/stack";
 import {useFonts} from "expo-font";
 import {UserNavigation} from "./app/presentation/navigation/UserNavigation";
@@ -25,7 +25,8 @@ import {UserInfoAuthProvider} from "./app/presentation/provider/UserInfoAuthProv
 import {UsernameScreen} from "./app/presentation/views/auth/UsernameScreen";
 import { SettingsScreen } from "./app/presentation/views/settings/SettingsScreen";
 import { ThemeScreen } from "./app/presentation/views/settings/ThemeScreen";
-import { ThemeProvider } from "./app/presentation/theme/ThemeContext";
+import { ThemeProvider, useTheme } from "./app/presentation/theme/ThemeContext";
+import { TutorialScreen } from "./app/presentation/views/tutorial/TutorialScreen";
 
 
 let mobileAds: any = null;
@@ -44,9 +45,46 @@ export type RootStackParamsList = {
     UsernameScreen: undefined
     SettingsScreen: undefined
     ThemeScreen: undefined
+    TutorialScreen: {firstTime?: boolean}
 }
 
 const Stack = createStackNavigator<RootStackParamsList>();
+
+function AppContent() {
+    const {
+        user,
+    } = UseUserLocalStorage()
+
+    const { colors } = useTheme();
+
+    const customBackgroundTheme = { ...DefaultTheme, colors: { ...DefaultTheme.colors, background: colors.backgroundColor } };
+
+    if (user === undefined) return null;
+    return (
+        <NavigationContainer theme={customBackgroundTheme}>
+          <Stack.Navigator
+              initialRouteName={user && user.slug ? "UserNavigation" : "WelcomeScreen"}
+              screenOptions={{
+                  headerShown: false,
+                  detachPreviousScreen: true,
+                  gestureEnabled: Platform.OS !== 'android',
+                  cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS}}>
+              <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}/>
+              <Stack.Screen name="EmailScreen" component={EmailScreen}/>
+              <Stack.Screen name="PasswordScreen" component={PasswordScreen}/>
+              <Stack.Screen name="UsernameScreen" component={UsernameScreen}/>
+              <Stack.Screen name="UserNavigation" component={UserNavigation}/>
+              <Stack.Screen name="GameDetails" component={GameDetails}/>
+              <Stack.Screen name="CompanyDetails" component={CompanyDetails}/>
+              <Stack.Screen name="UserDetails" component={UserDetails}/>
+              <Stack.Screen name="SettingsScreen" component={SettingsScreen}/>
+              <Stack.Screen name="ThemeScreen" component={ThemeScreen}/>
+              <Stack.Screen name="TutorialScreen" component={TutorialScreen}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+    )
+}
+
 
 export default function App() {
 
@@ -63,7 +101,7 @@ export default function App() {
         .catch((error: any) => {
             console.error('AdMob initialization failed:', error);
         });
-}, []);
+    }, []);
 
     const [fontsLoaded] = useFonts({
         "zen_kaku_light": require("./assets/fonts/zen_kaku_gothic_antique_light.ttf"),
@@ -72,11 +110,6 @@ export default function App() {
         "zen_kaku_bold": require("./assets/fonts/zen_kaku_gothic_antique_bold.ttf"),
         "zen_kaku_black": require("./assets/fonts/zen_kaku_gothic_antique_black.ttf"),
     });
-
-    const {
-        user,
-    } = UseUserLocalStorage()
-
 
     SplashScreen.preventAutoHideAsync()
 
@@ -88,32 +121,13 @@ export default function App() {
         }
     }, []);
 
-    if (!fontsLoaded || user === undefined) return null;
+
     return (
         <QueryClientProvider client={queryClient}>
         <GameProvider>
         <UserInfoAuthProvider>
         <ThemeProvider>
-        <NavigationContainer>
-          <Stack.Navigator
-              initialRouteName={user && user.slug ? "UserNavigation" : "WelcomeScreen"}
-              screenOptions={{
-                  headerShown: false,
-                  detachPreviousScreen: true,
-                  gestureEnabled: Platform.OS !== 'android',
-                  cardStyleInterpolator: Platform.OS === "android" ? CardStyleInterpolators.forNoAnimation : CardStyleInterpolators.forHorizontalIOS}}>
-              <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}/>
-              <Stack.Screen name="EmailScreen" component={EmailScreen}/>
-              <Stack.Screen name="PasswordScreen" component={PasswordScreen}/>
-              <Stack.Screen name="UsernameScreen" component={UsernameScreen}/>
-              <Stack.Screen name="UserNavigation" component={UserNavigation}/>
-              <Stack.Screen name="GameDetails" component={GameDetails}/>
-              <Stack.Screen name="CompanyDetails" component={CompanyDetails}/>
-              <Stack.Screen name="UserDetails" component={UserDetails}/>
-              <Stack.Screen name="SettingsScreen" component={SettingsScreen}/>
-              <Stack.Screen name="ThemeScreen" component={ThemeScreen}/>
-          </Stack.Navigator>
-        </NavigationContainer>
+            <AppContent />
         </ThemeProvider>
         </UserInfoAuthProvider>
         </GameProvider>

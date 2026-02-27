@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {ActivityIndicator, StyleSheet, TouchableOpacity, View} from "react-native";
 import {Text} from "./Text";
 import {AppColors} from "../theme/AppTheme";
@@ -11,6 +11,7 @@ import {Image, ImageSource} from "expo-image"
 import {ActivtyIndicatorCustom} from "./ActivtyIndicatorCustom";
 import styleHome from "../views/home/StyleHome";
 import { useTheme } from "../theme/ThemeContext";
+import stylesHome from "../views/home/StyleHome";
 
 interface Props {
     text: string,
@@ -24,25 +25,27 @@ interface Props {
 
 export const RoundedButton = ({text, loading, onPressFromInterface, width, backgroundColor, logo, textColor}: Props) => {
     const { colors, theme } = useTheme();
+    const styles = useMemo(() => stylesRoundedButton(colors), [colors]);
+    const styleHome = useMemo(() => stylesHome(colors), [colors]);
     return(
 
         <TouchableOpacity
-            style={{...stylesRoundedButton(colors).formButton, width: width, backgroundColor: backgroundColor}}
+            style={{...styles.formButton, width: width, backgroundColor: backgroundColor}}
             onPress={() => onPressFromInterface()}
         >
             <View style={{flexDirection: "row", justifyContent:"center", gap:7}}>
                 {loading ? (
                     <>
-                        <ActivityIndicator style={styleHome(colors).loading} size="small" color={colors.white} animating={loading} />
+                        <ActivityIndicator style={styleHome.loading} size="small" color={colors.white} animating={loading} />
                     </>
                 ):(
                     <>
                         {logo && (
                             <>
-                                <Image source={logo} style={stylesRoundedButton(colors).logo}/>
+                                <Image source={logo} style={styles.logo}/>
                             </>
                         )}
-                        <Text style={{...stylesRoundedButton(colors).formButtonText, color: textColor ? textColor : colors.white}}>{text}</Text>
+                        <Text style={{...styles.formButtonText, color: textColor ? textColor : colors.white}}>{text}</Text>
                     </>
                 )}
             </View>
@@ -63,6 +66,7 @@ export const stylesRoundedButton = (colors: any) => StyleSheet.create({
         fontSize: wp("4%"),
         alignSelf: 'center',
         textAlign: 'center',
+        lineHeight: 20,
         fontFamily: "zen_kaku_regular",
         justifyContent: 'center',
     },

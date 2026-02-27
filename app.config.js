@@ -7,7 +7,7 @@ export default {
         originalFullName: "@rinndp/gaming-swipe",
         orientation: "portrait",
         icon: "./assets/icon.png",
-        userInterfaceStyle: "dark",
+        userInterfaceStyle: "automatic",
         newArchEnabled: true,
         updates: {
             url: "https://u.expo.dev/3b0a8157-2bce-441b-ad97-aef53cefb0e9",
@@ -63,6 +63,7 @@ export default {
             "expo-secure-store",
             "expo-image-picker",
             "expo-web-browser",
+            "expo-video",
             [
                 "react-native-google-mobile-ads",
                 {

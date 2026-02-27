@@ -2,7 +2,7 @@ import { TouchableOpacity, View } from "react-native";
 import { Text } from "../../components/Text";
 import styleAccount from "../account/StyleAccount";
 import { AppColors, AppFonts } from "../../theme/AppTheme";
-import Animated, { FadeInLeft } from "react-native-reanimated";
+import Animated, { FadeInLeft, FadeInUp } from "react-native-reanimated";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { PropsStackNavigation } from "../../interfaces/StackNav";
 import { useNavigation } from "@react-navigation/native";
@@ -52,7 +52,7 @@ export function ThemeScreen({navigation = useNavigation()}: PropsStackNavigation
                     </TouchableOpacity>
                     <Text style={[styleAccount(colors).title, {alignSelf: "flex-start", top: hp("0%")}]}>Themes</Text>
                 </Animated.View>
-                <View style={{marginTop: hp("3%"), alignItems: "flex-start"}}>
+                <Animated.View entering={FadeInUp.duration(800)} style={{marginTop: hp("3%"), alignItems: "flex-start"}}>
                 <RadioGroup 
                         radioButtons={radioButtons} 
                         containerStyle={{alignItems: "flex-start", gap: hp("2%")}}
@@ -60,7 +60,7 @@ export function ThemeScreen({navigation = useNavigation()}: PropsStackNavigation
                         labelStyle={{color: colors.white, fontFamily: AppFonts.medium, fontSize: wp("4%")}}
                         selectedId={selectedId}
                     />
-                </View>
+                </Animated.View>
             </View>
         </View>
     )

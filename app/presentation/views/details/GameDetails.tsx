@@ -153,9 +153,7 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                             entering={FadeInDown.duration(800)}
                             style={{paddingHorizontal:wp("4%"), backgroundColor: colors.backgroundColor}}>
                             <View style={{flexDirection: "row", gap:wp("36%")}}>
-                                {gameDetails?.involved_companies && (
-                                    <Text style={style.infoTitles}>Involved companies</Text>
-                                )}
+                                <Text style={style.infoTitles}>Involved companies</Text>
                                 {likeButton && (
                                     <View style={{justifyContent: "center"}}>
                                     <HandleLikeButton 
@@ -168,6 +166,7 @@ export function GameDetails({navigation = useNavigation()}: PropsStackNavigation
                             <FlashList
                                 data={gameDetails?.involved_companies}
                                 scrollEnabled={false}
+                                ListEmptyComponent={<Text style={{...style.summary, color: colors.red}}>No involved companies registered</Text>}
                                 renderItem={({ item }) => (
                                     <TouchableOpacity style={{flexDirection: "row", alignSelf:"flex-start", alignItems:"center", gap:wp("3%")}} onPress={() => navigation.push("CompanyDetails", {companyId: item.company.id})}>
                                         <Text style={style.involvedCompany}>{item.company.name}</Text>
