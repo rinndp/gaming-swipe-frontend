@@ -62,7 +62,6 @@ export function UserDetails ({navigation = useNavigation()}: PropsStackNavigatio
         <View style={{...styleSimilarGame(colors).card, backgroundColor: colors.buttonBackground}}>
             <TouchableOpacity onPress={() => {navigation.push("GameDetails", {gameId : item.id_api, likeButton: true})}}>
                 <Image
-                    cachePolicy="memory-disk"
                     priority="high"
                     source={{
                         uri: item.image_url

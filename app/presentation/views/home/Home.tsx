@@ -153,7 +153,6 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
                         }}
                         priority={"high"}
                         contentFit={"cover"}
-                        cachePolicy="memory-disk"
                         placeholder={{ blurhash: 'LGF5]+Yk^6#M@-5c,1J5@[or[Q6.' }}  // ← Hash del blur
                         transition={150}
                         style={styleH.image}

@@ -14,12 +14,20 @@ import {styles} from "react-native-toast-message/lib/src/components/BaseToast.st
 import App from "../../../App";
 import { useTheme } from "../provider/ThemeProvider";
 import { Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Tab = createMaterialBottomTabNavigator();
 
 export function UserNavigation ({navigation = useNavigation()}: PropsStackNavigation) {
     const { colors } = useTheme();
     const style = stylesTabBarItems(colors);
+    const insets = useSafeAreaInsets();  
+
+    const tabBarHeight = Platform.OS === "ios" 
+    ? hp("10%") 
+    : hp("8%") + insets.bottom; 
+
+    
     return (
         <Tab.Navigator
             initialRouteName="Home"
@@ -27,7 +35,7 @@ export function UserNavigation ({navigation = useNavigation()}: PropsStackNaviga
             activeColor={colors.white}
             activeIndicatorStyle={{backgroundColor: colors.secondaryColor}}
             inactiveColor={colors.buttonBackground}
-            barStyle={{ backgroundColor: colors.buttonBackground, height: Platform.OS === "ios" ? hp("10%") : hp("13.5%"), zIndex: 8 }}
+            barStyle={{ backgroundColor: colors.buttonBackground, height: tabBarHeight, zIndex: 8 }}
         >
             <Tab.Screen name="Home" options={{title:"Swipes",
                 tabBarIcon: ({color})=>(

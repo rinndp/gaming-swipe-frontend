@@ -33,7 +33,6 @@ interface SearchGameItemProps {
                 }}
                 contentFit="contain"
                 transition={200}
-                cachePolicy="memory-disk"
                 priority="high"
                 style={style.gameCover}
             />

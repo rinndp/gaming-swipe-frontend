@@ -96,7 +96,6 @@ export function TutorialScreen({navigation = useNavigation()}: PropsStackNavigat
                     contentFit={item.needsFitCover ? "cover" : "contain"}
                     priority={"high"}
                     transition={150}
-                    cachePolicy={"memory-disk"}
                 />
                 <View style={{marginVertical: hp("1%"), paddingHorizontal: wp("5%")}}>
                     <View style={styleH.firstRowCardContainer}>

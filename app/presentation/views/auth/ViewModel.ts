@@ -63,12 +63,13 @@ export const welcomeViewModel= () => {
 
     const handleUserAuth = async (userData: any) => {
         try {
-            return await loginAuthUseCase(userData, false);;
+            const loginResponse = await loginAuthUseCase(userData, false);
+            return { user: loginResponse, isFirstTime: false };  // ← Usuario existente
         } catch (loginError) {
             try {
                 await registerUseCase(userData);
-                setFirstTime(true);
-                return await loginAuthUseCase(userData);;
+                const response = await loginAuthUseCase(userData);;
+                return { user: response, isFirstTime: true }; 
             } catch (registerError) {
                 const response = await checkIfEmailRegisteredUseCase({email: userData.email});
                 if (response.error) {
@@ -89,10 +90,10 @@ export const welcomeViewModel= () => {
             const userFetched = await fetchUserInfo(googleAccessToken);
             const response = await handleUserAuth(userFetched);
             if (response) {
-                await saveUserUseCase({ slug: response.slug });
-                await saveTokens(response.access_token, response.refresh_token);
+                await saveUserUseCase({ slug: response.user.slug });
+                await saveTokens(response.user.access_token, response.user.refresh_token);
                 await getUserSession();
-                if (firstTime) {
+                if (response.isFirstTime) {
                     navigation.replace('TutorialScreen', {firstTime: true});
                 } else {
                     navigation.replace('UserNavigation');

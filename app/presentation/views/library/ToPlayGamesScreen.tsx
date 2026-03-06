@@ -58,7 +58,6 @@ export function ToPlayGamesScreen({navigation = useNavigation()}: PropsStackNavi
                 <TouchableOpacity onPress={() => navigation.navigate("GameDetails", {gameId : item.id_api, likeButton: true})}>
                     <Image
                         contentFit="contain"
-                        cachePolicy="memory-disk"
                         priority="high"
                         transition={200}
                         source={{ uri: item.image_url }} style={stylesFGI.image} />
