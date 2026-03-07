@@ -4,7 +4,7 @@ import stylesAuthViews from "../auth/StylesAuthViews";
 import { useTheme } from "../../provider/ThemeProvider";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { PropsStackNavigation } from "../../interfaces/StackNav";
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Image } from "expo-image";
 import stylesHome from "../home/StyleHome";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
@@ -18,6 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { AppColors } from "../../theme/AppTheme";
 import { RootStackParamsList } from "../../../../App";
 import stylesTutorial from "./StylesTutorial";
+import { ActivtyIndicatorCustom } from "../../components/ActivtyIndicatorCustom";
 
 interface TutorialCard {
     id: number;
@@ -30,7 +31,7 @@ interface TutorialCard {
     needsFitCover?: boolean;
 }
 
-const cards  = [
+const cards = [
     {
         id: 0,
         title: "Welcome to GamingSwipe",
@@ -77,32 +78,74 @@ const cards  = [
 
 type TutorialRouteProp = RouteProp<RootStackParamsList, "TutorialScreen">;
 
+let AdsConsent: any = null;
+let AdsConsentStatus: any = null;
 
-export function TutorialScreen({navigation = useNavigation()}: PropsStackNavigation) {
+try {
+    const adsModule = require('react-native-google-mobile-ads');
+    AdsConsent = adsModule.AdsConsent;
+    AdsConsentStatus = adsModule.AdsConsentStatus;
+} catch (error) {
+    console.log('📱 Running in Expo Go - Ads module not available');
+}
+
+
+export function TutorialScreen({ navigation = useNavigation() }: PropsStackNavigation) {
     const { colors } = useTheme();
     const styleH = useMemo(() => stylesHome(colors), [colors]);
 
     const route = useRoute<TutorialRouteProp>()
     const { firstTime } = route.params;
-    
+
     const ref = useRef<SwiperCardRefType>(null);
-  
+
+    const [consentLoading, setConsentLoading] = useState(true);
+    const ADS_AVAILABLE = AdsConsent !== null;
+
+    useEffect(() => {
+
+        if (!ADS_AVAILABLE) {
+            setConsentLoading(false);
+            return;
+        }
+
+        const requestConsent = async () => {
+            try {
+                const consentInfo = await AdsConsent.requestInfoUpdate();
+
+                if (consentInfo.isConsentFormAvailable &&
+                    consentInfo.status === AdsConsentStatus.REQUIRED) {
+                    await AdsConsent.showForm();
+                }
+            } catch (error) {
+                console.log('Error requesting consent:', error);
+            } finally {
+                setConsentLoading(false);
+            }
+        };
+        if (firstTime) {
+            requestConsent();
+        } else {
+            setConsentLoading(false);
+        }
+    }, [firstTime]);
+
     const renderCard = useCallback((item: TutorialCard) => {
         return (
-            <View style={{width: "100%", height:"100%"}}>
+            <View style={{ width: "100%", height: "100%" }}>
                 <Image
                     source={item.image}
-                    style={[styleH.image, {backgroundColor: item.needsBackgroundColor ? AppColors.backgroundColor : "transparent"}]}
+                    style={[styleH.image, { backgroundColor: item.needsBackgroundColor ? AppColors.backgroundColor : "transparent" }]}
                     contentFit={item.needsFitCover ? "cover" : "contain"}
                     priority={"high"}
                     transition={150}
                 />
-                <View style={{marginVertical: hp("1%"), paddingHorizontal: wp("5%")}}>
+                <View style={{ marginVertical: hp("1%"), paddingHorizontal: wp("5%") }}>
                     <View style={styleH.firstRowCardContainer}>
-                        <Text style={{fontSize: wp("4%"), fontFamily: "zen_kaku_black"}}> {item.title}</Text>
+                        <Text style={{ fontSize: wp("4%"), fontFamily: "zen_kaku_black" }}> {item.title}</Text>
                     </View>
-                    <View style={{marginTop: hp("1%")}} collapsable={false}>
-                        <Text style={{fontSize: wp("3.4%"), fontFamily: "zen_kaku_regular", textAlign: "justify"}}> {item.description}</Text>
+                    <View style={{ marginTop: hp("1%") }} collapsable={false}>
+                        <Text style={{ fontSize: wp("3.4%"), fontFamily: "zen_kaku_regular", textAlign: "justify" }}> {item.description}</Text>
                     </View>
                 </View>
             </View>
@@ -117,20 +160,28 @@ export function TutorialScreen({navigation = useNavigation()}: PropsStackNavigat
         }
     }
 
+    if (consentLoading) {
+        return (
+            <>
+                <ActivtyIndicatorCustom showLoading={consentLoading} />
+            </>
+        );
+    }
+
     return (
         <View style={stylesAuthViews(colors).container}>
             <Animated.View entering={FadeIn.duration(500)} style={stylesTutorial.header}>
                 <Animated.Text style={stylesAuthViews(colors).h2}>Tutorial</Animated.Text>
-                <TouchableOpacity 
-                  style={{flexDirection: "row",alignItems: "center", gap: wp("1%"), height: hp("5%"), width: wp("12%"), marginTop: hp("00.6%")}} 
-                  onPress={() => handleSkip()}>
-                    <Animated.Text 
-                        entering={FadeIn.duration(500)} 
-                        style={{fontSize: wp("4%"), fontFamily: "zen_kaku_regular", color: colors.white}}>Skip</Animated.Text>
-                    <Ionicons name="arrow-forward-outline" size={10} color={colors.white} style={{marginTop: hp("0.3%")}} />
+                <TouchableOpacity
+                    style={{ flexDirection: "row", alignItems: "center", gap: wp("1%"), height: hp("5%"), width: wp("12%"), marginTop: hp("00.6%") }}
+                    onPress={() => handleSkip()}>
+                    <Animated.Text
+                        entering={FadeIn.duration(500)}
+                        style={{ fontSize: wp("4%"), fontFamily: "zen_kaku_regular", color: colors.white }}>Skip</Animated.Text>
+                    <Ionicons name="arrow-forward-outline" size={10} color={colors.white} style={{ marginTop: hp("0.3%") }} />
                 </TouchableOpacity>
             </Animated.View>
-            <GestureHandlerRootView style={[styleH.cardContainer, { marginBottom: hp("11%")}]}>
+            <GestureHandlerRootView style={[styleH.cardContainer, { marginBottom: hp("11%") }]}>
                 <Swiper
                     ref={ref}
                     data={cards as TutorialCard[]}
@@ -145,19 +196,19 @@ export function TutorialScreen({navigation = useNavigation()}: PropsStackNavigat
                         console.log('Card index', cardIndex);
                     }}
                     onSwipedAll={() => {
-                       handleSkip();
+                        handleSkip();
                     }}
                 />
             </GestureHandlerRootView>
             <View style={stylesTutorial.buttonsContainer}>
-                    <View style={{alignItems: "center", gap: hp("1%")}}>
-                        <RewindButton onPress={() =>  ref.current?.swipeBack()}></RewindButton>
-                        <Text style={{fontSize: wp("3.7%"), fontFamily: "zen_kaku_regular"}}>Rewind</Text>
-                    </View>
-                    <View style={{alignItems: "center", gap: hp("1%")}}>
-                        <LikeButton onPress={() => ref.current?.swipeRight()}></LikeButton>
-                        <Text style={{fontSize: wp("3.7%"), fontFamily: "zen_kaku_regular"}}>Next</Text>
-                    </View>
+                <View style={{ alignItems: "center", gap: hp("1%") }}>
+                    <RewindButton onPress={() => ref.current?.swipeBack()}></RewindButton>
+                    <Text style={{ fontSize: wp("3.7%"), fontFamily: "zen_kaku_regular" }}>Rewind</Text>
+                </View>
+                <View style={{ alignItems: "center", gap: hp("1%") }}>
+                    <LikeButton onPress={() => ref.current?.swipeRight()}></LikeButton>
+                    <Text style={{ fontSize: wp("3.7%"), fontFamily: "zen_kaku_regular" }}>Next</Text>
+                </View>
             </View>
         </View>
     )

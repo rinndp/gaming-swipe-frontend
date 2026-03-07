@@ -61,7 +61,11 @@ export function Home({navigation = useNavigation()}: PropsStackNavigation) {
     const styleH = stylesHome(colors);
 
     const ADS_AVAILABLE = InterstitialAd !== null;
-    const adUnitId = ADS_AVAILABLE ? TestIds?.INTERSTITIAL : '';
+    const adUnitId = ADS_AVAILABLE 
+    ? __DEV__ 
+        ? TestIds?.INTERSTITIAL  
+        : 'ca-app-pub-6162111676440492/8591576857'
+    : '';
 
     const {
         listGames,

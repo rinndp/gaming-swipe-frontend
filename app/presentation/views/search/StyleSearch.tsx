@@ -72,6 +72,7 @@ const styleSearch = (colors: any) => StyleSheet.create({
     resultText: {
         fontSize: wp("4.4%"),
         height: 28,
+        lineHeight: 30,
         verticalAlign: "middle",
         marginBottom: hp("0.2%"),
         color: colors.white,
