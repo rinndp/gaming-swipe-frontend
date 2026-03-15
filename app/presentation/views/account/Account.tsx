@@ -28,6 +28,19 @@ import { checkIfUsernameRegisteredUseCase } from "../../../domain/usesCases/auth
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from "../../provider/ThemeProvider";
 
+let InterstitialAd: any = null;
+let AdEventType: any = null;
+let TestIds: any = null;
+
+try {
+    const adsModule = require('react-native-google-mobile-ads');
+    InterstitialAd = adsModule.InterstitialAd;
+    AdEventType = adsModule.AdEventType;
+    TestIds = adsModule.TestIds;
+} catch (error) {
+    console.log('📱 Running in Expo Go - Ads module not available');
+}
+
 
 export function Account({navigation = useNavigation(), route}: PropsStackNavigation){
 
@@ -45,6 +58,63 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
         errorMessage,
         setErrorMessage,
     } =accountViewModel();
+
+    const [adLoaded, setAdLoaded] = useState(false);
+    const [interstitial, setInterstitial] = useState<any | null>(null);
+
+    const ADS_AVAILABLE = InterstitialAd !== null;
+    const adUnitId = ADS_AVAILABLE 
+    ? __DEV__ 
+        ? TestIds?.INTERSTITIAL  
+        : 'ca-app-pub-6162111676440492/4982809142'
+    : '';
+
+    useEffect(() => {
+        if (!ADS_AVAILABLE) {
+            return;
+        }
+        const ad = InterstitialAd.createForAdRequest(adUnitId, {
+            requestNonPersonalizedAdsOnly: true,
+        });
+    
+        const unsubscribeLoaded = ad.addAdEventListener(AdEventType.LOADED, () => {
+            console.log('✅ Ad loaded successfully');
+            setAdLoaded(true);
+        });
+    
+        const unsubscribeError = ad.addAdEventListener(AdEventType.ERROR, (error: any) => {
+            console.log('❌ Ad failed to load:', error);
+            setAdLoaded(false);
+        });
+    
+        const unsubscribeClosed = ad.addAdEventListener(AdEventType.CLOSED, () => {
+            console.log('Ad closed, reloading...');
+            setAdLoaded(false);
+            ad.load();
+        });
+    
+        ad.load();
+        setInterstitial(ad);
+    
+        return () => {
+            unsubscribeLoaded();
+            unsubscribeError();
+            unsubscribeClosed();
+        };
+    }, []);
+
+    const showAd = () => {
+        if (!ADS_AVAILABLE) {
+            return;
+        }
+        
+        if (adLoaded && interstitial) {
+            console.log('Showing ad...');
+            interstitial.show();
+        } else {
+            console.log('⚠️ Ad not ready yet, skipping...');
+        }
+    };
 
     const [updatedUsername, setUpdateUsername] = useState("");
 
@@ -174,7 +244,9 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                                 <View style={style.containerButton}>
                                                     <TouchableOpacity
                                                         style={style.modalCancelButton}
-                                                        onPress={() => setModalUpdateUsernameVisible(!modalUpdateUsernameVisible)}
+                                                        onPress={() => {
+                                                            setModalUpdateUsernameVisible(!modalUpdateUsernameVisible)
+                                                        }}
                                                     >
                                                         <Text style={style.modalButtonTextStyle}>Cancel</Text>
                                                     </TouchableOpacity>
@@ -214,7 +286,10 @@ export function Account({navigation = useNavigation(), route}: PropsStackNavigat
                                         <Toast/>
                                     </Modal>
                                     <TouchableOpacity
-                                        onPress={() => setModalUpdateUsernameVisible(true)}>
+                                        onPress={() => {
+                                            showAd()
+                                            setModalUpdateUsernameVisible(true)
+                                        }}>
                                         <Image source={require('../../../../assets/edit.png')} style={style.editButton}/>
                                     </TouchableOpacity>
 

@@ -13,7 +13,7 @@ export const PlatformItem = ({item, colors, home, theme}: {item: Platform, color
     return (
         <View 
         pointerEvents="box-none"
-        style={[style.container, {backgroundColor: home && theme === "light" ? colors.backgroundColor : colors.thirdColor}]} pointerEvents="box-none">
+        style={[style.container, {backgroundColor: home && theme === "light" ? colors.backgroundColor : colors.thirdColor}]}>
                 <Text style={style.abbreviation}>
                     {item.abbreviation ? item.abbreviation : item.name}
                 </Text>

@@ -21,16 +21,18 @@ interface Props {
     logo?: ImageSource
     loading?: boolean
     textColor?: string
+    radius?: number
+    includeFontPadding?: boolean
 }
 
-export const RoundedButton = ({text, loading, onPressFromInterface, width, backgroundColor, logo, textColor}: Props) => {
+export const RoundedButton = ({text, loading, onPressFromInterface, width, backgroundColor, logo, textColor, radius, includeFontPadding}: Props) => {
     const { colors, theme } = useTheme();
     const styles = useMemo(() => stylesRoundedButton(colors), [colors]);
     const styleHome = useMemo(() => stylesHome(colors), [colors]);
     return(
 
         <TouchableOpacity
-            style={{...styles.formButton, width: width, backgroundColor: backgroundColor}}
+            style={{...styles.formButton, width: width, backgroundColor: backgroundColor, borderRadius: radius ? radius : 6}}
             onPress={() => onPressFromInterface()}
         >
             <View style={{flexDirection: "row", justifyContent:"center", gap:7}}>
@@ -45,7 +47,9 @@ export const RoundedButton = ({text, loading, onPressFromInterface, width, backg
                                 <Image source={logo} style={styles.logo}/>
                             </>
                         )}
-                        <Text style={{...styles.formButtonText, color: textColor ? textColor : colors.white}}>{text}</Text>
+                        <Text
+                         numberOfLines={1}
+                         style={{...styles.formButtonText, color: textColor ? textColor : colors.white, includeFontPadding: includeFontPadding ? includeFontPadding : false}}>{text}</Text>
                     </>
                 )}
             </View>
@@ -58,7 +62,7 @@ export const stylesRoundedButton = (colors: any) => StyleSheet.create({
         elevation: 2,
         borderRadius: 6,
         justifyContent: 'center',
-        padding: wp("3%"),
+        padding: wp("2.8%"),
         height: hp("5.5%"),
         backgroundColor: colors.buttonBackground,
     },
