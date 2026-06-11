@@ -67,7 +67,7 @@ function AppContent() {
         const state = await Network.getNetworkStateAsync();
         setIsWifi(
                state.isConnected === true && 
-               state.type === Network.NetworkStateType.WIFI
+               state.isInternetReachable === true
         );
     }
 
